@@ -44,7 +44,7 @@ abstract class DatabaseRepository extends AbstractRepository
             throw new NotFoundInRepositoryException('Not found');
         }
 
-        return $this->makeModel($results[0]);
+        return $this->makeModel((array)$results[0]);
     }
 
     /**
@@ -121,13 +121,17 @@ abstract class DatabaseRepository extends AbstractRepository
      */
     public function update(ModelInterface $model)
     {
-        list($data, $keys) = $this->prepareModel($model);
+        list($data) = $this->prepareModel($model);
+
+        $statements = [];
+        foreach(array_keys($data) as $key){
+            $statements[] = $key. ' = ?';
+        }
 
         $this->db->update(
-            'UPDATE ' . $this->table . ' SET (' . implode(', ', array_keys($data)) . ')
-            VALUES (' . implode(', ', $keys) . ') WHERE `id`=:id'
+            'UPDATE ' . $this->table . ' SET '.implode(', ', $statements).' WHERE `id`=?'
             ,
-            $data
+            array_merge(array_values($data) , [$data[ModelInterface::FIELD_ID]])
         );
 
         return $model;

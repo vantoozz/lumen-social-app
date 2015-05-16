@@ -3,12 +3,13 @@
 namespace App;
 
 use DateTime;
+use Illuminate\Contracts\Auth\Authenticatable;
 
 /**
  * Class User
  * @package App
  */
-class User extends AbstractModel
+class User extends AbstractModel implements Authenticatable
 {
     const FIELD_PROVIDER = 'provider';
     const FIELD_PROVIDER_ID = 'provider_id';
@@ -100,5 +101,56 @@ class User extends AbstractModel
             self::FIELD_BIRTH_DATE => $this->birth_date,
             self::FIELD_LAST_LOGIN_AT => $this->formatDateTime($this->last_login_at),
         ];
+    }
+
+    /**
+     * Get the unique identifier for the user.
+     *
+     * @return mixed
+     */
+    public function getAuthIdentifier()
+    {
+        return $this->getId();
+    }
+
+    /**
+     * Get the password for the user.
+     *
+     * @return string
+     */
+    public function getAuthPassword()
+    {
+        throw new \LogicException("Invalid method");
+    }
+
+    /**
+     * Get the token value for the "remember me" session.
+     *
+     * @return string
+     */
+    public function getRememberToken()
+    {
+        throw new \LogicException("Invalid method");
+    }
+
+    /**
+     * Set the token value for the "remember me" session.
+     *
+     * @param  string $value
+     * @return void
+     */
+    public function setRememberToken($value)
+    {
+        throw new \LogicException("Invalid method");
+    }
+
+    /**
+     * Get the column name for the "remember me" token.
+     *
+     * @return string
+     */
+    public function getRememberTokenName()
+    {
+        throw new \LogicException("Invalid method");
     }
 }

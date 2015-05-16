@@ -32,8 +32,11 @@ class SocialAuthMiddleware
             $user = $usersRepository->create($user);
         }
 
+        /** @var \Illuminate\Auth\Guard $auth */
+        $auth = app('auth');
         $user->setLastLoginNow();
         $usersRepository->save($user);
+        $auth->login($user);
 
         return $next($request);
     }

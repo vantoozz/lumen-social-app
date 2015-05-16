@@ -9,10 +9,10 @@ use InvalidArgumentException;
 use Novanova\VK\VK;
 
 /**
- * Class SocialFrameMiddleware
+ * Class BindProviderMiddleware
  * @package App\Http\Middleware
  */
-class SocialFrameMiddleware
+class BindProviderMiddleware
 {
     /**
      * @param $request

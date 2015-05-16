@@ -14,7 +14,12 @@
 $app->get(
     '/',
     function () use ($app) {
-        return $app->welcome();
+        /** @var \Illuminate\Auth\Guard $auth */
+        $auth = app('auth');
+        /** @var App\User $user */
+        $user = $auth->user();
+        return $user->toArray();
+//        return $app->welcome();
     }
 );
 
@@ -22,9 +27,13 @@ $app->get(
 $app->get(
     '/app/{provider}',
     [
-        'middleware' => ['social_frame', 'social_auth'],
+        'middleware' => ['bind_provider', 'social_auth'],
         function () {
-            return 'Hello World';
+            /** @var \Illuminate\Auth\Guard $auth */
+            $auth = app('auth');
+            /** @var App\User $user */
+            $user = $auth->user();
+            return $user->toArray();
         }
     ]
 );

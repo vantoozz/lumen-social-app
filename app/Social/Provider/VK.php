@@ -1,18 +1,21 @@
 <?php
 
-namespace App\Social\Frame;
+namespace App\Social\Provider;
 
 use App\Exceptions\SocialException;
+use App\Jobs\HandleVKFrameApiCall;
 use App\User;
-use DateTime;
 use InvalidArgumentException;
+use Laravel\Lumen\Routing\DispatchesCommands;
 
 /**
  * Class VK
- * @package App\Social\Frame
+ * @package App\Social\Provider
  */
-class VK implements SocialFrameInterface
+class VK implements SocialProviderInterface
 {
+
+    use DispatchesCommands;
 
     const FIELD_UID = 'uid';
     const FIELD_FIRST_NAME = 'first_name';
@@ -28,7 +31,7 @@ class VK implements SocialFrameInterface
     /**
      * @var string
      */
-    protected $name = 'vk';
+    protected $provider_name = self::PROVIDER_VK;
 
     /** @var \Novanova\VK\VK $vk */
     private $vk;
@@ -53,11 +56,20 @@ class VK implements SocialFrameInterface
     }
 
     /**
+     * @return string
+     */
+    public function getProviderName()
+    {
+        return $this->provider_name;
+    }
+
+
+    /**
      * @param array $input
      * @return User
      * @throws SocialException
      */
-    public function getUser(array $input)
+    public function getFrameUser(array $input)
     {
         if (empty($input[self::FIELD_VIEWER_ID])) {
             throw new InvalidArgumentException('No viewer_id field');
@@ -74,31 +86,39 @@ class VK implements SocialFrameInterface
             throw new InvalidArgumentException('Bad auth key');
         }
 
-        $user_info = [];
         if (!empty($input[self::FIELD_API_RESULT])) {
-            $user_info = $this->parseApiResult($input[self::FIELD_API_RESULT]);
-        }
+            $user_info = $this->getFrameApiCallResult($input[self::FIELD_API_RESULT]);
 
-        if (!$this->isUserInfoFull($user_info)) {
-            $user_info = $this->getUserInfo($viewer_id);
-        }
-
-        if (!$this->isUserInfoFull($user_info)) {
-            throw new SocialException('Not enough user data');
+            $job = new HandleVKFrameApiCall($user_info, $viewer_id);
+            $this->dispatch($job);
         }
 
         $user = new User(
             [
-                User::FIELD_PROVIDER => $this->name,
-                User::FIELD_PROVIDER_ID => $user_info[self::FIELD_UID],
-                User::FIELD_FIRST_NAME => $user_info[self::FIELD_FIRST_NAME],
-                User::FIELD_LAST_NAME => $user_info[self::FIELD_LAST_NAME],
-                User::FIELD_SEX => $this->getUserSex($user_info),
-                User::FIELD_BIRTH_DATE => $this->getUserBirthDate($user_info),
+                User::FIELD_PROVIDER => $this->provider_name,
+                User::FIELD_PROVIDER_ID => $viewer_id,
             ]
         );
 
         return $user;
+    }
+
+    /**
+     * @param $api_call_result
+     * @return array
+     */
+    private function getFrameApiCallResult($api_call_result)
+    {
+        $data = [];
+        $json = json_decode($api_call_result, true);
+        if (!$json) {
+            return $data;
+        }
+        if (!empty($json['response'][0])) {
+            $data = $json['response'][0];
+        }
+
+        return $data;
     }
 
     /**
@@ -139,59 +159,4 @@ class VK implements SocialFrameInterface
         return $user_info;
     }
 
-    /**
-     * @param array $user_info
-     * @return null|string
-     */
-    private function getUserSex(array $user_info)
-    {
-        if (empty($user_info[self::FIELD_SEX])) {
-            return null;
-        }
-        if (1 == $user_info[self::FIELD_SEX]) {
-            return User::SEX_FEMALE;
-        }
-        if (2 == $user_info[self::FIELD_SEX]) {
-            return User::SEX_MALE;
-        }
-        return null;
-    }
-
-    /**
-     * @param array $user_info
-     * @return DateTime|null
-     */
-    private function getUserBirthDate(array $user_info)
-    {
-        if (empty($user_info[self::FIELD_BIRTH_DATE])) {
-            return null;
-        }
-        $birthday = DateTime::createFromFormat('d.m.Y', $user_info[self::FIELD_BIRTH_DATE]);
-        if ($birthday instanceof DateTime) {
-            return $birthday;
-        }
-        $birthday = DateTime::createFromFormat('d.m.Y', $user_info[self::FIELD_BIRTH_DATE].'.0000');
-        if ($birthday instanceof DateTime) {
-            return $birthday;
-        }
-        return null;
-    }
-
-    /**
-     * @param $data
-     * @return array
-     */
-    private function parseApiResult($data)
-    {
-        $result = [];
-        $json = json_decode($data, true);
-        if (!$json) {
-            return $result;
-        }
-        if (!empty($json['response'][0])) {
-            $result = $json['response'][0];
-        }
-
-        return $result;
-    }
 }

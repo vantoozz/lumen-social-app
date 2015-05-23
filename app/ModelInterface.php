@@ -33,4 +33,10 @@ interface ModelInterface extends Arrayable
      * @return ModelInterface
      */
     public function touch();
+
+    /**
+     * @param array $data
+     * @return ModelInterface
+     */
+    public function fill(array $data = []);
 }

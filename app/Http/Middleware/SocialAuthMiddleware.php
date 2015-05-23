@@ -3,6 +3,7 @@
 namespace App\Http\Middleware;
 
 use App\Exceptions\NotFoundInRepositoryException;
+use App\Exceptions\RoutingException;
 use Closure;
 use Illuminate\Http\Request;
 
@@ -19,12 +20,14 @@ class SocialAuthMiddleware
      */
     public function handle(Request $request, Closure $next)
     {
-        /** @var \App\Social\Frame\SocialFrameInterface $social_frame */
-        $social_frame = app()->make('App\Social\Frame\SocialFrameInterface');
-        $user = $social_frame->getUser($request->query());
+        $provider_name = $this->getProvider($request);
+
+        /** @var \App\Social\Provider\SocialProviderInterface $provider */
+        $provider = app('social.'.$provider_name);
+        $user = $provider->getFrameUser($request->query());
 
         /** @var \App\Repositories\Users\UsersRepositoryInterface $usersRepository */
-        $usersRepository = app()->make('App\Repositories\Users\UsersRepositoryInterface');
+        $usersRepository = app('App\Repositories\Users\UsersRepositoryInterface');
 
         try {
             $user = $usersRepository->getByProviderId($user->getProvider(), $user->getProviderId());
@@ -39,5 +42,19 @@ class SocialAuthMiddleware
         $auth->login($user);
 
         return $next($request);
+    }
+
+    /**
+     * @param Request $request
+     * @return string
+     * @throws RoutingException
+     */
+    private function getProvider(Request $request)
+    {
+        $route = $request->route();
+        if (empty($route[2]) or empty($route[2]['provider'])) {
+            throw new RoutingException('Cannot resolve provider');
+        }
+        return (string)$route[2]['provider'];
     }
 }

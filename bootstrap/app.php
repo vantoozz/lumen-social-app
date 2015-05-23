@@ -55,18 +55,19 @@ $app->singleton(
 |
 */
 
- $app->middleware([
-     // 'Illuminate\Cookie\Middleware\EncryptCookies',
-     // 'Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse',
-      'Illuminate\Session\Middleware\StartSession',
-     // 'Illuminate\View\Middleware\ShareErrorsFromSession',
-     // 'Laravel\Lumen\Http\Middleware\VerifyCsrfToken',
- ]);
+$app->middleware(
+    [
+        // 'Illuminate\Cookie\Middleware\EncryptCookies',
+        // 'Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse',
+        'Illuminate\Session\Middleware\StartSession',
+        // 'Illuminate\View\Middleware\ShareErrorsFromSession',
+        // 'Laravel\Lumen\Http\Middleware\VerifyCsrfToken',
+    ]
+);
 
 $app->routeMiddleware(
     [
-        'bind_provider'=>'App\Http\Middleware\BindProviderMiddleware',
-        'social_auth'=>'App\Http\Middleware\SocialAuthMiddleware',
+        'social_auth' => 'App\Http\Middleware\SocialAuthMiddleware',
     ]
 );
 
@@ -81,9 +82,9 @@ $app->routeMiddleware(
 |
 */
 
- $app->register('App\Providers\DbAuthServiceProvider');
-
-$app->register('App\Repositories\Users\ServiceProvider');
+$app->register('App\Providers\DbAuthServiceProvider');
+$app->register('App\Providers\VKServiceProvider');
+$app->register('App\Providers\UsersRepositoryServiceProvider');
 
 /*
 |--------------------------------------------------------------------------

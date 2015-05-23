@@ -27,7 +27,7 @@ $app->get(
 $app->get(
     '/app/{provider}',
     [
-        'middleware' => ['bind_provider', 'social_auth'],
+        'middleware' => ['social_auth'],
         function () {
             /** @var \Illuminate\Auth\Guard $auth */
             $auth = app('auth');

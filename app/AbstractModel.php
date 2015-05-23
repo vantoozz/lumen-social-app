@@ -82,7 +82,23 @@ class AbstractModel implements ModelInterface
         ];
     }
 
+    /**
+     * @param array $data
+     * @return ModelInterface
+     */
+    public function fill(array $data = [])
+    {
+        foreach($data as $key=>$value){
+            $this->$key = $value;
+        }
+        return $this;
+    }
 
+
+    /**
+     * @param $datetime
+     * @return null|string
+     */
     protected function formatDateTime($datetime){
         if(empty($datetime)){
             return null;

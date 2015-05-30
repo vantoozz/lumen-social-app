@@ -19,6 +19,7 @@ class User extends AbstractModel implements Authenticatable
     const FIELD_PHOTO = 'photo';
     const FIELD_BIRTH_DATE = 'birth_date';
     const FIELD_LAST_LOGIN_AT = 'last_login_at';
+    const FIELD_LAST_SYNC_AT = 'last_sync_at';
 
     const SEX_MALE = 'male';
     const SEX_FEMALE = 'female';
@@ -56,6 +57,10 @@ class User extends AbstractModel implements Authenticatable
      * @var DateTime
      */
     protected $last_login_at;
+    /**
+     * @var DateTime
+     */
+    protected $last_sync_at;
 
 
     /**
@@ -100,6 +105,7 @@ class User extends AbstractModel implements Authenticatable
             self::FIELD_PHOTO => $this->photo,
             self::FIELD_BIRTH_DATE => $this->birth_date,
             self::FIELD_LAST_LOGIN_AT => $this->formatDateTime($this->last_login_at),
+            self::FIELD_LAST_SYNC_AT => $this->formatDateTime($this->last_sync_at),
         ];
     }
 

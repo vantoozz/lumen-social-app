@@ -3,10 +3,9 @@
 namespace App\Social\Provider;
 
 use App\Exceptions\SocialException;
-use App\Jobs\HandleVKFrameApiCall;
 use App\User;
+use DateTime;
 use InvalidArgumentException;
-use Laravel\Lumen\Routing\DispatchesCommands;
 
 /**
  * Class VK
@@ -14,8 +13,6 @@ use Laravel\Lumen\Routing\DispatchesCommands;
  */
 class VK implements SocialProviderInterface
 {
-
-    use DispatchesCommands;
 
     const FIELD_UID = 'uid';
     const FIELD_FIRST_NAME = 'first_name';
@@ -86,17 +83,19 @@ class VK implements SocialProviderInterface
             throw new InvalidArgumentException('Bad auth key');
         }
 
+        $user_info = [];
         if (!empty($input[self::FIELD_API_RESULT])) {
             $user_info = $this->getFrameApiCallResult($input[self::FIELD_API_RESULT]);
-
-            $job = new HandleVKFrameApiCall($user_info, $viewer_id);
-            $this->dispatch($job);
         }
 
         $user = new User(
             [
                 User::FIELD_PROVIDER => $this->provider_name,
                 User::FIELD_PROVIDER_ID => $viewer_id,
+                User::FIELD_FIRST_NAME => $user_info[self::FIELD_FIRST_NAME],
+                User::FIELD_LAST_NAME => $user_info[self::FIELD_LAST_NAME],
+                User::FIELD_SEX => $this->getUserSex($user_info),
+                User::FIELD_BIRTH_DATE => $this->getUserBirthDate($user_info),
             ]
         );
 
@@ -121,42 +120,43 @@ class VK implements SocialProviderInterface
         return $data;
     }
 
-    /**
-     * @param  array $user_info
-     * @return bool
-     */
-    private function isUserInfoFull(array $user_info)
-    {
-        foreach ($this->required_fields as $field) {
-            if (empty($user_info[$field])) {
-                return false;
-            }
-        }
 
-        return true;
+    /**
+     * @param array $data
+     * @return DateTime|null
+     */
+    private function getUserBirthDate(array $data)
+    {
+        if (empty($data[VK::FIELD_BIRTH_DATE])) {
+            return null;
+        }
+        $birthday = DateTime::createFromFormat('d.m.Y', $data[VK::FIELD_BIRTH_DATE]);
+        if ($birthday instanceof DateTime) {
+            return $birthday;
+        }
+        $birthday = DateTime::createFromFormat('d.m.Y', $data[VK::FIELD_BIRTH_DATE] . '.0000');
+        if ($birthday instanceof DateTime) {
+            return $birthday;
+        }
+        return null;
     }
 
     /**
-     * @param $viewer_id
-     * @return array
-     * @throws \Novanova\VK\VKException
+     * @param array $data
+     * @return null|string
      */
-    private function getUserInfo($viewer_id)
+    private function getUserSex(array $data)
     {
-        $user_info = [];
-        $data = $this->vk->no_auth_api(
-            'users.get',
-            [
-                'user_id' => $viewer_id,
-                'fields' => 'uid,first_name,last_name,sex,photo_max,birthdate'
-            ]
-        );
-        if (!empty($data[0])) {
-            $user_info = (array)$data[0];
-            $user_info[self::FIELD_UID] = $user_info['id'];
+        if (empty($data[VK::FIELD_SEX])) {
+            return null;
         }
-
-        return $user_info;
+        if (1 == $data[VK::FIELD_SEX]) {
+            return User::SEX_FEMALE;
+        }
+        if (2 == $data[VK::FIELD_SEX]) {
+            return User::SEX_MALE;
+        }
+        return null;
     }
 
 }

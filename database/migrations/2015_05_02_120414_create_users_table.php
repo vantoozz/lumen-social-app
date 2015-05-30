@@ -23,6 +23,7 @@ class CreateUsersTable extends Migration {
                 $table->string('photo', 256)->nullable()->default(null);
                 $table->enum('sex', array('male', 'female'))->nullable()->default(null);
                 $table->date('birth_date')->nullable()->default(null);
+                $table->timestamp('last_sync_at')->nullable()->default(null);
                 $table->timestamp('last_login_at')->nullable()->default(null);
                 $table->timestamps();
                 $table->unique(array('provider', 'provider_id'));

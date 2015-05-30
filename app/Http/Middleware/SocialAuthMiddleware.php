@@ -6,6 +6,7 @@ use App\Exceptions\NotFoundInRepositoryException;
 use App\Exceptions\RoutingException;
 use Closure;
 use Illuminate\Http\Request;
+use Laravel\Lumen\Routing\DispatchesCommands;
 
 /**
  * Class SocialAuthMiddleware
@@ -13,6 +14,9 @@ use Illuminate\Http\Request;
  */
 class SocialAuthMiddleware
 {
+
+    use DispatchesCommands;
+
     /**
      * @param $request
      * @param callable $next
@@ -34,6 +38,10 @@ class SocialAuthMiddleware
         } catch (NotFoundInRepositoryException $e) {
             $user = $usersRepository->create($user);
         }
+
+        $job = new SyncUserDataIfNeeded($user);
+        $this->dispatch($job);
+
 
         /** @var \Illuminate\Auth\Guard $auth */
         $auth = app('auth');

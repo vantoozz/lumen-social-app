@@ -2,7 +2,6 @@
 
 namespace App\Repositories\Users;
 
-
 use App\Exceptions\NotFoundInRepositoryException;
 use App\Repositories\DatabaseRepository;
 use App\User;
@@ -20,8 +19,8 @@ class UsersDatabaseRepository extends DatabaseRepository implements UsersReposit
     protected $table = 'users';
 
     /**
-     * @param int $provider
-     * @param int $provider_id
+     * @param  int $provider
+     * @param  int $provider_id
      * @return User
      * @throws NotFoundInRepositoryException
      */
@@ -40,13 +39,12 @@ class UsersDatabaseRepository extends DatabaseRepository implements UsersReposit
     }
 
     /**
-     * @param array $data
+     * @param  array $data
      * @return User
      */
     protected function makeModel(array $data)
     {
         return new User($data);
     }
-
 
 }

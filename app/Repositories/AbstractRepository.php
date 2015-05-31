@@ -2,14 +2,13 @@
 
 namespace App\Repositories;
 
-
 use App\Exceptions\NotFoundInRepositoryException;
 use App\ModelInterface;
 
 abstract class AbstractRepository implements RepositoryInterface
 {
     /**
-     * @param array $data
+     * @param  array $data
      * @throws NotFoundInRepositoryException
      * @return ModelInterface
      */

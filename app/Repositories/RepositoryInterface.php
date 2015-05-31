@@ -11,23 +11,25 @@ use App\ModelInterface;
 interface RepositoryInterface
 {
     /**
-     * @param int $id
+     * @param  int $id
      * @return ModelInterface
      */
     public function getById($id);
 
     /**
-     * @param ModelInterface $model
+     * @param  ModelInterface $model
      * @return ModelInterface
      */
     public function save(ModelInterface $model);
+
     /**
-     * @param ModelInterface $model
+     * @param  ModelInterface $model
      * @return ModelInterface
      */
     public function create(ModelInterface $model);
+
     /**
-     * @param ModelInterface $model
+     * @param  ModelInterface $model
      * @return ModelInterface
      */
     public function update(ModelInterface $model);

@@ -27,6 +27,7 @@ class DbAuthServiceProvider extends ServiceProvider
             function () {
                 /** @var \App\Repositories\Users\UsersRepositoryInterface $usersRepository */
                 $usersRepository = app()->make('App\Repositories\Users\UsersRepositoryInterface');
+
                 return new DbUserProvider($usersRepository);
             }
         );

@@ -2,7 +2,6 @@
 
 namespace App;
 
-
 use Illuminate\Contracts\Support\Arrayable;
 
 /**
@@ -36,13 +35,8 @@ interface ModelInterface extends Arrayable
     public function touch();
 
     /**
-     * @param array $data
+     * @param  array $data
      * @return ModelInterface
      */
     public function fill(array $data = []);
-
-    /**
-     * @return array
-     */
-    public function overview();
 }

@@ -2,7 +2,6 @@
 
 namespace App\Exceptions;
 
-
 /**
  * Class RoutingException
  * @package App\Exceptions

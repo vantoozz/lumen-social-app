@@ -20,7 +20,7 @@ class SocialAuthMiddleware
 
     /**
      * @param $request
-     * @param callable $next
+     * @param  callable $next
      * @return mixed
      */
     public function handle(Request $request, Closure $next)
@@ -54,7 +54,7 @@ class SocialAuthMiddleware
     }
 
     /**
-     * @param Request $request
+     * @param  Request $request
      * @return string
      * @throws RoutingException
      */
@@ -64,6 +64,7 @@ class SocialAuthMiddleware
         if (empty($route[2]) or empty($route[2]['provider'])) {
             throw new RoutingException('Cannot resolve provider');
         }
+
         return (string)$route[2]['provider'];
     }
 }

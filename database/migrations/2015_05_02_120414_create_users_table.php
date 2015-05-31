@@ -21,6 +21,7 @@ class CreateUsersTable extends Migration {
                 $table->string('first_name', 128)->nullable()->default(null);
                 $table->string('last_name', 128)->nullable()->default(null);
                 $table->string('photo', 256)->nullable()->default(null);
+                $table->string('cdn_photo', 256)->nullable()->default(null);
                 $table->enum('sex', array('male', 'female'))->nullable()->default(null);
                 $table->date('birth_date')->nullable()->default(null);
                 $table->timestamp('last_sync_at')->nullable()->default(null);

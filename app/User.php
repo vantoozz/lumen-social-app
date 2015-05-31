@@ -17,6 +17,7 @@ class User extends AbstractModel implements Authenticatable
     const FIELD_LAST_NAME = 'last_name';
     const FIELD_SEX = 'sex';
     const FIELD_PHOTO = 'photo';
+    const FIELD_CDN_PHOTO = 'cdn_photo';
     const FIELD_BIRTH_DATE = 'birth_date';
     const FIELD_LAST_LOGIN_AT = 'last_login_at';
     const FIELD_LAST_SYNC_AT = 'last_sync_at';
@@ -51,6 +52,10 @@ class User extends AbstractModel implements Authenticatable
      */
     protected $photo;
     /**
+     * @var string
+     */
+    protected $cdn_photo;
+    /**
      * @var DateTime
      */
     protected $birth_date;
@@ -62,17 +67,6 @@ class User extends AbstractModel implements Authenticatable
      * @var DateTime
      */
     protected $last_sync_at;
-
-    /**
-     * @var array
-     */
-    protected $overview = [
-        self::FIELD_FIRST_NAME,
-        self::FIELD_LAST_NAME,
-        self::FIELD_SEX,
-        self::FIELD_BIRTH_DATE,
-    ];
-
 
     /**
      * @return int
@@ -91,11 +85,39 @@ class User extends AbstractModel implements Authenticatable
     }
 
     /**
+     * @return string
+     */
+    public function getCdnPhoto()
+    {
+        return $this->cdn_photo;
+    }
+
+    /**
+     * @param  string $cdn_photo
+     * @return User
+     */
+    public function setCdnPhoto($cdn_photo)
+    {
+        $this->cdn_photo = (string)$cdn_photo;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPhoto()
+    {
+        return $this->photo;
+    }
+
+    /**
      * @return $this
      */
     public function setLastLoginNow()
     {
-        $this->last_login_at = new DateTime;
+        $this->last_login_at = new DateTime();
+
         return $this;
     }
 
@@ -104,10 +126,10 @@ class User extends AbstractModel implements Authenticatable
      */
     public function setLastSyncNow()
     {
-        $this->last_sync_at = new DateTime;
+        $this->last_sync_at = new DateTime();
+
         return $this;
     }
-
 
     /**
      * @return bool
@@ -120,7 +142,6 @@ class User extends AbstractModel implements Authenticatable
 
         return $this->isOutdated();
     }
-
 
     /**
      * @return bool
@@ -140,7 +161,6 @@ class User extends AbstractModel implements Authenticatable
         return $last_sync_at->diff(new DateTime())->days >= self::SYNC_FREQUENCY;
     }
 
-
     /**
      * Get the instance as an array.
      *
@@ -155,6 +175,7 @@ class User extends AbstractModel implements Authenticatable
             self::FIELD_LAST_NAME => $this->last_name,
             self::FIELD_SEX => $this->sex,
             self::FIELD_PHOTO => $this->photo,
+            self::FIELD_CDN_PHOTO => $this->cdn_photo,
             self::FIELD_BIRTH_DATE => $this->formatDate($this->birth_date),
             self::FIELD_LAST_LOGIN_AT => $this->formatDateTime($this->last_login_at),
             self::FIELD_LAST_SYNC_AT => $this->formatDateTime($this->last_sync_at),

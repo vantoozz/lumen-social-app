@@ -18,8 +18,8 @@ interface UsersRepositoryInterface extends RepositoryInterface
 {
 
     /**
-     * @param int $provider
-     * @param int $provider_id
+     * @param  int $provider
+     * @param  int $provider_id
      * @throws NotFoundInRepositoryException
      * @return User
      */

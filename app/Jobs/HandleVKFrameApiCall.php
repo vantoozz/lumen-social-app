@@ -59,7 +59,7 @@ class HandleVKFrameApiCall implements SelfHandling
     }
 
     /**
-     * @param array $data
+     * @param  array $data
      * @return DateTime|null
      */
     private function getUserBirthDate(array $data)
@@ -75,11 +75,12 @@ class HandleVKFrameApiCall implements SelfHandling
         if ($birthday instanceof DateTime) {
             return $birthday;
         }
+
         return null;
     }
 
     /**
-     * @param array $data
+     * @param  array $data
      * @return null|string
      */
     private function getUserSex(array $data)
@@ -93,6 +94,7 @@ class HandleVKFrameApiCall implements SelfHandling
         if (2 == $data[VK::FIELD_SEX]) {
             return User::SEX_MALE;
         }
+
         return null;
     }
 

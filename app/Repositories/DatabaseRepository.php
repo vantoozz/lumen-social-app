@@ -124,14 +124,14 @@ abstract class DatabaseRepository extends AbstractRepository
         list($data) = $this->prepareModel($model);
 
         $statements = [];
-        foreach(array_keys($data) as $key){
-            $statements[] = $key. ' = ?';
+        foreach (array_keys($data) as $key) {
+            $statements[] = $key . ' = ?';
         }
 
         $this->db->update(
-            'UPDATE ' . $this->table . ' SET '.implode(', ', $statements).' WHERE `id`=?'
+            'UPDATE ' . $this->table . ' SET ' . implode(', ', $statements) . ' WHERE `id`=?'
             ,
-            array_merge(array_values($data) , [$data[ModelInterface::FIELD_ID]])
+            array_merge(array_values($data), [$data[ModelInterface::FIELD_ID]])
         );
 
         return $model;

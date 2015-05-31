@@ -2,7 +2,6 @@
 
 namespace App\Exceptions;
 
-
 /**
  * Class JobException
  * @package App\Exceptions

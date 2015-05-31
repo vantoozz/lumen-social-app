@@ -33,11 +33,22 @@ class AbstractModel implements ModelInterface
      */
     public function __construct(array $data = [])
     {
+        return $this->fill($data);
+    }
+
+    /**
+     * @param  array $data
+     * @return ModelInterface
+     */
+    public function fill(array $data = [])
+    {
         foreach ($data as $key => $value) {
             if (property_exists($this, $key)) {
                 $this->$key = $value;
             }
         }
+
+        return $this;
     }
 
     /**
@@ -74,14 +85,6 @@ class AbstractModel implements ModelInterface
     }
 
     /**
-     * @return array
-     */
-    public function overview()
-    {
-        return array_intersect_key($this->toArray(), array_flip($this->overview));
-    }
-
-    /**
      * Get the instance as an array.
      *
      * @return array
@@ -107,19 +110,8 @@ class AbstractModel implements ModelInterface
         if (!$datetime instanceof DateTime) {
             return $datetime;
         }
-        return $datetime->format(self::FORMAT_DATETIME);
-    }
 
-    /**
-     * @param array $data
-     * @return ModelInterface
-     */
-    public function fill(array $data = [])
-    {
-        foreach ($data as $key => $value) {
-            $this->$key = $value;
-        }
-        return $this;
+        return $datetime->format(self::FORMAT_DATETIME);
     }
 
     /**
@@ -134,6 +126,7 @@ class AbstractModel implements ModelInterface
         if (!$date instanceof DateTime) {
             return $date;
         }
+
         return $date->format(self::FORMAT_DATE);
     }
 }

@@ -16,6 +16,7 @@ $app->get(
     function () {
         /** @var App\User $user */
         $user = app('auth')->user();
+
         return $user->toArray();
     }
 );
@@ -28,6 +29,7 @@ $app->get(
         function () {
             /** @var App\User $user */
             $user = app('auth')->user();
+
             return $user->toArray();
         }
     ]

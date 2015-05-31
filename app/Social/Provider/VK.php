@@ -60,9 +60,8 @@ class VK implements SocialProviderInterface
         return $this->provider_name;
     }
 
-
     /**
-     * @param array $input
+     * @param  array $input
      * @return User
      * @throws SocialException
      */
@@ -112,18 +111,22 @@ class VK implements SocialProviderInterface
     }
 
     /**
-     * @param int $provider_id
-     * @param array $user_info
+     * @param  int $provider_id
+     * @param  array $user_info
      * @return User
      */
     private function makeUserFromUserInfo($provider_id, array $user_info = [])
     {
 
         if (empty($user_info[self::FIELD_FIRST_NAME])) {
-            $user_info[self::FIELD_FIRST_NAME] = null;
+            $user_info[User::FIELD_FIRST_NAME] = null;
         }
         if (empty($user_info[self::FIELD_LAST_NAME])) {
             $user_info[self::FIELD_LAST_NAME] = null;
+        }
+
+        if (empty($user_info[self::FIELD_PHOTO])) {
+            $user_info[self::FIELD_PHOTO] = null;
         }
 
         return new User(
@@ -132,32 +135,15 @@ class VK implements SocialProviderInterface
                 User::FIELD_PROVIDER_ID => $provider_id,
                 User::FIELD_FIRST_NAME => $user_info[self::FIELD_FIRST_NAME],
                 User::FIELD_LAST_NAME => $user_info[self::FIELD_LAST_NAME],
-                User::FIELD_SEX => $this->getUserSex($user_info),
+                User::FIELD_PHOTO => $user_info[self::FIELD_PHOTO],
                 User::FIELD_BIRTH_DATE => $this->getUserBirthDate($user_info),
+                User::FIELD_SEX => $this->getUserSex($user_info),
             ]
         );
     }
 
     /**
-     * @param array $data
-     * @return null|string
-     */
-    private function getUserSex(array $data)
-    {
-        if (empty($data[VK::FIELD_SEX])) {
-            return null;
-        }
-        if (1 == $data[VK::FIELD_SEX]) {
-            return User::SEX_FEMALE;
-        }
-        if (2 == $data[VK::FIELD_SEX]) {
-            return User::SEX_MALE;
-        }
-        return null;
-    }
-
-    /**
-     * @param array $data
+     * @param  array $data
      * @return DateTime|null
      */
     private function getUserBirthDate(array $data)
@@ -173,11 +159,31 @@ class VK implements SocialProviderInterface
         if ($birthday instanceof DateTime) {
             return $birthday;
         }
+
         return null;
     }
 
     /**
-     * @param int $provider_id
+     * @param  array $data
+     * @return null|string
+     */
+    private function getUserSex(array $data)
+    {
+        if (empty($data[VK::FIELD_SEX])) {
+            return null;
+        }
+        if (1 == $data[VK::FIELD_SEX]) {
+            return User::SEX_FEMALE;
+        }
+        if (2 == $data[VK::FIELD_SEX]) {
+            return User::SEX_MALE;
+        }
+
+        return null;
+    }
+
+    /**
+     * @param  int $provider_id
      * @return \App\User
      */
     public function getUserByProviderId($provider_id)

@@ -2,7 +2,6 @@
 
 namespace App\Auth;
 
-
 use App\Repositories\Users\UsersRepositoryInterface;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Contracts\Auth\UserProvider;

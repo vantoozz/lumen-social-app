@@ -88,16 +88,7 @@ class VK implements SocialProviderInterface
             $user_info = $this->getFrameApiCallResult($input[self::FIELD_API_RESULT]);
         }
 
-        $user = new User(
-            [
-                User::FIELD_PROVIDER => $this->provider_name,
-                User::FIELD_PROVIDER_ID => $viewer_id,
-                User::FIELD_FIRST_NAME => $user_info[self::FIELD_FIRST_NAME],
-                User::FIELD_LAST_NAME => $user_info[self::FIELD_LAST_NAME],
-                User::FIELD_SEX => $this->getUserSex($user_info),
-                User::FIELD_BIRTH_DATE => $this->getUserBirthDate($user_info),
-            ]
-        );
+        $user = $this->makeUserFromUserInfo($viewer_id, $user_info);
 
         return $user;
     }
@@ -120,6 +111,50 @@ class VK implements SocialProviderInterface
         return $data;
     }
 
+    /**
+     * @param int $provider_id
+     * @param array $user_info
+     * @return User
+     */
+    private function makeUserFromUserInfo($provider_id, array $user_info = [])
+    {
+
+        if (empty($user_info[self::FIELD_FIRST_NAME])) {
+            $user_info[self::FIELD_FIRST_NAME] = null;
+        }
+        if (empty($user_info[self::FIELD_LAST_NAME])) {
+            $user_info[self::FIELD_LAST_NAME] = null;
+        }
+
+        return new User(
+            [
+                User::FIELD_PROVIDER => $this->provider_name,
+                User::FIELD_PROVIDER_ID => $provider_id,
+                User::FIELD_FIRST_NAME => $user_info[self::FIELD_FIRST_NAME],
+                User::FIELD_LAST_NAME => $user_info[self::FIELD_LAST_NAME],
+                User::FIELD_SEX => $this->getUserSex($user_info),
+                User::FIELD_BIRTH_DATE => $this->getUserBirthDate($user_info),
+            ]
+        );
+    }
+
+    /**
+     * @param array $data
+     * @return null|string
+     */
+    private function getUserSex(array $data)
+    {
+        if (empty($data[VK::FIELD_SEX])) {
+            return null;
+        }
+        if (1 == $data[VK::FIELD_SEX]) {
+            return User::SEX_FEMALE;
+        }
+        if (2 == $data[VK::FIELD_SEX]) {
+            return User::SEX_MALE;
+        }
+        return null;
+    }
 
     /**
      * @param array $data
@@ -142,21 +177,26 @@ class VK implements SocialProviderInterface
     }
 
     /**
-     * @param array $data
-     * @return null|string
+     * @param int $provider_id
+     * @return \App\User
      */
-    private function getUserSex(array $data)
+    public function getUserByProviderId($provider_id)
     {
-        if (empty($data[VK::FIELD_SEX])) {
-            return null;
+        $user_info = [];
+        $data = $this->vk->no_auth_api(
+            'users.get',
+            [
+                'user_id' => $provider_id,
+                'fields' => 'uid,first_name,last_name,sex,photo_max,birthdate'
+            ]
+        );
+        if (!empty($data[0])) {
+            $user_info = (array)$data[0];
         }
-        if (1 == $data[VK::FIELD_SEX]) {
-            return User::SEX_FEMALE;
-        }
-        if (2 == $data[VK::FIELD_SEX]) {
-            return User::SEX_MALE;
-        }
-        return null;
+
+        $user = $this->makeUserFromUserInfo($provider_id, $user_info);
+
+        return $user;
     }
 
 }

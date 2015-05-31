@@ -12,7 +12,8 @@ use Illuminate\Contracts\Support\Arrayable;
 interface ModelInterface extends Arrayable
 {
 
-    const DATE_FORMAT = 'Y-m-d H:i:s';
+    const FORMAT_DATETIME = 'Y-m-d H:i:s';
+    const FORMAT_DATE = 'Y-m-d';
 
     const FIELD_ID = 'id';
     const FIELD_CREATED_AT = 'created_at';
@@ -39,4 +40,9 @@ interface ModelInterface extends Arrayable
      * @return ModelInterface
      */
     public function fill(array $data = []);
+
+    /**
+     * @return array
+     */
+    public function overview();
 }

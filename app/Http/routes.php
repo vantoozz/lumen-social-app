@@ -13,13 +13,10 @@
 
 $app->get(
     '/',
-    function () use ($app) {
-        /** @var \Illuminate\Auth\Guard $auth */
-        $auth = app('auth');
+    function () {
         /** @var App\User $user */
-        $user = $auth->user();
+        $user = app('auth')->user();
         return $user->toArray();
-//        return $app->welcome();
     }
 );
 
@@ -29,10 +26,8 @@ $app->get(
     [
         'middleware' => ['social_auth'],
         function () {
-            /** @var \Illuminate\Auth\Guard $auth */
-            $auth = app('auth');
             /** @var App\User $user */
-            $user = $auth->user();
+            $user = app('auth')->user();
             return $user->toArray();
         }
     ]

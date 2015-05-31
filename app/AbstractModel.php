@@ -24,6 +24,11 @@ class AbstractModel implements ModelInterface
     protected $updated_at;
 
     /**
+     * @var array
+     */
+    protected $overview = [];
+
+    /**
      * @param array $data
      */
     public function __construct(array $data = [])
@@ -69,6 +74,14 @@ class AbstractModel implements ModelInterface
     }
 
     /**
+     * @return array
+     */
+    public function overview()
+    {
+        return array_intersect_key($this->toArray(), array_flip($this->overview));
+    }
+
+    /**
      * Get the instance as an array.
      *
      * @return array
@@ -83,29 +96,44 @@ class AbstractModel implements ModelInterface
     }
 
     /**
+     * @param $datetime
+     * @return null|string
+     */
+    protected function formatDateTime($datetime)
+    {
+        if (empty($datetime)) {
+            return null;
+        }
+        if (!$datetime instanceof DateTime) {
+            return $datetime;
+        }
+        return $datetime->format(self::FORMAT_DATETIME);
+    }
+
+    /**
      * @param array $data
      * @return ModelInterface
      */
     public function fill(array $data = [])
     {
-        foreach($data as $key=>$value){
+        foreach ($data as $key => $value) {
             $this->$key = $value;
         }
         return $this;
     }
 
-
     /**
-     * @param $datetime
+     * @param $date
      * @return null|string
      */
-    protected function formatDateTime($datetime){
-        if(empty($datetime)){
+    protected function formatDate($date)
+    {
+        if (empty($date)) {
             return null;
         }
-        if(!$datetime instanceof DateTime){
-            return $datetime;
+        if (!$date instanceof DateTime) {
+            return $date;
         }
-        return $datetime->format(self::DATE_FORMAT);
+        return $date->format(self::FORMAT_DATE);
     }
 }

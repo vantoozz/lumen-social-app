@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use App\Exceptions\NotFoundInRepositoryException;
 use App\Exceptions\RoutingException;
+use App\Jobs\SyncUserDataIfNeeded;
 use Closure;
 use Illuminate\Http\Request;
 use Laravel\Lumen\Routing\DispatchesCommands;
@@ -27,7 +28,7 @@ class SocialAuthMiddleware
         $provider_name = $this->getProvider($request);
 
         /** @var \App\Social\Provider\SocialProviderInterface $provider */
-        $provider = app('social.'.$provider_name);
+        $provider = app('social.' . $provider_name);
         $user = $provider->getFrameUser($request->query());
 
         /** @var \App\Repositories\Users\UsersRepositoryInterface $usersRepository */
@@ -39,15 +40,15 @@ class SocialAuthMiddleware
             $user = $usersRepository->create($user);
         }
 
-        $job = new SyncUserDataIfNeeded($user);
-        $this->dispatch($job);
-
+        $user->setLastLoginNow();
+        $usersRepository->save($user);
 
         /** @var \Illuminate\Auth\Guard $auth */
         $auth = app('auth');
-        $user->setLastLoginNow();
-        $usersRepository->save($user);
         $auth->login($user);
+
+        $job = new SyncUserDataIfNeeded($user);
+        $this->dispatch($job);
 
         return $next($request);
     }

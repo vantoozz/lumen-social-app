@@ -3,7 +3,6 @@
 namespace App\Jobs;
 
 use App\User;
-use DateTime;
 use Illuminate\Contracts\Bus\SelfHandling;
 use Laravel\Lumen\Routing\DispatchesCommands;
 
@@ -34,7 +33,20 @@ class SyncUserDataIfNeeded implements SelfHandling
      */
     public function handle()
     {
-        $now = new DateTime;
+        if (!$this->user->isSyncNeeded()) {
+            return;
+        }
 
+        /** @var \App\Social\Provider\SocialProviderInterface $provider */
+        $provider = app('social.' . $this->user->getProvider());
+
+        $user = $provider->getUserByProviderId($this->user->getProviderId());
+        $this->user->fill($user->overview());
+
+        $this->user->setLastSyncNow();
+
+        /** @var \App\Repositories\Users\UsersRepositoryInterface $usersRepository */
+        $usersRepository = app('App\Repositories\Users\UsersRepositoryInterface');
+        $usersRepository->save($this->user);
     }
 }

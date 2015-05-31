@@ -24,6 +24,7 @@ class User extends AbstractModel implements Authenticatable
     const SEX_MALE = 'male';
     const SEX_FEMALE = 'female';
 
+    const SYNC_FREQUENCY = 7;
 
     /**
      * @var string
@@ -62,6 +63,16 @@ class User extends AbstractModel implements Authenticatable
      */
     protected $last_sync_at;
 
+    /**
+     * @var array
+     */
+    protected $overview = [
+        self::FIELD_FIRST_NAME,
+        self::FIELD_LAST_NAME,
+        self::FIELD_SEX,
+        self::FIELD_BIRTH_DATE,
+    ];
+
 
     /**
      * @return int
@@ -88,6 +99,47 @@ class User extends AbstractModel implements Authenticatable
         return $this;
     }
 
+    /**
+     * @return $this
+     */
+    public function setLastSyncNow()
+    {
+        $this->last_sync_at = new DateTime;
+        return $this;
+    }
+
+
+    /**
+     * @return bool
+     */
+    public function isSyncNeeded()
+    {
+        if (empty($this->first_name)) {
+            return true;
+        }
+
+        return $this->isOutdated();
+    }
+
+
+    /**
+     * @return bool
+     */
+    public function isOutdated()
+    {
+        $last_sync_at = $this->last_sync_at ?: $this->created_at;
+
+        if (!$last_sync_at instanceof DateTime) {
+            $last_sync_at = DateTime::createFromFormat(self::FORMAT_DATETIME, $last_sync_at);
+        }
+
+        if (!$last_sync_at) {
+            return true;
+        }
+
+        return $last_sync_at->diff(new DateTime())->days >= self::SYNC_FREQUENCY;
+    }
+
 
     /**
      * Get the instance as an array.
@@ -103,7 +155,7 @@ class User extends AbstractModel implements Authenticatable
             self::FIELD_LAST_NAME => $this->last_name,
             self::FIELD_SEX => $this->sex,
             self::FIELD_PHOTO => $this->photo,
-            self::FIELD_BIRTH_DATE => $this->birth_date,
+            self::FIELD_BIRTH_DATE => $this->formatDate($this->birth_date),
             self::FIELD_LAST_LOGIN_AT => $this->formatDateTime($this->last_login_at),
             self::FIELD_LAST_SYNC_AT => $this->formatDateTime($this->last_sync_at),
         ];

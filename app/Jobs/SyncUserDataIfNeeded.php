@@ -4,13 +4,14 @@ namespace App\Jobs;
 
 use App\User;
 use Illuminate\Contracts\Bus\SelfHandling;
+use Illuminate\Contracts\Queue\ShouldBeQueued;
 use Laravel\Lumen\Routing\DispatchesCommands;
 
 /**
  * Class SyncUserDataIfNeeded
  * @package App\Jobs
  */
-class SyncUserDataIfNeeded implements SelfHandling
+class SyncUserDataIfNeeded implements SelfHandling, ShouldBeQueued
 {
 
     use DispatchesCommands;

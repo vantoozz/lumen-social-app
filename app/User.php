@@ -94,6 +94,7 @@ class User extends AbstractModel implements Authenticatable
 
     /**
      * @param  string $cdn_photo
+     *
      * @return User
      */
     public function setCdnPhoto($cdn_photo)
@@ -196,40 +197,45 @@ class User extends AbstractModel implements Authenticatable
      * Get the password for the user.
      *
      * @return string
+     * @throws \LogicException
      */
     public function getAuthPassword()
     {
-        throw new \LogicException("Invalid method");
+        throw new \LogicException('Invalid method');
     }
 
     /**
      * Get the token value for the "remember me" session.
      *
      * @return string
+     * @throws \LogicException
      */
     public function getRememberToken()
     {
-        throw new \LogicException("Invalid method");
+        throw new \LogicException('Invalid method');
     }
 
     /**
      * Set the token value for the "remember me" session.
      *
      * @param  string $value
+     *
      * @return void
+     * @throws \LogicException
      */
     public function setRememberToken($value)
     {
-        throw new \LogicException("Invalid method");
+        throw new \LogicException('Invalid method');
     }
 
     /**
      * Get the column name for the "remember me" token.
      *
      * @return string
+     * @throws \LogicException
      */
     public function getRememberTokenName()
     {
-        throw new \LogicException("Invalid method");
+        throw new \LogicException('Invalid method');
     }
 }

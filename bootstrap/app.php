@@ -59,7 +59,7 @@ $app->middleware(
     [
         // 'Illuminate\Cookie\Middleware\EncryptCookies',
         // 'Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse',
-        'Illuminate\Session\Middleware\StartSession',
+        Illuminate\Session\Middleware\StartSession::class,
         // 'Illuminate\View\Middleware\ShareErrorsFromSession',
         // 'Laravel\Lumen\Http\Middleware\VerifyCsrfToken',
     ]
@@ -67,7 +67,7 @@ $app->middleware(
 
 $app->routeMiddleware(
     [
-        'social_auth' => 'App\Http\Middleware\SocialAuthMiddleware',
+        'social_auth' => App\Http\Middleware\SocialAuthMiddleware::class,
     ]
 );
 
@@ -82,9 +82,9 @@ $app->routeMiddleware(
 |
 */
 
-$app->register('App\Providers\DbAuthServiceProvider');
-$app->register('App\Providers\VKServiceProvider');
-$app->register('App\Providers\UsersRepositoryServiceProvider');
+$app->register(App\Providers\DbAuthServiceProvider::class);
+$app->register(App\Providers\VKServiceProvider::class);
+$app->register(App\Providers\UsersRepositoryServiceProvider::class);
 
 /*
 |--------------------------------------------------------------------------

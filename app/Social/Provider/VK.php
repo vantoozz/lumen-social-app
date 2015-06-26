@@ -34,17 +34,6 @@ class VK implements SocialProviderInterface
     private $vk;
 
     /**
-     * @var array
-     */
-    private $required_fields = [
-        self::FIELD_UID,
-        self::FIELD_FIRST_NAME,
-        self::FIELD_LAST_NAME,
-        self::FIELD_PHOTO,
-        self::FIELD_BIRTH_DATE,
-    ];
-
-    /**
      * @param \Novanova\VK\VK $vk
      */
     public function __construct(\Novanova\VK\VK $vk)
@@ -68,18 +57,18 @@ class VK implements SocialProviderInterface
     public function getFrameUser(array $input)
     {
         if (empty($input[self::FIELD_VIEWER_ID])) {
-            throw new InvalidArgumentException('No viewer_id field');
+            throw new SocialException('No viewer_id field');
         }
 
         if (empty($input[self::FIELD_AUTH_KEY])) {
-            throw new InvalidArgumentException('No auth_key field');
+            throw new SocialException('No auth_key field');
         }
 
         $viewer_id = $input[self::FIELD_VIEWER_ID];
         $auth_key = $input[self::FIELD_AUTH_KEY];
 
-        if ($this->vk->calculateAuthKey($viewer_id) != $auth_key) {
-            throw new InvalidArgumentException('Bad auth key');
+        if ($this->vk->calculateAuthKey($viewer_id) !== $auth_key) {
+            throw new SocialException('Bad auth key');
         }
 
         $user_info = [];
@@ -172,10 +161,10 @@ class VK implements SocialProviderInterface
         if (empty($data[VK::FIELD_SEX])) {
             return null;
         }
-        if (1 == $data[VK::FIELD_SEX]) {
+        if (1 === (int)$data[VK::FIELD_SEX]) {
             return User::SEX_FEMALE;
         }
-        if (2 == $data[VK::FIELD_SEX]) {
+        if (2 === (int)$data[VK::FIELD_SEX]) {
             return User::SEX_MALE;
         }
 

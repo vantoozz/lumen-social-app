@@ -1,12 +1,10 @@
 <?php
 
-namespace App\Exceptions;
+namespace app\Exceptions;
 
 /**
- * Class SocialException
- * @package App\Exceptions
+ * Class SocialException.
  */
 class SocialException extends \Exception
 {
-
 }

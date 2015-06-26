@@ -5,13 +5,13 @@ namespace App\Jobs;
 use App\CDN;
 use App\User;
 use Illuminate\Contracts\Bus\SelfHandling;
-use Illuminate\Contracts\Queue\ShouldBeQueued;
+use Illuminate\Contracts\Queue\ShouldQueue;
 
 /**
  * Class UpdateUserCdnPhotoIfNeeded
  * @package App\Jobs
  */
-class UpdateUserCdnPhotoIfNeeded implements SelfHandling, ShouldBeQueued
+class UpdateUserCdnPhotoIfNeeded implements SelfHandling, ShouldQueue
 {
 
     /**

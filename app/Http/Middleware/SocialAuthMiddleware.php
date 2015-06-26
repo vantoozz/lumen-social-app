@@ -3,11 +3,10 @@
 namespace App\Http\Middleware;
 
 use App\Exceptions\NotFoundInRepositoryException;
-use App\Exceptions\RoutingException;
 use App\Jobs\SyncUserDataIfNeeded;
 use Closure;
 use Illuminate\Http\Request;
-use Laravel\Lumen\Routing\DispatchesCommands;
+use Laravel\Lumen\Routing\DispatchesJobs;
 
 /**
  * Class SocialAuthMiddleware
@@ -16,17 +15,17 @@ use Laravel\Lumen\Routing\DispatchesCommands;
 class SocialAuthMiddleware
 {
 
-    use DispatchesCommands;
+    use DispatchesJobs;
 
     /**
-     * @param $request
-     * @param  callable $next
+     * @param Request  $request
+     * @param callable $next
+     * @param string   $provider_name
+     *
      * @return mixed
      */
-    public function handle(Request $request, Closure $next)
+    public function handle(Request $request, Closure $next, $provider_name)
     {
-        $provider_name = $this->getProvider($request);
-
         /** @var \App\Social\Provider\SocialProviderInterface $provider */
         $provider = app('social.' . $provider_name);
         $user = $provider->getFrameUser($request->query());
@@ -51,20 +50,5 @@ class SocialAuthMiddleware
         $this->dispatch($job);
 
         return $next($request);
-    }
-
-    /**
-     * @param  Request $request
-     * @return string
-     * @throws RoutingException
-     */
-    private function getProvider(Request $request)
-    {
-        $route = $request->route();
-        if (empty($route[2]) or empty($route[2]['provider'])) {
-            throw new RoutingException('Cannot resolve provider');
-        }
-
-        return (string)$route[2]['provider'];
     }
 }

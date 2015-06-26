@@ -16,11 +16,12 @@ class UsersDatabaseRepository extends DatabaseRepository implements UsersReposit
     /**
      * @var string
      */
-    protected $table = 'users';
+    protected static $table = 'users';
 
     /**
      * @param  int $provider
      * @param  int $provider_id
+     *
      * @return User
      * @throws NotFoundInRepositoryException
      */
@@ -28,10 +29,10 @@ class UsersDatabaseRepository extends DatabaseRepository implements UsersReposit
     {
 
         $results = $this->db->select(
-            'SELECT * FROM `' . $this->table . '`  WHERE `provider` = :provider AND `provider_id` = :provider_id LIMIT 1',
+            'SELECT * FROM `' . self::$table . '`  WHERE `provider` = :provider AND `provider_id` = :provider_id LIMIT 1',
             ['provider' => $provider, 'provider_id' => $provider_id]
         );
-        if (empty($results)) {
+        if (0 === count($results)) {
             throw new NotFoundInRepositoryException('User not found');
         }
 
@@ -40,6 +41,7 @@ class UsersDatabaseRepository extends DatabaseRepository implements UsersReposit
 
     /**
      * @param  array $data
+     *
      * @return User
      */
     protected function makeModel(array $data)

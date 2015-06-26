@@ -59,6 +59,7 @@ class SyncUserDataIfNeeded implements SelfHandling, ShouldQueue
 
     /**
      * @param User $user
+     *
      * @return array
      */
     private function getFilteredUserInfo(User $user)
@@ -74,7 +75,8 @@ class SyncUserDataIfNeeded implements SelfHandling, ShouldQueue
                         User::FIELD_SEX,
                         User::FIELD_BIRTH_DATE,
                         User::FIELD_PHOTO,
-                    ]
+                    ],
+                    true
                 );
             },
             ARRAY_FILTER_USE_KEY

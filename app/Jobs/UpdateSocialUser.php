@@ -27,8 +27,8 @@ class UpdateSocialUser implements SelfHandling
     private $data;
 
     /**
-     * @param $provider
-     * @param $provider_id
+     * @param       $provider
+     * @param       $provider_id
      * @param array $data
      */
     public function __construct($provider, $provider_id, array $data = [])
@@ -39,7 +39,7 @@ class UpdateSocialUser implements SelfHandling
     }
 
     /**
-     *
+     * @throws JobException
      */
     public function handle()
     {

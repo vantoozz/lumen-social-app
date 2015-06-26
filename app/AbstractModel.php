@@ -33,11 +33,12 @@ class AbstractModel implements ModelInterface
      */
     public function __construct(array $data = [])
     {
-        return $this->fill($data);
+        $this->fill($data);
     }
 
     /**
      * @param  array $data
+     *
      * @return ModelInterface
      */
     public function fill(array $data = [])
@@ -61,6 +62,7 @@ class AbstractModel implements ModelInterface
 
     /**
      * @param  int $id
+     *
      * @return ModelInterface
      */
     public function setId($id)
@@ -100,6 +102,7 @@ class AbstractModel implements ModelInterface
 
     /**
      * @param $datetime
+     *
      * @return null|string
      */
     protected function formatDateTime($datetime)
@@ -116,6 +119,7 @@ class AbstractModel implements ModelInterface
 
     /**
      * @param $date
+     *
      * @return null|string
      */
     protected function formatDate($date)

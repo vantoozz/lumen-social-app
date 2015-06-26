@@ -137,7 +137,7 @@ class User extends AbstractModel implements Authenticatable
      */
     public function isSyncNeeded()
     {
-        if (empty($this->first_name)) {
+        if ('' === (string)$this->first_name) {
             return true;
         }
 
@@ -169,7 +169,7 @@ class User extends AbstractModel implements Authenticatable
      */
     public function toArray()
     {
-        return parent::toArray() + [
+        return array_merge(parent::toArray(), [
             self::FIELD_PROVIDER => $this->provider,
             self::FIELD_PROVIDER_ID => $this->provider_id,
             self::FIELD_FIRST_NAME => $this->first_name,
@@ -180,7 +180,7 @@ class User extends AbstractModel implements Authenticatable
             self::FIELD_BIRTH_DATE => $this->formatDate($this->birth_date),
             self::FIELD_LAST_LOGIN_AT => $this->formatDateTime($this->last_login_at),
             self::FIELD_LAST_SYNC_AT => $this->formatDateTime($this->last_sync_at),
-        ];
+        ]);
     }
 
     /**

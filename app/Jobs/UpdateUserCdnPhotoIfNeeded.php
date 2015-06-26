@@ -33,7 +33,7 @@ class UpdateUserCdnPhotoIfNeeded implements SelfHandling, ShouldQueue
     public function handle()
     {
         $photo = $this->user->getPhoto();
-        if (empty($photo)) {
+        if ('' === (string)$photo) {
             $this->updateUserCdnPhotoField(null);
 
             return;
@@ -55,7 +55,7 @@ class UpdateUserCdnPhotoIfNeeded implements SelfHandling, ShouldQueue
     private function updateUserCdnPhotoField($value)
     {
         $stored_value = $this->user->getCdnPhoto();
-        if ($stored_value == $value) {
+        if ($stored_value === $value) {
             return;
         }
 

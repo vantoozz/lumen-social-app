@@ -19,7 +19,7 @@ abstract class DatabaseRepository extends AbstractRepository
     /**
      * @var string
      */
-    protected $table = '';
+    protected static $table = '';
 
     /**
      *
@@ -31,16 +31,17 @@ abstract class DatabaseRepository extends AbstractRepository
 
     /**
      * @param  int $id
+     *
      * @return ModelInterface
      * @throws NotFoundInRepositoryException
      */
     public function getById($id)
     {
         $results = $this->db->select(
-            'SELECT * FROM `' . $this->table . '` WHERE `id` = :id LIMIT 1',
+            'SELECT * FROM `' . static::$table . '` WHERE `id` = :id LIMIT 1',
             ['id' => $id]
         );
-        if (empty($results)) {
+        if (0 === count($results)) {
             throw new NotFoundInRepositoryException('Not found');
         }
 
@@ -49,11 +50,12 @@ abstract class DatabaseRepository extends AbstractRepository
 
     /**
      * @param  ModelInterface $model
+     *
      * @return ModelInterface
      */
     public function save(ModelInterface $model)
     {
-        if (empty($model->getId())) {
+        if (!$model->getId()) {
             return $this->create($model);
         }
 
@@ -62,7 +64,10 @@ abstract class DatabaseRepository extends AbstractRepository
 
     /**
      * @param  ModelInterface $model
+     *
      * @return ModelInterface
+     *
+     * @throws \Exception
      */
     public function create(ModelInterface $model)
     {
@@ -71,7 +76,7 @@ abstract class DatabaseRepository extends AbstractRepository
         $id = $this->db->transaction(
             function () use ($data, $keys) {
                 $this->db->insert(
-                    'INSERT INTO ' . $this->table . ' (' . implode(', ', array_keys($data)) . ')
+                    'INSERT INTO `' . static::$table . '` (' . implode(', ', array_keys($data)) . ')
                     VALUES (' . implode(', ', $keys) . ')'
                     ,
                     $data
@@ -88,6 +93,7 @@ abstract class DatabaseRepository extends AbstractRepository
 
     /**
      * @param  ModelInterface $model
+     *
      * @return array
      */
     private function prepareModel(ModelInterface $model)
@@ -101,6 +107,7 @@ abstract class DatabaseRepository extends AbstractRepository
 
     /**
      * @param $data
+     *
      * @return array
      */
     private function prepareKeys($data)
@@ -117,6 +124,7 @@ abstract class DatabaseRepository extends AbstractRepository
 
     /**
      * @param  ModelInterface $model
+     *
      * @return ModelInterface
      */
     public function update(ModelInterface $model)
@@ -129,7 +137,7 @@ abstract class DatabaseRepository extends AbstractRepository
         }
 
         $this->db->update(
-            'UPDATE ' . $this->table . ' SET ' . implode(', ', $statements) . ' WHERE `id`=?'
+            'UPDATE `' . static::$table . '` SET ' . implode(', ', $statements) . ' WHERE `id`=?'
             ,
             array_merge(array_values($data), [$data[ModelInterface::FIELD_ID]])
         );

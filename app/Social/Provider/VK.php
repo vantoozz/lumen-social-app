@@ -182,7 +182,7 @@ class VK implements SocialProviderInterface
             'users.get',
             [
                 'user_id' => $provider_id,
-                'fields' => 'uid,first_name,last_name,sex,photo_max,birthdate'
+                'fields' => 'uid,first_name,last_name,sex,photo_max,bdate'
             ]
         );
         if (!empty($data[0])) {

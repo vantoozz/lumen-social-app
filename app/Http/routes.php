@@ -17,15 +17,15 @@ $app->get(
         /** @var App\User $user */
         $user = app('auth')->user();
 
-        return  $user ? $user->toArray() : new \Illuminate\Http\Response('yep&');
+        return var_export($user, true);
     }
 );
 
 
 $app->get(
-    '/app/vk',
+    '/app/{provider}',
     [
-        'middleware' => ['social_auth:vk'],
+        'middleware' => ['social_auth'],
         function () {
             /** @var App\User $user */
             $user = app('auth')->user();

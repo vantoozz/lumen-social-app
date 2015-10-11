@@ -3,7 +3,9 @@
 namespace App\Http\Middleware;
 
 use App\Exceptions\NotFoundInRepositoryException;
+use App\Exceptions\RoutingException;
 use App\Jobs\SyncUserDataIfNeeded;
+use App\Repositories\Users\UsersRepositoryInterface;
 use Closure;
 use Illuminate\Http\Request;
 use Laravel\Lumen\Routing\DispatchesJobs;
@@ -18,29 +20,42 @@ class SocialAuthMiddleware
     use DispatchesJobs;
 
     /**
-     * @param Request  $request
-     * @param callable $next
-     * @param string   $provider_name
-     *
-     * @return mixed
+     * @var UsersRepositoryInterface
      */
-    public function handle(Request $request, Closure $next, $provider_name)
+    private $usersRepository;
+
+    /**
+     * SocialAuthMiddleware constructor.
+     * @param UsersRepositoryInterface $usersRepository
+     */
+    public function __construct(UsersRepositoryInterface $usersRepository)
     {
+        $this->usersRepository = $usersRepository;
+    }
+
+
+    /**
+     * @param $request
+     * @param  Closure $next
+     * @return mixed
+     * @throws RoutingException
+     */
+    public function handle(Request $request, Closure $next)
+    {
+        $provider_name = $this->getProvider($request);
+
         /** @var \App\Social\Provider\SocialProviderInterface $provider */
         $provider = app('social.' . $provider_name);
         $user = $provider->getFrameUser($request->query());
 
-        /** @var \App\Repositories\Users\UsersRepositoryInterface $usersRepository */
-        $usersRepository = app('App\Repositories\Users\UsersRepositoryInterface');
-
         try {
-            $user = $usersRepository->getByProviderId($user->getProvider(), $user->getProviderId());
+            $user = $this->usersRepository->getByProviderId($user->getProvider(), $user->getProviderId());
         } catch (NotFoundInRepositoryException $e) {
-            $user = $usersRepository->create($user);
+            $user = $this->usersRepository->create($user);
         }
 
         $user->setLastLoginNow();
-        $usersRepository->save($user);
+        $this->usersRepository->save($user);
 
         /** @var \Illuminate\Auth\Guard $auth */
         $auth = app('auth');
@@ -50,5 +65,20 @@ class SocialAuthMiddleware
         $this->dispatch($job);
 
         return $next($request);
+    }
+
+    /**
+     * @param  Request $request
+     * @return string
+     * @throws RoutingException
+     */
+    private function getProvider(Request $request)
+    {
+        $route = $request->route();
+        if (empty($route[2]) or empty($route[2]['provider'])) {
+            throw new RoutingException('Cannot resolve provider');
+        }
+
+        return (string)$route[2]['provider'];
     }
 }

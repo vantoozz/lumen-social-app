@@ -4,9 +4,9 @@ namespace App\Http\Middleware;
 
 use App\Exceptions\NotFoundInRepositoryException;
 use App\Exceptions\RoutingException;
-use App\Jobs\SyncUserDataIfNeeded;
 use App\Repositories\Users\UsersRepositoryInterface;
 use Closure;
+use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Http\Request;
 use Laravel\Lumen\Routing\DispatchesJobs;
 
@@ -25,12 +25,19 @@ class SocialAuthMiddleware
     private $usersRepository;
 
     /**
+     * @var Guard
+     */
+    private $auth;
+
+    /**
      * SocialAuthMiddleware constructor.
      * @param UsersRepositoryInterface $usersRepository
+     * @param Guard $auth
      */
-    public function __construct(UsersRepositoryInterface $usersRepository)
+    public function __construct(UsersRepositoryInterface $usersRepository, Guard $auth)
     {
         $this->usersRepository = $usersRepository;
+        $this->auth = $auth;
     }
 
 
@@ -42,10 +49,10 @@ class SocialAuthMiddleware
      */
     public function handle(Request $request, Closure $next)
     {
-        $provider_name = $this->getProvider($request);
+        $providerName = $this->getProvider($request);
 
         /** @var \App\Social\Provider\SocialProviderInterface $provider */
-        $provider = app('social.' . $provider_name);
+        $provider = app('social.' . $providerName);
         $user = $provider->getFrameUser($request->query());
 
         try {
@@ -57,12 +64,7 @@ class SocialAuthMiddleware
         $user->setLastLoginNow();
         $this->usersRepository->save($user);
 
-        /** @var \Illuminate\Auth\Guard $auth */
-        $auth = app('auth');
-        $auth->login($user);
-
-        $job = new SyncUserDataIfNeeded($user);
-        $this->dispatch($job);
+        $this->auth->login($user);
 
         return $next($request);
     }
@@ -74,11 +76,6 @@ class SocialAuthMiddleware
      */
     private function getProvider(Request $request)
     {
-        $route = $request->route();
-        if (empty($route[2]) or empty($route[2]['provider'])) {
-            throw new RoutingException('Cannot resolve provider');
-        }
-
-        return (string)$route[2]['provider'];
+        return $request->segment(2);
     }
 }

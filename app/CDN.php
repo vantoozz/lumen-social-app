@@ -2,12 +2,28 @@
 
 namespace App;
 
+use Illuminate\Contracts\Filesystem\Filesystem;
+use Illuminate\Filesystem\FilesystemManager;
+
 /**
  * Class CDN
  * @package App
  */
 class CDN
 {
+
+    /**
+     * @var
+     */
+    private $storage;
+
+    /**
+     * @param FilesystemManager $storage
+     */
+    public function __construct(FilesystemManager $storage)
+    {
+        $this->storage = $storage;
+    }
 
     const PREFIX_MEDIA = 'media';
 
@@ -18,8 +34,8 @@ class CDN
     {
         $path = $this->makePath($url);
         $contents = file_get_contents($url);
-        /** @var \Illuminate\Contracts\Filesystem\Filesystem $storage */
-        $storage = app('filesystem');
+        /** @var Filesystem $storage */
+        $storage = $this->storage;
         $storage->put($path, $contents);
     }
 

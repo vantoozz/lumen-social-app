@@ -1,10 +1,11 @@
 <?php
 
-namespace app\Exceptions;
+namespace App\Exceptions;
 
 /**
  * Class SocialException.
  */
-class SocialException extends \Exception
+class SocialException extends AppException
 {
+
 }

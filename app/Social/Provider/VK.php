@@ -5,7 +5,6 @@ namespace App\Social\Provider;
 use App\Exceptions\SocialException;
 use App\User;
 use DateTime;
-use InvalidArgumentException;
 
 /**
  * Class VK

@@ -35,13 +35,13 @@ $app = new Laravel\Lumen\Application(
 */
 
 $app->singleton(
-    'Illuminate\Contracts\Debug\ExceptionHandler',
-    'App\Exceptions\Handler'
+    Illuminate\Contracts\Debug\ExceptionHandler::class,
+    App\Exceptions\Handler::class
 );
 
 $app->singleton(
-    'Illuminate\Contracts\Console\Kernel',
-    'App\Console\Kernel'
+    Illuminate\Contracts\Console\Kernel::class,
+    App\Console\Kernel::class
 );
 
 /*
@@ -67,7 +67,7 @@ $app->middleware(
 
 $app->routeMiddleware(
     [
-        'social_auth' => App\Http\Middleware\SocialAuthMiddleware::class,
+        App\Http\Middleware\SocialAuthMiddleware::class => App\Http\Middleware\SocialAuthMiddleware::class,
     ]
 );
 
@@ -82,9 +82,12 @@ $app->routeMiddleware(
 |
 */
 
+//$app->register(Illuminate\Filesystem\FilesystemServiceProvider::class);
 $app->register(App\Providers\DbAuthServiceProvider::class);
 $app->register(App\Providers\VKServiceProvider::class);
 $app->register(App\Providers\UsersRepositoryServiceProvider::class);
+$app->register(App\Providers\EventServiceProvider::class);
+$app->register(App\Providers\CdnServiceProvider::class);
 
 /*
 |--------------------------------------------------------------------------

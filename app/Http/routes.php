@@ -25,7 +25,7 @@ $app->get(
 $app->get(
     '/app/{provider}',
     [
-        'middleware' => ['social_auth'],
+        'middleware' => [App\Http\Middleware\SocialAuthMiddleware::class],
         function () {
             /** @var App\User $user */
             $user = app('auth')->user();

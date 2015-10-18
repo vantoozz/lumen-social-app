@@ -1,5 +1,7 @@
 <?php namespace App\Providers;
 
+use App\Repositories\Users\UsersDatabaseRepository;
+use App\Repositories\Users\UsersRepositoryInterface;
 use Illuminate\Support\ServiceProvider;
 
 class UsersRepositoryServiceProvider extends ServiceProvider
@@ -13,8 +15,8 @@ class UsersRepositoryServiceProvider extends ServiceProvider
     public function register()
     {
         $this->app->singleton(
-            'App\Repositories\Users\UsersRepositoryInterface',
-            'App\Repositories\Users\UsersDatabaseRepository'
+            UsersRepositoryInterface::class,
+            UsersDatabaseRepository::class
         );
     }
 }

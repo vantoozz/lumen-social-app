@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Auth\DbUserProvider;
+use App\Repositories\Users\UsersRepositoryInterface;
 use Illuminate\Auth\AuthManager;
 use Illuminate\Support\ServiceProvider;
 
@@ -21,12 +22,12 @@ class DbAuthServiceProvider extends ServiceProvider
     public function boot()
     {
         /** @var AuthManager $auth */
-        $auth = $this->app['auth'];
+        $auth = $this->app->make('auth');
         $auth->extend(
             'db',
             function () {
-                /** @var \App\Repositories\Users\UsersRepositoryInterface $usersRepository */
-                $usersRepository = app()->make('App\Repositories\Users\UsersRepositoryInterface');
+                /** @var UsersRepositoryInterface $usersRepository */
+                $usersRepository = app()->make(UsersRepositoryInterface::class);
 
                 return new DbUserProvider($usersRepository);
             }

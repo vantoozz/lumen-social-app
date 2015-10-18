@@ -3,10 +3,10 @@
 namespace App\Exceptions;
 
 /**
- * Class RoutingException
+ * Class AppException
  * @package App\Exceptions
  */
-class RoutingException extends AppException
+class AppException extends \Exception
 {
 
 }

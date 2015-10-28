@@ -2,7 +2,7 @@
 
 namespace App\Repositories;
 
-use App\ModelInterface;
+use App\Resources\ResourceInterface;
 
 /**
  * Interface RepositoryInterface
@@ -12,25 +12,13 @@ interface RepositoryInterface
 {
     /**
      * @param  int $id
-     * @return ModelInterface
+     * @return ResourceInterface
      */
     public function getById($id);
 
     /**
-     * @param  ModelInterface $model
-     * @return ModelInterface
+     * @param  ResourceInterface $model
+     * @return ResourceInterface
      */
-    public function save(ModelInterface $model);
-
-    /**
-     * @param  ModelInterface $model
-     * @return ModelInterface
-     */
-    public function create(ModelInterface $model);
-
-    /**
-     * @param  ModelInterface $model
-     * @return ModelInterface
-     */
-    public function update(ModelInterface $model);
+    public function store(ResourceInterface $model);
 }

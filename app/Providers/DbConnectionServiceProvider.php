@@ -2,22 +2,22 @@
 
 namespace App\Providers;
 
-use App\Social\Provider\VK;
+
 use Illuminate\Support\ServiceProvider;
 
 /**
- * Class VKServiceProvider
+ * Class DbConnectionServiceProvider
  * @package App\Providers
  */
-class VKServiceProvider extends ServiceProvider
+class DbConnectionServiceProvider extends ServiceProvider
 {
 
-    const SERVICE_NAME = 'social.vk';
+    const SERVICE_NAME = 'db_connection';
 
     /**
      * @var bool
      */
-    protected $defer = true;
+    protected $defer = false;
 
     /**
      * @return array
@@ -37,7 +37,7 @@ class VKServiceProvider extends ServiceProvider
         $this->app->singleton(
             self::SERVICE_NAME,
             function () {
-                return new VK(new \Novanova\VK\VK(getenv('VK_APP_ID'), getenv('VK_SECRET')));
+                return app('db')->connection();
             }
         );
     }

@@ -21,7 +21,7 @@ $app = new Laravel\Lumen\Application(
 
 // $app->withFacades();
 
-// $app->withEloquent();
+$app->withEloquent();
 
 /*
 |--------------------------------------------------------------------------
@@ -57,7 +57,7 @@ $app->singleton(
 
 $app->middleware(
     [
-        // 'Illuminate\Cookie\Middleware\EncryptCookies',
+        Illuminate\Cookie\Middleware\EncryptCookies::class,
         // 'Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse',
         Illuminate\Session\Middleware\StartSession::class,
         // 'Illuminate\View\Middleware\ShareErrorsFromSession',
@@ -83,6 +83,7 @@ $app->routeMiddleware(
 */
 
 //$app->register(Illuminate\Filesystem\FilesystemServiceProvider::class);
+$app->register(App\Providers\DbConnectionServiceProvider::class);
 $app->register(App\Providers\DbAuthServiceProvider::class);
 $app->register(App\Providers\VKServiceProvider::class);
 $app->register(App\Providers\UsersRepositoryServiceProvider::class);

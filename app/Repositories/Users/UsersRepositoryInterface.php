@@ -8,7 +8,8 @@ namespace App\Repositories\Users;
  */
 use App\Exceptions\NotFoundInRepositoryException;
 use App\Repositories\RepositoryInterface;
-use App\User;
+use App\Resources\User;
+
 
 /**
  * Interface UsersRepositoryInterface

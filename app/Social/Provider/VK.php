@@ -3,7 +3,7 @@
 namespace App\Social\Provider;
 
 use App\Exceptions\SocialException;
-use App\User;
+use App\Resources\User;
 use DateTime;
 
 /**
@@ -24,11 +24,6 @@ class VK implements SocialProviderInterface
     const FIELD_AUTH_KEY = 'auth_key';
     const FIELD_API_RESULT = 'api_result';
 
-    /**
-     * @var string
-     */
-    protected $provider_name = self::PROVIDER_VK;
-
     /** @var \Novanova\VK\VK $vk */
     private $vk;
 
@@ -38,14 +33,6 @@ class VK implements SocialProviderInterface
     public function __construct(\Novanova\VK\VK $vk)
     {
         $this->vk = $vk;
-    }
-
-    /**
-     * @return string
-     */
-    public function getProviderName()
-    {
-        return $this->provider_name;
     }
 
     /**
@@ -119,7 +106,7 @@ class VK implements SocialProviderInterface
 
         return new User(
             [
-                User::FIELD_PROVIDER => $this->provider_name,
+                User::FIELD_PROVIDER => self::PROVIDER_VK,
                 User::FIELD_PROVIDER_ID => $provider_id,
                 User::FIELD_FIRST_NAME => $user_info[self::FIELD_FIRST_NAME],
                 User::FIELD_LAST_NAME => $user_info[self::FIELD_LAST_NAME],
@@ -172,7 +159,7 @@ class VK implements SocialProviderInterface
 
     /**
      * @param  int $provider_id
-     * @return \App\User
+     * @return \App\Resources\User
      */
     public function getUserByProviderId($provider_id)
     {

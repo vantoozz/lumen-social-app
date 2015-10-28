@@ -2,35 +2,40 @@
 
 namespace App\Listeners;
 
+use App\Exceptions\FactoryException;
 use App\Repositories\Users\UsersRepositoryInterface;
-use App\User;
-use Laravel\Lumen\Routing\DispatchesJobs;
+use App\Resources\User;
+use App\Social\Provider\SocialProviderFactory;
+use Illuminate\Contracts\Queue\ShouldQueue;
 
 /**
  * Class SyncUserDataIfNeeded
  * @package App\Listeners
  */
-class SyncUserDataIfNeeded //implements ShouldQueue
+class SyncUserDataIfNeeded implements ShouldQueue
 {
-
-    use DispatchesJobs;
-
-
     /**
      * @var UsersRepositoryInterface
      */
     private $usersRepository;
+    /**
+     * @var SocialProviderFactory
+     */
+    private $providerFactory;
 
     /**
      * @param UsersRepositoryInterface $usersRepository
+     * @param SocialProviderFactory $providerFactory
      */
-    public function __construct(UsersRepositoryInterface $usersRepository)
+    public function __construct(UsersRepositoryInterface $usersRepository, SocialProviderFactory $providerFactory)
     {
         $this->usersRepository = $usersRepository;
+        $this->providerFactory = $providerFactory;
     }
 
     /**
      * @param User $user
+     * @throws FactoryException
      */
     public function handle(User $user)
     {
@@ -38,8 +43,8 @@ class SyncUserDataIfNeeded //implements ShouldQueue
             return;
         }
 
-        /** @var \App\Social\Provider\SocialProviderInterface $provider */
-        $provider = app('social.' . $user->getProvider());
+        $providerName = $user->getProvider();
+        $provider = $this->providerFactory->build($providerName);
 
         $providerUser = $provider->getUserByProviderId($user->getProviderId());
 
@@ -48,7 +53,7 @@ class SyncUserDataIfNeeded //implements ShouldQueue
 
         $user->setLastSyncNow();
 
-        $this->usersRepository->save($user);
+        $this->usersRepository->store($user);
     }
 
     /**

@@ -3,8 +3,11 @@
 namespace App\Repositories;
 
 use App\Exceptions\NotFoundInRepositoryException;
-use App\ModelInterface;
+use App\Exceptions\RepositoryException;
+use App\Resources\ResourceInterface;
+use Exception;
 use Illuminate\Database\Connection;
+use Throwable;
 
 /**
  * Class DatabaseRepository
@@ -13,7 +16,9 @@ use Illuminate\Database\Connection;
 abstract class DatabaseRepository extends AbstractRepository
 {
 
-    /** @var Connection */
+    /**
+     * @var Connection
+     */
     protected $db;
 
     /**
@@ -22,17 +27,17 @@ abstract class DatabaseRepository extends AbstractRepository
     protected static $table = '';
 
     /**
-     *
+     * @param Connection $db
      */
-    public function __construct()
+    public function __construct(Connection $db)
     {
-        $this->db = app()->make('db')->connection();
+        $this->db = $db;
     }
 
     /**
      * @param  int $id
      *
-     * @return ModelInterface
+     * @return ResourceInterface
      * @throws NotFoundInRepositoryException
      */
     public function getById($id)
@@ -49,27 +54,33 @@ abstract class DatabaseRepository extends AbstractRepository
     }
 
     /**
-     * @param  ModelInterface $model
+     * @param  ResourceInterface $model
      *
-     * @return ModelInterface
+     * @return ResourceInterface
+     *
+     * @throws RepositoryException
      */
-    public function save(ModelInterface $model)
+    public function store(ResourceInterface $model)
     {
-        if (!$model->getId()) {
-            return $this->create($model);
+        $action = $model->getId() ? 'update' : 'create';
+        try {
+            return $this->$action($model);
+        } catch (Throwable $throwable) {
+            throw new RepositoryException($throwable->getMessage(), $throwable->getCode(), $throwable);
+        } catch (Exception $exception) {
+            throw new RepositoryException($exception->getMessage(), $exception->getCode(), $exception);
         }
-
-        return $this->update($model);
     }
 
     /**
-     * @param  ModelInterface $model
+     * @param  ResourceInterface $model
      *
-     * @return ModelInterface
+     * @return ResourceInterface
      *
      * @throws \Exception
+     * @throws \Throwable
      */
-    public function create(ModelInterface $model)
+    protected function create(ResourceInterface $model)
     {
         list($data, $keys) = $this->prepareModel($model);
 
@@ -92,11 +103,11 @@ abstract class DatabaseRepository extends AbstractRepository
     }
 
     /**
-     * @param  ModelInterface $model
+     * @param  ResourceInterface $model
      *
      * @return array
      */
-    private function prepareModel(ModelInterface $model)
+    private function prepareModel(ResourceInterface $model)
     {
         $model->touch();
         $data = $model->toArray();
@@ -123,23 +134,23 @@ abstract class DatabaseRepository extends AbstractRepository
     }
 
     /**
-     * @param  ModelInterface $model
+     * @param  ResourceInterface $model
      *
-     * @return ModelInterface
+     * @return ResourceInterface
      */
-    public function update(ModelInterface $model)
+    protected function update(ResourceInterface $model)
     {
         list($data) = $this->prepareModel($model);
 
         $statements = [];
-        foreach (array_keys($data) as $key) {
+        $keys = array_keys($data);
+        foreach ($keys as $key) {
             $statements[] = $key . ' = ?';
         }
 
         $this->db->update(
-            'UPDATE `' . static::$table . '` SET ' . implode(', ', $statements) . ' WHERE `id`=?'
-            ,
-            array_merge(array_values($data), [$data[ModelInterface::FIELD_ID]])
+            'UPDATE `' . static::$table . '` SET ' . implode(', ', $statements) . ' WHERE `id`=?',
+            array_merge(array_values($data), [$data[ResourceInterface::FIELD_ID]])
         );
 
         return $model;

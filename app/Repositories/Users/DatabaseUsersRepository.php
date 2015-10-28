@@ -4,13 +4,13 @@ namespace App\Repositories\Users;
 
 use App\Exceptions\NotFoundInRepositoryException;
 use App\Repositories\DatabaseRepository;
-use App\User;
+use App\Resources\User;
 
 /**
- * Class UsersDatabaseRepository
+ * Class DatabaseUsersRepository
  * @package App\Repositories\Users
  */
-class UsersDatabaseRepository extends DatabaseRepository implements UsersRepositoryInterface
+class DatabaseUsersRepository extends DatabaseRepository implements UsersRepositoryInterface
 {
 
     /**

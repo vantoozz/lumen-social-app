@@ -1,15 +1,15 @@
 <?php
 
-namespace App;
+namespace App\Resources;
 
 use DateTime;
 use Illuminate\Contracts\Auth\Authenticatable;
 
 /**
  * Class User
- * @package App
+ * @package App\Resources
  */
-class User extends AbstractModel implements Authenticatable
+class User extends AbstractResource implements Authenticatable
 {
     const FIELD_PROVIDER = 'provider';
     const FIELD_PROVIDER_ID = 'provider_id';

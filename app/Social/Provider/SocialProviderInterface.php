@@ -13,18 +13,13 @@ interface SocialProviderInterface
 
     /**
      * @param  array $input
-     * @return \App\User
+     * @return \App\Resources\User
      */
     public function getFrameUser(array $input);
 
     /**
      * @param  int $provider_id
-     * @return \App\User
+     * @return \App\Resources\User
      */
     public function getUserByProviderId($provider_id);
-
-    /**
-     * @return string
-     */
-    public function getProviderName();
 }

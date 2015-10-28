@@ -14,7 +14,7 @@
 $app->get(
     '/',
     function () {
-        /** @var App\User $user */
+        /** @var App\Resources\User $user */
         $user = app('auth')->user();
 
         return var_export($user, true);
@@ -27,7 +27,7 @@ $app->get(
     [
         'middleware' => [App\Http\Middleware\SocialAuthMiddleware::class],
         function () {
-            /** @var App\User $user */
+            /** @var App\Resources\User $user */
             $user = app('auth')->user();
 
             return $user->toArray();

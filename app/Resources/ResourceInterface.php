@@ -1,14 +1,15 @@
 <?php
 
-namespace App;
+
+namespace App\Resources;
 
 use Illuminate\Contracts\Support\Arrayable;
 
 /**
- * Interface ModelInterface
- * @package App
+ * Interface ResourceInterface
+ * @package App\Resources
  */
-interface ModelInterface extends Arrayable
+interface ResourceInterface extends Arrayable
 {
 
     const FORMAT_DATETIME = 'Y-m-d H:i:s';
@@ -25,18 +26,18 @@ interface ModelInterface extends Arrayable
 
     /**
      * @param $id
-     * @return ModelInterface
+     * @return ResourceInterface
      */
     public function setId($id);
 
     /**
-     * @return ModelInterface
+     * @return ResourceInterface
      */
     public function touch();
 
     /**
      * @param  array $data
-     * @return ModelInterface
+     * @return ResourceInterface
      */
     public function fill(array $data = []);
 }

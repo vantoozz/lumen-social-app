@@ -1,14 +1,15 @@
 <?php
 
-namespace App;
+
+namespace App\Resources;
 
 use DateTime;
 
 /**
- * Class AbstractModel
- * @package App
+ * Class AbstractResource
+ * @package App\Resources
  */
-class AbstractModel implements ModelInterface
+class AbstractResource implements ResourceInterface
 {
     /**
      * @var int
@@ -39,7 +40,7 @@ class AbstractModel implements ModelInterface
     /**
      * @param  array $data
      *
-     * @return ModelInterface
+     * @return ResourceInterface
      */
     public function fill(array $data = [])
     {
@@ -63,7 +64,7 @@ class AbstractModel implements ModelInterface
     /**
      * @param  int $id
      *
-     * @return ModelInterface
+     * @return ResourceInterface
      */
     public function setId($id)
     {
@@ -73,12 +74,12 @@ class AbstractModel implements ModelInterface
     }
 
     /**
-     * @return ModelInterface
+     * @return ResourceInterface
      */
     public function touch()
     {
         $now = new DateTime();
-        if (empty($this->created_at)) {
+        if (null === $this->created_at) {
             $this->created_at = $now;
         }
         $this->updated_at = $now;

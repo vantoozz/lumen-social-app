@@ -7,6 +7,19 @@ class CdnServiceProvider extends ServiceProvider
 {
 
     /**
+     * @var bool
+     */
+    protected $defer = true;
+
+    /**
+     * @return array
+     */
+    public function provides()
+    {
+        return [CDN::class];
+    }
+
+    /**
      * Register any application services.
      *
      * @return void

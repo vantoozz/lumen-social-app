@@ -2,12 +2,12 @@
 
 namespace App\Listeners;
 
-
 use App\CDN;
 use App\Repositories\Users\UsersRepositoryInterface;
-use App\User;
+use App\Resources\User;
+use Illuminate\Contracts\Queue\ShouldQueue;
 
-class UpdateUserCdnPhotoIfNeeded
+class UpdateUserCdnPhotoIfNeeded implements ShouldQueue
 {
 
     /**
@@ -36,7 +36,7 @@ class UpdateUserCdnPhotoIfNeeded
     {
         $photo = $user->getPhoto();
         if ('' === (string)$photo) {
-            $this->updateUserCdnPhotoField($user, null);
+            $this->updateUser($user, null);
 
             return;
         }
@@ -47,22 +47,21 @@ class UpdateUserCdnPhotoIfNeeded
             return;
         }
         $this->cdn->uploadFromUrl($photo);
-        $this->updateUserCdnPhotoField($user, $cdnPhoto);
+        $this->updateUser($user, $cdnPhoto);
     }
 
     /**
      * @param User $user
      * @param $photo
      */
-    private function updateUserCdnPhotoField(User $user, $photo)
+    private function updateUser(User $user, $photo)
     {
-        $stored_value = $user->getCdnPhoto();
-        if ($stored_value === $photo) {
+        if ($photo === $user->getCdnPhoto()) {
             return;
         }
 
         $user->setCdnPhoto($photo);
 
-        $this->usersRepository->save($user);
+        $this->usersRepository->store($user);
     }
 }

@@ -3,7 +3,7 @@
 namespace App\Listeners;
 
 use App\Exceptions\FactoryException;
-use App\Repositories\Users\UsersRepositoryInterface;
+use App\Repositories\Resources\Users\UsersRepositoryInterface;
 use App\Resources\User;
 use App\Social\Provider\SocialProviderFactory;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -49,7 +49,7 @@ class SyncUserDataIfNeeded implements ShouldQueue
         $providerUser = $provider->getUserByProviderId($user->getProviderId());
 
         $updatedInfo = $this->getFilteredUserInfo($providerUser);
-        $user->fill($updatedInfo);
+        $user->populate($updatedInfo);
 
         $user->setLastSyncNow();
 

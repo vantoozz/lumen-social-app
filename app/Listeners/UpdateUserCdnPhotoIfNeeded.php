@@ -2,11 +2,15 @@
 
 namespace App\Listeners;
 
-use App\CDN;
-use App\Repositories\Users\UsersRepositoryInterface;
+use App\Cdn\FilesystemCdn;
+use App\Repositories\Resources\Users\UsersRepositoryInterface;
 use App\Resources\User;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
+/**
+ * Class UpdateUserCdnPhotoIfNeeded
+ * @package App\Listeners
+ */
 class UpdateUserCdnPhotoIfNeeded implements ShouldQueue
 {
 
@@ -15,15 +19,15 @@ class UpdateUserCdnPhotoIfNeeded implements ShouldQueue
      */
     private $usersRepository;
     /**
-     * @var CDN
+     * @var FilesystemCdn
      */
     private $cdn;
 
     /**
      * @param UsersRepositoryInterface $usersRepository
-     * @param CDN $cdn
+     * @param FilesystemCdn $cdn
      */
-    public function __construct(UsersRepositoryInterface $usersRepository, CDN $cdn)
+    public function __construct(UsersRepositoryInterface $usersRepository, FilesystemCdn $cdn)
     {
         $this->usersRepository = $usersRepository;
         $this->cdn = $cdn;

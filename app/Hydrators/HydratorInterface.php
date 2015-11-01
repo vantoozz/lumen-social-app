@@ -10,10 +10,13 @@ use App\Resources\ResourceInterface;
  */
 interface HydratorInterface
 {
+    const FORMAT_DATE = 'Y-m-d';
+
     /**
+     * @param ResourceInterface $resource
      * @return array
      */
-    public function extract();
+    public function extract(ResourceInterface $resource);
 
     /**
      * @param array $data

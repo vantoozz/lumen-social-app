@@ -11,6 +11,8 @@ interface SocialProviderInterface
 
     const PROVIDER_VK = 'vk';
 
+    const FIELD_PROVIDER_ID = 'provider_id';
+
     /**
      * @param  array $input
      * @return \App\Resources\User

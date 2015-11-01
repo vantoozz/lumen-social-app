@@ -30,7 +30,9 @@ $app->get(
             /** @var App\Resources\User $user */
             $user = app('auth')->user();
 
-            return $user->toArray();
+
+            dump($user);
+//            return var_export($user, true);
         }
     ]
 );

@@ -1,8 +1,12 @@
 <?php namespace App\Providers;
 
-use App\CDN;
+use App\Cdn\FilesystemCdn;
 use Illuminate\Support\ServiceProvider;
 
+/**
+ * Class CdnServiceProvider
+ * @package App\Providers
+ */
 class CdnServiceProvider extends ServiceProvider
 {
 
@@ -16,7 +20,7 @@ class CdnServiceProvider extends ServiceProvider
      */
     public function provides()
     {
-        return [CDN::class];
+        return [FilesystemCdn::class];
     }
 
     /**
@@ -27,12 +31,12 @@ class CdnServiceProvider extends ServiceProvider
     public function register()
     {
         $this->app->singleton(
-            CDN::class,
+            FilesystemCdn::class,
             function () {
                 /** @var \Illuminate\Filesystem\FilesystemManager $storage */
                 $storage = $this->app->make('filesystem');
 
-                return new CDN($storage);
+                return new FilesystemCdn($storage);
             }
         );
     }

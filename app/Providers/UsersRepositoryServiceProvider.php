@@ -1,7 +1,8 @@
 <?php namespace App\Providers;
 
-use App\Repositories\Users\DatabaseUsersRepository;
-use App\Repositories\Users\UsersRepositoryInterface;
+use App\Hydrators\User\DatabaseUserHydrator;
+use App\Repositories\Resources\Users\DatabaseUsersRepository;
+use App\Repositories\Resources\Users\UsersRepositoryInterface;
 use Illuminate\Database\Connection;
 use Illuminate\Support\ServiceProvider;
 
@@ -31,9 +32,10 @@ class UsersRepositoryServiceProvider extends ServiceProvider
             UsersRepositoryInterface::class,
             function () {
                 /** @var Connection $db */
-                $db = app(DbConnectionServiceProvider::SERVICE_NAME);
+                $db = $this->app->make(DbConnectionServiceProvider::SERVICE_NAME);
+                $hydrator = new DatabaseUserHydrator;
 
-                return new DatabaseUsersRepository($db);
+                return new DatabaseUsersRepository($db, $hydrator);
             }
         );
     }

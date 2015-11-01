@@ -3,7 +3,7 @@
 namespace App\Providers;
 
 use App\Auth\DbUserProvider;
-use App\Repositories\Users\UsersRepositoryInterface;
+use App\Repositories\Resources\Users\UsersRepositoryInterface;
 use Illuminate\Auth\AuthManager;
 use Illuminate\Support\ServiceProvider;
 

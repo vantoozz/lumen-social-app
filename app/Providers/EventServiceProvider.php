@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Listeners\LogUserLoginActivity;
 use App\Listeners\SyncUserDataIfNeeded;
 use App\Listeners\UpdateUserCdnPhotoIfNeeded;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
@@ -15,7 +16,8 @@ class EventServiceProvider extends ServiceProvider
      */
     protected $listen = [
         'auth.login' => [
-            SyncUserDataIfNeeded::class,
+            LogUserLoginActivity::class,
+//            SyncUserDataIfNeeded::class,
             UpdateUserCdnPhotoIfNeeded::class,
         ],
     ];

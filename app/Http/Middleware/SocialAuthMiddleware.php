@@ -5,7 +5,7 @@ namespace App\Http\Middleware;
 use App\Exceptions\FactoryException;
 use App\Exceptions\NotFoundInRepositoryException;
 use App\Exceptions\RoutingException;
-use App\Repositories\Users\UsersRepositoryInterface;
+use App\Repositories\Resources\Users\UsersRepositoryInterface;
 use App\Social\Provider\SocialProviderFactory;
 use Closure;
 use Illuminate\Contracts\Auth\Guard;
@@ -67,9 +67,6 @@ class SocialAuthMiddleware
         } catch (NotFoundInRepositoryException $exception) {
             $user = $this->usersRepository->store($user);
         }
-
-        $user->setLastLoginNow();
-        $this->usersRepository->store($user);
 
         $this->auth->login($user);
 

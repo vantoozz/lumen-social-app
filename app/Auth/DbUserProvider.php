@@ -3,7 +3,7 @@
 namespace App\Auth;
 
 use App\Exceptions\AppException;
-use App\Repositories\Users\UsersRepositoryInterface;
+use App\Repositories\Resources\Users\UsersRepositoryInterface;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Contracts\Auth\UserProvider;
 

@@ -2,6 +2,7 @@
 
 namespace App\Resources;
 
+use Carbon\Carbon;
 use DateTime;
 use Illuminate\Contracts\Auth\Authenticatable;
 
@@ -56,17 +57,9 @@ class User extends AbstractResource implements Authenticatable
      */
     protected $cdn_photo;
     /**
-     * @var DateTime
+     * @var Carbon
      */
     protected $birth_date;
-    /**
-     * @var DateTime
-     */
-    protected $last_login_at;
-    /**
-     * @var DateTime
-     */
-    protected $last_sync_at;
 
     /**
      * @return int
@@ -82,6 +75,30 @@ class User extends AbstractResource implements Authenticatable
     public function getProvider()
     {
         return $this->provider;
+    }
+
+    /**
+     * @param string $photo
+     */
+    public function setPhoto($photo)
+    {
+        $this->photo = $photo;
+    }
+
+    /**
+     * @param string $provider
+     */
+    public function setProvider($provider)
+    {
+        $this->provider = $provider;
+    }
+
+    /**
+     * @param int $provider_id
+     */
+    public function setProviderId($provider_id)
+    {
+        $this->provider_id = $provider_id;
     }
 
     /**
@@ -113,23 +130,67 @@ class User extends AbstractResource implements Authenticatable
     }
 
     /**
-     * @return $this
+     * @return Carbon
      */
-    public function setLastLoginNow()
+    public function getBirthDate()
     {
-        $this->last_login_at = new DateTime();
-
-        return $this;
+        return $this->birth_date;
     }
 
     /**
-     * @return $this
+     * @param Carbon $birth_date
      */
-    public function setLastSyncNow()
+    public function setBirthDate(Carbon $birth_date)
     {
-        $this->last_sync_at = new DateTime();
+        $this->birth_date = $birth_date;
+    }
 
-        return $this;
+    /**
+     * @return string
+     */
+    public function getFirstName()
+    {
+        return $this->first_name;
+    }
+
+    /**
+     * @param string $first_name
+     */
+    public function setFirstName($first_name)
+    {
+        $this->first_name = $first_name;
+    }
+
+    /**
+     * @return string
+     */
+    public function getLastName()
+    {
+        return $this->last_name;
+    }
+
+    /**
+     * @param string $last_name
+     */
+    public function setLastName($last_name)
+    {
+        $this->last_name = $last_name;
+    }
+
+    /**
+     * @return string
+     */
+    public function getSex()
+    {
+        return $this->sex;
+    }
+
+    /**
+     * @param string $sex
+     */
+    public function setSex($sex)
+    {
+        $this->sex = $sex;
     }
 
     /**
@@ -160,27 +221,6 @@ class User extends AbstractResource implements Authenticatable
         }
 
         return $last_sync_at->diff(new DateTime())->days >= self::SYNC_FREQUENCY;
-    }
-
-    /**
-     * Get the instance as an array.
-     *
-     * @return array
-     */
-    public function toArray()
-    {
-        return array_merge(parent::toArray(), [
-            self::FIELD_PROVIDER => $this->provider,
-            self::FIELD_PROVIDER_ID => $this->provider_id,
-            self::FIELD_FIRST_NAME => $this->first_name,
-            self::FIELD_LAST_NAME => $this->last_name,
-            self::FIELD_SEX => $this->sex,
-            self::FIELD_PHOTO => $this->photo,
-            self::FIELD_CDN_PHOTO => $this->cdn_photo,
-            self::FIELD_BIRTH_DATE => $this->formatDate($this->birth_date),
-            self::FIELD_LAST_LOGIN_AT => $this->formatDateTime($this->last_login_at),
-            self::FIELD_LAST_SYNC_AT => $this->formatDateTime($this->last_sync_at),
-        ]);
     }
 
     /**

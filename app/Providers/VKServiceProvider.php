@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Hydrators\User\VkUserHydrator;
 use App\Social\Provider\VK;
 use Illuminate\Support\ServiceProvider;
 
@@ -37,7 +38,11 @@ class VKServiceProvider extends ServiceProvider
         $this->app->singleton(
             self::SERVICE_NAME,
             function () {
-                return new VK(new \Novanova\VK\VK(getenv('VK_APP_ID'), getenv('VK_SECRET')));
+                $hydrator = new VkUserHydrator;
+                return new VK(
+                    new \Novanova\VK\VK(getenv('VK_APP_ID'), getenv('VK_SECRET')),
+                    $hydrator
+                );
             }
         );
     }

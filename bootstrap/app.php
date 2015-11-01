@@ -89,6 +89,7 @@ $app->register(App\Providers\VKServiceProvider::class);
 $app->register(App\Providers\UsersRepositoryServiceProvider::class);
 $app->register(App\Providers\EventServiceProvider::class);
 $app->register(App\Providers\CdnServiceProvider::class);
+$app->register(App\Providers\UserActivityRepositoryServiceProvider::class);
 
 /*
 |--------------------------------------------------------------------------

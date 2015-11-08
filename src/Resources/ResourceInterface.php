@@ -3,10 +3,10 @@
 
 namespace App\Resources;
 
-/**
- * Interface ResourceInterface
- * @package App\Resources
- */
+    /**
+     * Interface ResourceInterface
+     * @package App\Resources
+     */
 /**
  * Interface ResourceInterface
  * @package App\Resources

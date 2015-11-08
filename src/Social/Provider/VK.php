@@ -107,5 +107,4 @@ class VK implements SocialProviderInterface
 
         return $user;
     }
-
 }

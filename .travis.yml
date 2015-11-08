@@ -11,3 +11,4 @@ install:
 script:
   - phpunit --coverage-text
   - vendor/bin/phpdoccheck -d src
+  - vendor/bin/phpcs --standard=psr2 src

@@ -89,8 +89,8 @@ class VkUserHydrator extends AbstractHydrator
 
         try {
             $birthday = (new Carbon())->createFromFormat('d.m.Y', $date);
-        } catch (\InvalidArgumentException $exception) {
-            throw new HydratorException($exception->getMessage(), $exception->getCode(), $exception);
+        } catch (\InvalidArgumentException $e) {
+            throw new HydratorException($e->getMessage(), $e->getCode(), $e);
         }
 
         return $birthday;

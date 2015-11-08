@@ -1,5 +1,7 @@
 ## Lumen Social App
 
+[![Build Status](https://travis-ci.org/vantoozz/lumen-social-app.svg?branch=master)](https://travis-ci.org/vantoozz/lumen-social-app)
+
 Social app on Lumen framework
 
 ### nginx config

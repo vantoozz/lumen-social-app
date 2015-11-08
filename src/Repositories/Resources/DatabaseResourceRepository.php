@@ -26,7 +26,7 @@ abstract class DatabaseResourceRepository extends AbstractResourceRepository
     /**
      * @var Connection
      */
-    protected $db;
+    protected $connection;
 
     /**
      * @var HydratorInterface
@@ -39,12 +39,12 @@ abstract class DatabaseResourceRepository extends AbstractResourceRepository
     protected static $table = '';
 
     /**
-     * @param Connection $db
+     * @param Connection $connection
      * @param HydratorInterface $hydrator
      */
-    public function __construct(Connection $db, HydratorInterface $hydrator)
+    public function __construct(Connection $connection, HydratorInterface $hydrator)
     {
-        $this->db = $db;
+        $this->connection = $connection;
         $this->hydrator = $hydrator;
     }
 
@@ -56,7 +56,7 @@ abstract class DatabaseResourceRepository extends AbstractResourceRepository
      */
     public function getById($id)
     {
-        $results = $this->db->select(
+        $results = $this->connection->select(
             'SELECT * FROM `' . static::$table . '` WHERE `id` = :id LIMIT 1',
             ['id' => $id]
         );
@@ -81,8 +81,8 @@ abstract class DatabaseResourceRepository extends AbstractResourceRepository
             return $this->$action($resource);
         } catch (Throwable $throwable) {
             throw new RepositoryException($throwable->getMessage(), $throwable->getCode(), $throwable);
-        } catch (Exception $exception) {
-            throw new RepositoryException($exception->getMessage(), $exception->getCode(), $exception);
+        } catch (Exception $e) {
+            throw new RepositoryException($e->getMessage(), $e->getCode(), $e);
         }
     }
 
@@ -98,15 +98,15 @@ abstract class DatabaseResourceRepository extends AbstractResourceRepository
     {
         list($data, $keys) = $this->prepareResource($resource);
 
-        $id = $this->db->transaction(
+        $id = $this->connection->transaction(
             function () use ($data, $keys) {
-                $this->db->insert(
+                $this->connection->insert(
                     'INSERT INTO `' . static::$table . '` (' . implode(', ', array_keys($data)) . ')
                     VALUES (' . implode(', ', $keys) . ')',
                     $data
                 );
 
-                return $this->db->getPdo()->lastInsertId();
+                return $this->connection->getPdo()->lastInsertId();
             }
         );
 
@@ -166,7 +166,7 @@ abstract class DatabaseResourceRepository extends AbstractResourceRepository
             $statements[] = $key . ' = ?';
         }
 
-        $this->db->update(
+        $this->connection->update(
             'UPDATE `' . static::$table . '` SET ' . implode(', ', $statements) . ' WHERE `id`=?',
             array_merge(array_values($data), [$data[ResourceInterface::FIELD_ID]])
         );

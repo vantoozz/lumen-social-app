@@ -17,10 +17,10 @@ abstract class AbstractCdn implements CdnInterface
         $extension = pathinfo($filename)['extension'];
         $path = sha1($filename);
 
-        $path_part_3 = substr($path, 0, 2);
-        $path_part_2 = substr($path, 2, 2);
-        $path_part_1 = substr($path, 4);
-        $path = $path_part_3 . '/' . $path_part_2 . '/' . $path_part_1 . '.' . $extension;
+        $part1 = substr($path, 0, 2);
+        $part2 = substr($path, 2, 2);
+        $part3 = substr($path, 4);
+        $path = $part1 . '/' . $part2 . '/' . $part3 . '.' . $extension;
 
         return $path;
     }

@@ -20,21 +20,21 @@ class DatabaseUsersRepository extends DatabaseResourceRepository implements User
 
     /**
      * @param  int $provider
-     * @param  int $provider_id
+     * @param  int $providerId
      *
      * @return User
      * @throws NotFoundInRepositoryException
      */
-    public function getByProviderId($provider, $provider_id)
+    public function getByProviderId($provider, $providerId)
     {
 
-        $results = $this->db->select(
+        $results = $this->connection->select(
             'SELECT *
             FROM `' . self::$table . '`
             WHERE `provider` = :provider AND `provider_id` = :provider_id
             LIMIT 1
             ;',
-            ['provider' => $provider, 'provider_id' => $provider_id]
+            ['provider' => $provider, 'provider_id' => $providerId]
         );
         if (0 === count($results)) {
             throw new NotFoundInRepositoryException('User not found');

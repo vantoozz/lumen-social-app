@@ -38,7 +38,7 @@ class DbUserProvider implements UserProvider
     {
         try {
             return $this->usersRepository->getById($identifier);
-        } catch (NotFoundInRepositoryException $exception) {
+        } catch (NotFoundInRepositoryException $e) {
             return null;
         }
     }
@@ -48,6 +48,7 @@ class DbUserProvider implements UserProvider
      * @param string $token
      * @throws AppException
      * @return Authenticatable|null
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function retrieveByToken($identifier, $token)
     {
@@ -58,6 +59,7 @@ class DbUserProvider implements UserProvider
      * @param Authenticatable $user
      * @param string $token
      * @throws AppException
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function updateRememberToken(Authenticatable $user, $token)
     {
@@ -68,6 +70,7 @@ class DbUserProvider implements UserProvider
      * @param array $credentials
      * @throws AppException
      * @return Authenticatable|null
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function retrieveByCredentials(array $credentials)
     {
@@ -80,6 +83,7 @@ class DbUserProvider implements UserProvider
      * @param array $credentials
      * @throws AppException
      * @return bool
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function validateCredentials(Authenticatable $user, array $credentials)
     {

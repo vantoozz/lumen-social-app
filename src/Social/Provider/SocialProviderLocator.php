@@ -35,8 +35,8 @@ class SocialProviderLocator
     {
         try {
             $provider = $this->container->make('social.' . $providerName);
-        } catch (BindingResolutionException $exception) {
-            throw new FactoryException('No such social provider: ' . $providerName, $exception->getCode(), $exception);
+        } catch (BindingResolutionException $e) {
+            throw new FactoryException('No such social provider: ' . $providerName, $e->getCode(), $e);
         }
         if (!$provider instanceof SocialProviderInterface) {
             throw new FactoryException('Not a social provider: ' . $providerName);

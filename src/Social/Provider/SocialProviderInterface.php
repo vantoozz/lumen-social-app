@@ -20,8 +20,8 @@ interface SocialProviderInterface
     public function getFrameUser(array $input);
 
     /**
-     * @param  int $provider_id
+     * @param  int $providerId
      * @return \App\Resources\User
      */
-    public function getUserByProviderId($provider_id);
+    public function getUserByProviderId($providerId);
 }

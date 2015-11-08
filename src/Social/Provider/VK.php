@@ -16,20 +16,20 @@ class VK implements SocialProviderInterface
     const FIELD_AUTH_KEY = 'auth_key';
     const FIELD_API_RESULT = 'api_result';
 
-    /** @var \Novanova\VK\VK $vk */
-    private $vk;
+    /** @var \Novanova\VK\VK $driver */
+    private $driver;
     /**
      * @var HydratorInterface
      */
     private $hydrator;
 
     /**
-     * @param \Novanova\VK\VK $vk
+     * @param \Novanova\VK\VK $driver
      * @param HydratorInterface $hydrator
      */
-    public function __construct(\Novanova\VK\VK $vk, HydratorInterface $hydrator)
+    public function __construct(\Novanova\VK\VK $driver, HydratorInterface $hydrator)
     {
-        $this->vk = $vk;
+        $this->driver = $driver;
         $this->hydrator = $hydrator;
     }
 
@@ -48,10 +48,10 @@ class VK implements SocialProviderInterface
             throw new SocialException('No auth_key field');
         }
 
-        $viewer_id = $input[self::FIELD_VIEWER_ID];
-        $auth_key = $input[self::FIELD_AUTH_KEY];
+        $viewerId = $input[self::FIELD_VIEWER_ID];
+        $authKey = $input[self::FIELD_AUTH_KEY];
 
-        if ($this->vk->calculateAuthKey($viewer_id) !== $auth_key) {
+        if ($this->driver->calculateAuthKey($viewerId) !== $authKey) {
             throw new SocialException('Bad auth key');
         }
 
@@ -60,20 +60,20 @@ class VK implements SocialProviderInterface
             $userData = $this->getFrameApiCallResult($input[self::FIELD_API_RESULT]);
         }
 
-        $userData[self::FIELD_PROVIDER_ID] = $viewer_id;
+        $userData[self::FIELD_PROVIDER_ID] = $viewerId;
         $user = $this->hydrator->hydrate($userData);
 
         return $user;
     }
 
     /**
-     * @param $api_call_result
+     * @param $apiCallResult
      * @return array
      */
-    private function getFrameApiCallResult($api_call_result)
+    private function getFrameApiCallResult($apiCallResult)
     {
         $data = [];
-        $json = json_decode($api_call_result, true);
+        $json = json_decode($apiCallResult, true);
         if (!$json) {
             return $data;
         }
@@ -85,16 +85,16 @@ class VK implements SocialProviderInterface
     }
 
     /**
-     * @param  int $provider_id
+     * @param  int $providerId
      * @return \App\Resources\User
      */
-    public function getUserByProviderId($provider_id)
+    public function getUserByProviderId($providerId)
     {
         $userData = [];
-        $data = $this->vk->no_auth_api(
+        $data = $this->driver->no_auth_api(
             'users.get',
             [
-                'user_id' => $provider_id,
+                'user_id' => $providerId,
                 'fields' => 'uid,first_name,last_name,sex,photo_max,bdate'
             ]
         );
@@ -102,7 +102,7 @@ class VK implements SocialProviderInterface
             $userData = (array)$data[0];
         }
 
-        $userData[self::FIELD_PROVIDER_ID] = $provider_id;
+        $userData[self::FIELD_PROVIDER_ID] = $providerId;
         $user = $this->hydrator->hydrate($userData);
 
         return $user;

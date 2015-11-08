@@ -11,6 +11,7 @@ class AbstractResource implements ResourceInterface
 {
     /**
      * @var int
+     * @SuppressWarnings(PHPMD.ShortVariable)
      */
     protected $id;
 
@@ -24,6 +25,7 @@ class AbstractResource implements ResourceInterface
 
     /**
      * @param  int $id
+     * @SuppressWarnings(PHPMD.ShortVariable)
      */
     public function setId($id)
     {

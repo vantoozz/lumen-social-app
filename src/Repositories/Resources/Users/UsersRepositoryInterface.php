@@ -15,9 +15,9 @@ interface UsersRepositoryInterface extends ResourceRepositoryInterface
 
     /**
      * @param  int $provider
-     * @param  int $provider_id
+     * @param  int $providerId
      * @throws NotFoundInRepositoryException
      * @return User
      */
-    public function getByProviderId($provider, $provider_id);
+    public function getByProviderId($provider, $providerId);
 }

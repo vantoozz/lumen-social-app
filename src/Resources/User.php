@@ -35,15 +35,15 @@ class User extends AbstractResource implements Authenticatable
     /**
      * @var int
      */
-    protected $provider_id;
+    protected $providerId;
     /**
      * @var string
      */
-    protected $first_name;
+    protected $firstName;
     /**
      * @var string
      */
-    protected $last_name;
+    protected $lastName;
     /**
      * @var string
      */
@@ -55,18 +55,18 @@ class User extends AbstractResource implements Authenticatable
     /**
      * @var string
      */
-    protected $cdn_photo;
+    protected $cdnPhoto;
     /**
      * @var Carbon
      */
-    protected $birth_date;
+    protected $birthDate;
 
     /**
      * @return int
      */
     public function getProviderId()
     {
-        return $this->provider_id;
+        return $this->providerId;
     }
 
     /**
@@ -94,11 +94,11 @@ class User extends AbstractResource implements Authenticatable
     }
 
     /**
-     * @param int $provider_id
+     * @param int $providerId
      */
-    public function setProviderId($provider_id)
+    public function setProviderId($providerId)
     {
-        $this->provider_id = $provider_id;
+        $this->providerId = $providerId;
     }
 
     /**
@@ -106,17 +106,17 @@ class User extends AbstractResource implements Authenticatable
      */
     public function getCdnPhoto()
     {
-        return $this->cdn_photo;
+        return $this->cdnPhoto;
     }
 
     /**
-     * @param  string $cdn_photo
+     * @param  string $cdnPhoto
      *
      * @return User
      */
-    public function setCdnPhoto($cdn_photo)
+    public function setCdnPhoto($cdnPhoto)
     {
-        $this->cdn_photo = (string)$cdn_photo;
+        $this->cdnPhoto = (string)$cdnPhoto;
 
         return $this;
     }
@@ -134,15 +134,15 @@ class User extends AbstractResource implements Authenticatable
      */
     public function getBirthDate()
     {
-        return $this->birth_date;
+        return $this->birthDate;
     }
 
     /**
-     * @param Carbon $birth_date
+     * @param Carbon $birthDate
      */
-    public function setBirthDate(Carbon $birth_date)
+    public function setBirthDate(Carbon $birthDate)
     {
-        $this->birth_date = $birth_date;
+        $this->birthDate = $birthDate;
     }
 
     /**
@@ -150,15 +150,15 @@ class User extends AbstractResource implements Authenticatable
      */
     public function getFirstName()
     {
-        return $this->first_name;
+        return $this->firstName;
     }
 
     /**
-     * @param string $first_name
+     * @param string $firstName
      */
-    public function setFirstName($first_name)
+    public function setFirstName($firstName)
     {
-        $this->first_name = $first_name;
+        $this->firstName = $firstName;
     }
 
     /**
@@ -166,15 +166,15 @@ class User extends AbstractResource implements Authenticatable
      */
     public function getLastName()
     {
-        return $this->last_name;
+        return $this->lastName;
     }
 
     /**
-     * @param string $last_name
+     * @param string $lastName
      */
-    public function setLastName($last_name)
+    public function setLastName($lastName)
     {
-        $this->last_name = $last_name;
+        $this->lastName = $lastName;
     }
 
     /**
@@ -198,7 +198,7 @@ class User extends AbstractResource implements Authenticatable
      */
     public function isSyncNeeded()
     {
-        if ('' === (string)$this->first_name) {
+        if ('' === (string)$this->firstName) {
             return true;
         }
 
@@ -210,17 +210,18 @@ class User extends AbstractResource implements Authenticatable
      */
     public function isOutdated()
     {
-        $last_sync_at = $this->last_sync_at ?: $this->created_at;
-
-        if (!$last_sync_at instanceof DateTime) {
-            $last_sync_at = DateTime::createFromFormat(self::FORMAT_DATETIME, $last_sync_at);
-        }
-
-        if (!$last_sync_at) {
-            return true;
-        }
-
-        return $last_sync_at->diff(new DateTime())->days >= self::SYNC_FREQUENCY;
+//        $last_sync_at = $this->last_sync_at ?: $this->created_at;
+//
+//        if (!$last_sync_at instanceof DateTime) {
+//            $last_sync_at = DateTime::createFromFormat(self::FORMAT_DATETIME, $last_sync_at);
+//        }
+//
+//        if (!$last_sync_at) {
+//            return true;
+//        }
+//
+//        return $last_sync_at->diff(new DateTime())->days >= self::SYNC_FREQUENCY;
+        return false;
     }
 
     /**
@@ -262,6 +263,8 @@ class User extends AbstractResource implements Authenticatable
      *
      * @return void
      * @throws \LogicException
+     *
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function setRememberToken($value)
     {

@@ -66,7 +66,7 @@ class SocialAuthMiddleware
 
         try {
             $user = $this->usersRepository->getByProviderId($user->getProvider(), $user->getProviderId());
-        } catch (NotFoundInRepositoryException $exception) {
+        } catch (NotFoundInRepositoryException $e) {
             $user = $this->usersRepository->store($user);
         }
 

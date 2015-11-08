@@ -21,14 +21,14 @@ class DatabaseUserActivityRepository implements UserActivityRepositoryInterface
     /**
      * @var Connection
      */
-    protected $db;
+    protected $connection;
 
     /**
-     * @param Connection $db
+     * @param Connection $connection
      */
-    public function __construct(Connection $db)
+    public function __construct(Connection $connection)
     {
-        $this->db = $db;
+        $this->connection = $connection;
     }
 
     /**
@@ -38,7 +38,7 @@ class DatabaseUserActivityRepository implements UserActivityRepositoryInterface
     {
         $field = $this->makeFieldName($activity->getType());
 
-        $this->db->update(
+        $this->connection->update(
             'UPDATE `users` SET `' . $field . '` = ? WHERE `id`=?',
             [$activity->getDatetime()->format(DatabaseResourceRepository::FORMAT_DATETIME), $activity->getUserId()]
         );

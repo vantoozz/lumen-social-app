@@ -46,6 +46,4 @@ class ActivityType
     {
         return $this->type;
     }
-
-
 }

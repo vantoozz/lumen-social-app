@@ -2,16 +2,29 @@
 
 namespace App\Social\Provider;
 
-
 use App\Exceptions\FactoryException;
 use Illuminate\Contracts\Container\BindingResolutionException;
+use Illuminate\Contracts\Container\Container;
 
 /**
- * Class SocialProviderFactory
+ * Class SocialProviderLocator
  * @package App\Social\Provider
  */
-class SocialProviderFactory
+class SocialProviderLocator
 {
+    /**
+     * @var Container
+     */
+    private $container;
+
+    /**
+     * SocialProviderLocator constructor.
+     * @param Container $container
+     */
+    public function __construct(Container $container)
+    {
+        $this->container = $container;
+    }
 
     /**
      * @param $providerName
@@ -21,7 +34,7 @@ class SocialProviderFactory
     public function build($providerName)
     {
         try {
-            $provider = app('social.' . $providerName);
+            $provider = $this->container->make('social.' . $providerName);
         } catch (BindingResolutionException $exception) {
             throw new FactoryException('No such social provider: ' . $providerName, $exception->getCode(), $exception);
         }

@@ -3,6 +3,7 @@
 namespace App\Auth;
 
 use App\Exceptions\AppException;
+use App\Exceptions\NotFoundInRepositoryException;
 use App\Repositories\Resources\Users\UsersRepositoryInterface;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Contracts\Auth\UserProvider;
@@ -35,7 +36,11 @@ class DbUserProvider implements UserProvider
      */
     public function retrieveById($identifier)
     {
-        return $this->usersRepository->getById($identifier);
+        try {
+            return $this->usersRepository->getById($identifier);
+        } catch (NotFoundInRepositoryException $exception) {
+            return null;
+        }
     }
 
     /**

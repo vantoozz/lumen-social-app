@@ -17,6 +17,9 @@ use Carbon\Carbon;
 class VkUserHydrator extends AbstractHydrator
 {
 
+    const VK_SEX_MALE = 2;
+    const VK_SEX_FEMALE = 1;
+
     const FIELD_UID = 'uid';
     const FIELD_FIRST_NAME = 'first_name';
     const FIELD_LAST_NAME = 'last_name';
@@ -104,11 +107,11 @@ class VkUserHydrator extends AbstractHydrator
             return null;
         }
 
-        if (1 === (int)$data[self::FIELD_SEX]) {
+        if (self::VK_SEX_FEMALE === (int)$data[self::FIELD_SEX]) {
             return User::SEX_FEMALE;
         }
 
-        if (2 === (int)$data[self::FIELD_SEX]) {
+        if (self::VK_SEX_MALE === (int)$data[self::FIELD_SEX]) {
             return User::SEX_MALE;
         }
 

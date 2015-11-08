@@ -4,9 +4,10 @@ namespace App\Http\Middleware;
 
 use App\Exceptions\FactoryException;
 use App\Exceptions\NotFoundInRepositoryException;
+use App\Exceptions\RepositoryException;
 use App\Exceptions\RoutingException;
 use App\Repositories\Resources\Users\UsersRepositoryInterface;
-use App\Social\Provider\SocialProviderFactory;
+use App\Social\Provider\SocialProviderLocator;
 use Closure;
 use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Http\Request;
@@ -26,7 +27,7 @@ class SocialAuthMiddleware
      */
     private $auth;
     /**
-     * @var SocialProviderFactory
+     * @var SocialProviderLocator
      */
     private $providerFactory;
 
@@ -34,11 +35,11 @@ class SocialAuthMiddleware
      * SocialAuthMiddleware constructor.
      * @param UsersRepositoryInterface $usersRepository
      * @param Guard $auth
-     * @param SocialProviderFactory $providerFactory
+     * @param SocialProviderLocator $providerFactory
      */
     public function __construct(
         UsersRepositoryInterface $usersRepository,
-        SocialProviderFactory $providerFactory,
+        SocialProviderLocator $providerFactory,
         Guard $auth
     ) {
         $this->usersRepository = $usersRepository;
@@ -53,6 +54,7 @@ class SocialAuthMiddleware
      * @return mixed
      * @throws RoutingException
      * @throws FactoryException
+     * @throws RepositoryException
      */
     public function handle(Request $request, Closure $next)
     {

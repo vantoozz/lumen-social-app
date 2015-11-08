@@ -5,7 +5,7 @@ namespace App\Listeners;
 use App\Exceptions\FactoryException;
 use App\Repositories\Resources\Users\UsersRepositoryInterface;
 use App\Resources\User;
-use App\Social\Provider\SocialProviderFactory;
+use App\Social\Provider\SocialProviderLocator;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
 /**
@@ -19,15 +19,15 @@ class SyncUserDataIfNeeded implements ShouldQueue
      */
     private $usersRepository;
     /**
-     * @var SocialProviderFactory
+     * @var SocialProviderLocator
      */
     private $providerFactory;
 
     /**
      * @param UsersRepositoryInterface $usersRepository
-     * @param SocialProviderFactory $providerFactory
+     * @param SocialProviderLocator $providerFactory
      */
-    public function __construct(UsersRepositoryInterface $usersRepository, SocialProviderFactory $providerFactory)
+    public function __construct(UsersRepositoryInterface $usersRepository, SocialProviderLocator $providerFactory)
     {
         $this->usersRepository = $usersRepository;
         $this->providerFactory = $providerFactory;

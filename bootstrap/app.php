@@ -102,6 +102,6 @@ $app->register(App\Providers\UserActivityRepositoryServiceProvider::class);
 |
 */
 
-require __DIR__ . '/../app/Http/routes.php';
+require __DIR__ . '/../src/Http/routes.php';
 
 return $app;

@@ -2,7 +2,6 @@
 
 namespace App\Hydrators\User;
 
-
 use App\Hydrators\AbstractHydrator;
 use App\Resources\ResourceInterface;
 use App\Resources\User;

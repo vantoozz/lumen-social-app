@@ -2,7 +2,6 @@
 
 namespace App\Exceptions;
 
-
 /**
  * Class HydratorException
  * @package App\Exceptions

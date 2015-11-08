@@ -29,10 +29,7 @@ $app->get(
         function () {
             /** @var App\Resources\User $user */
             $user = app('auth')->user();
-
-
             dump($user);
-//            return var_export($user, true);
         }
     ]
 );

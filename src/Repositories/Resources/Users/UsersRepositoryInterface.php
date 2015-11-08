@@ -2,11 +2,9 @@
 
 namespace App\Repositories\Resources\Users;
 
-
 use App\Exceptions\NotFoundInRepositoryException;
 use App\Repositories\Resources\ResourceRepositoryInterface;
 use App\Resources\User;
-
 
 /**
  * Interface UsersRepositoryInterface

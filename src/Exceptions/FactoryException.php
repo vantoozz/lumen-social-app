@@ -2,7 +2,6 @@
 
 namespace App\Exceptions;
 
-
 /**
  * Class FactoryException
  * @package App\Exceptions

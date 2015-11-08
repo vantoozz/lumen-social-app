@@ -48,5 +48,4 @@ class Handler extends ExceptionHandler
             $whoops->handleException($e)
         );
     }
-
 }

@@ -7,7 +7,6 @@ use App\Exceptions\RepositoryException;
 use App\Repositories\RepositoryInterface;
 use App\Resources\ResourceInterface;
 
-
 /**
  * Interface ResourceRepositoryInterface
  * @package App\Repositories\Resources

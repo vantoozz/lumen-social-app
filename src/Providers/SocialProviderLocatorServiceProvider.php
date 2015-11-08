@@ -2,7 +2,6 @@
 
 namespace App\Providers;
 
-
 use App\Social\Provider\SocialProviderLocator;
 use Illuminate\Support\ServiceProvider;
 
@@ -40,5 +39,4 @@ class SocialProviderLocatorServiceProvider extends ServiceProvider
             }
         );
     }
-
 }

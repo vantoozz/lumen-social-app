@@ -2,7 +2,6 @@
 
 namespace App\Cdn;
 
-
 /**
  * Class AbstractCdn
  * @package App\Cdn
@@ -25,5 +24,4 @@ abstract class AbstractCdn implements CdnInterface
 
         return $path;
     }
-
 }

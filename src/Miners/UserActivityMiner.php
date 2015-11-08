@@ -2,7 +2,6 @@
 
 namespace App\Miners;
 
-
 use Carbon\Carbon;
 
 /**
@@ -27,5 +26,4 @@ class UserActivityMiner
     {
         return new Carbon;
     }
-
 }

@@ -2,7 +2,6 @@
 
 namespace App\Repositories\Resources\Users;
 
-
 use App\Exceptions\NotFoundInRepositoryException;
 use App\Repositories\Resources\DummyResourceRepository;
 use App\Resources\User;

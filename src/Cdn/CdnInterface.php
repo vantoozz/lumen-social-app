@@ -2,7 +2,6 @@
 
 namespace App\Cdn;
 
-
 /**
  * Interface CdnInterface
  * @package App\Cdn

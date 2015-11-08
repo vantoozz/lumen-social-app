@@ -2,7 +2,6 @@
 
 namespace App\Hydrators\User;
 
-
 use App\Exceptions\HydratorException;
 use App\Hydrators\AbstractHydrator;
 use App\Resources\ResourceInterface;

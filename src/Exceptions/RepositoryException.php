@@ -2,7 +2,6 @@
 
 namespace App\Exceptions;
 
-
 /**
  * Class RepositoryException
  * @package App\Exceptions

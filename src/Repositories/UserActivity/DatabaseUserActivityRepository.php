@@ -2,7 +2,6 @@
 
 namespace App\Repositories\UserActivity;
 
-
 use App\Activities\ActivityType;
 use App\Activities\UserActivity;
 use App\Exceptions\InvalidArgumentException;
@@ -63,6 +62,4 @@ class DatabaseUserActivityRepository implements UserActivityRepositoryInterface
                 throw new InvalidArgumentException('No field for this activity type');
         }
     }
-
-
 }

@@ -62,5 +62,4 @@ abstract class AbstractHydrator implements HydratorInterface
 
         return $data;
     }
-
 }

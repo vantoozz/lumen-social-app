@@ -2,7 +2,6 @@
 
 namespace App\Repositories\Resources;
 
-
 use App\Exceptions\NotFoundInRepositoryException;
 use App\Exceptions\RepositoryException;
 use App\Resources\ResourceInterface;

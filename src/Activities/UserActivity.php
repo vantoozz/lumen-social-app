@@ -2,7 +2,6 @@
 
 namespace App\Activities;
 
-
 use Carbon\Carbon;
 
 /**

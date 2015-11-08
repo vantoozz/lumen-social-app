@@ -11,7 +11,6 @@ use Exception;
 use Illuminate\Database\Connection;
 use Throwable;
 
-
 /**
  * Class DatabaseResourceRepository
  * @package App\Repositories\Resources
@@ -103,8 +102,7 @@ abstract class DatabaseResourceRepository extends AbstractResourceRepository
             function () use ($data, $keys) {
                 $this->db->insert(
                     'INSERT INTO `' . static::$table . '` (' . implode(', ', array_keys($data)) . ')
-                    VALUES (' . implode(', ', $keys) . ')'
-                    ,
+                    VALUES (' . implode(', ', $keys) . ')',
                     $data
                 );
 
@@ -175,5 +173,4 @@ abstract class DatabaseResourceRepository extends AbstractResourceRepository
 
         return $resource;
     }
-
 }

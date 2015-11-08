@@ -5,6 +5,7 @@ php:
   - hhvm
 
 install:
+  - cp .env.local .env
   - composer install --prefer-dist --no-interaction
 
 script:

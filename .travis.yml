@@ -17,4 +17,5 @@ script:
   - vendor/bin/phploc --ansi src
 
 after_script:
-  - vendor/bin/codacycoverage clover coverage.xml
+  - vendor/bin/codacycoverage clover coverage.xml -v
+  - vendor/bin/coveralls -v -n

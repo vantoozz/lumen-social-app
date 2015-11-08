@@ -5,6 +5,10 @@ use App\Repositories\UserActivity\UserActivityRepositoryInterface;
 use Illuminate\Database\Connection;
 use Illuminate\Support\ServiceProvider;
 
+/**
+ * Class UserActivityRepositoryServiceProvider
+ * @package App\Providers
+ */
 class UserActivityRepositoryServiceProvider extends ServiceProvider
 {
     /**

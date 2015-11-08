@@ -45,6 +45,11 @@ class DatabaseUserActivityRepository implements UserActivityRepositoryInterface
         );
     }
 
+    /**
+     * @param ActivityType $type
+     * @return string
+     * @throws InvalidArgumentException
+     */
     private function makeFieldName(ActivityType $type)
     {
         switch ($type->getType()) {

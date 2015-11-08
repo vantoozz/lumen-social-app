@@ -6,6 +6,10 @@ namespace App\Providers;
 use App\Social\Provider\SocialProviderLocator;
 use Illuminate\Support\ServiceProvider;
 
+/**
+ * Class SocialProviderLocatorServiceProvider
+ * @package App\Providers
+ */
 class SocialProviderLocatorServiceProvider extends ServiceProvider
 {
 

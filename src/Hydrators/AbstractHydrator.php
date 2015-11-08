@@ -45,6 +45,11 @@ abstract class AbstractHydrator implements HydratorInterface
         return $date->format(self::FORMAT_DATE);
     }
 
+    /**
+     * @param $field
+     * @param array $data
+     * @return array
+     */
     protected function hydrateEmptyStringAsNull($field, array $data)
     {
         if (!array_key_exists($field, $data)) {

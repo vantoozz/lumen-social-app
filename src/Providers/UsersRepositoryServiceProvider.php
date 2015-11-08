@@ -6,6 +6,10 @@ use App\Repositories\Resources\Users\UsersRepositoryInterface;
 use Illuminate\Database\Connection;
 use Illuminate\Support\ServiceProvider;
 
+/**
+ * Class UsersRepositoryServiceProvider
+ * @package App\Providers
+ */
 class UsersRepositoryServiceProvider extends ServiceProvider
 {
     /**

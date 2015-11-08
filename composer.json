@@ -16,6 +16,7 @@
     "squizlabs/php_codesniffer": "~2",
     "sebastian/phpcpd": "~2",
     "phpmd/phpmd": "~2",
+    "codacy/coverage": "~1",
     "block8/php-docblock-checker": "~1"
   },
   "autoload": {

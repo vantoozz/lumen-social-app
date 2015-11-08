@@ -2,6 +2,7 @@
 
 [![Build Status](https://travis-ci.org/vantoozz/lumen-social-app.svg?branch=master)](https://travis-ci.org/vantoozz/lumen-social-app)
 [![Codacy Badge](https://api.codacy.com/project/badge/grade/16a339606e9e4fd6896bdcd6a06be201)](https://www.codacy.com/app/vantoozz/lumen-social-app)
+[![Coverage Status](https://coveralls.io/repos/vantoozz/lumen-social-app/badge.svg?branch=master&service=github)](https://coveralls.io/github/vantoozz/lumen-social-app?branch=master)
 
 Social app on Lumen framework
 

@@ -1,6 +1,7 @@
 ## Lumen Social App
 
 [![Build Status](https://travis-ci.org/vantoozz/lumen-social-app.svg?branch=master)](https://travis-ci.org/vantoozz/lumen-social-app)
+[![Codacy Badge](https://api.codacy.com/project/badge/grade/16a339606e9e4fd6896bdcd6a06be201)](https://www.codacy.com/app/vantoozz/lumen-social-app)
 
 Social app on Lumen framework
 

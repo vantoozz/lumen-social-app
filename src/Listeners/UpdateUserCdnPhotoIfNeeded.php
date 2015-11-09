@@ -2,7 +2,9 @@
 
 namespace App\Listeners;
 
-use App\Cdn\FilesystemCdn;
+use App\Exceptions\DownloaderException;
+use App\Exceptions\RepositoryException;
+use App\Media\MediaManager;
 use App\Repositories\Resources\Users\UsersRepositoryInterface;
 use App\Resources\User;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -19,22 +21,25 @@ class UpdateUserCdnPhotoIfNeeded implements ShouldQueue
      */
     private $usersRepository;
     /**
-     * @var FilesystemCdn
+     * @var MediaManager
      */
-    private $cdn;
+    private $mediaManager;
 
     /**
+     * UpdateUserCdnPhotoIfNeeded constructor.
      * @param UsersRepositoryInterface $usersRepository
-     * @param FilesystemCdn $cdn
+     * @param MediaManager $mediaManager
      */
-    public function __construct(UsersRepositoryInterface $usersRepository, FilesystemCdn $cdn)
+    public function __construct(UsersRepositoryInterface $usersRepository, MediaManager $mediaManager)
     {
         $this->usersRepository = $usersRepository;
-        $this->cdn = $cdn;
+        $this->mediaManager = $mediaManager;
     }
 
     /**
      * @param User $user
+     * @throws RepositoryException
+     * @throws DownloaderException
      */
     public function handle(User $user)
     {
@@ -45,18 +50,21 @@ class UpdateUserCdnPhotoIfNeeded implements ShouldQueue
             return;
         }
 
-        $cdnPhoto = $this->cdn->makePath($photo);
+        $cdnPhoto = $this->mediaManager->makePath($photo);
 
         if ($cdnPhoto === $user->getCdnPhoto()) {
             return;
         }
-        $this->cdn->uploadFromUrl($photo);
+
+
+        $this->mediaManager->uploadFromUrl($photo);
         $this->updateUser($user, $cdnPhoto);
     }
 
     /**
      * @param User $user
      * @param $photo
+     * @throws RepositoryException
      */
     private function updateUser(User $user, $photo)
     {

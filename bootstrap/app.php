@@ -20,8 +20,9 @@ $app = new Laravel\Lumen\Application(
 );
 
 // $app->withFacades();
+// $app->withEloquent();
 
-$app->withEloquent();
+$app->configure('auth');
 
 /*
 |--------------------------------------------------------------------------
@@ -82,13 +83,12 @@ $app->routeMiddleware(
 |
 */
 
-//$app->register(Illuminate\Filesystem\FilesystemServiceProvider::class);
 $app->register(App\Providers\DbConnectionServiceProvider::class);
 $app->register(App\Providers\DbAuthServiceProvider::class);
 $app->register(App\Providers\VKServiceProvider::class);
 $app->register(App\Providers\UsersRepositoryServiceProvider::class);
 $app->register(App\Providers\EventServiceProvider::class);
-$app->register(App\Providers\CdnServiceProvider::class);
+$app->register(App\Providers\MediaManagerServiceProvider::class);
 $app->register(App\Providers\UserActivityRepositoryServiceProvider::class);
 
 /*

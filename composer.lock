@@ -4,26 +4,25 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "00554758141b4427cda7a69481b850e2",
-    "content-hash": "fbb5994bddf472d9c85bc8a4fba9d388",
+    "hash": "200f724351d09d70754ce1785ed87776",
+    "content-hash": "5b0fa7615acebbc993d8d76ec49778d6",
     "packages": [
         {
             "name": "2nova/vk-php-sdk",
-            "version": "dev-master",
+            "version": "0.10.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/2nova/vk-php-sdk.git",
-                "reference": "78f9c19dd7631e0f6d4ef685ba2516148fcdec9c"
+                "reference": "7065901cc19bc2fc3c95237eb0de1059cd9a7560"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/2nova/vk-php-sdk/zipball/78f9c19dd7631e0f6d4ef685ba2516148fcdec9c",
-                "reference": "78f9c19dd7631e0f6d4ef685ba2516148fcdec9c",
+                "url": "https://api.github.com/repos/2nova/vk-php-sdk/zipball/7065901cc19bc2fc3c95237eb0de1059cd9a7560",
+                "reference": "7065901cc19bc2fc3c95237eb0de1059cd9a7560",
                 "shasum": ""
             },
             "require": {
-                "guzzlehttp/guzzle": "4.*",
-                "php": ">=5.3.0"
+                "guzzlehttp/guzzle": "~6"
             },
             "type": "library",
             "autoload": {
@@ -47,7 +46,7 @@
                 "vk",
                 "vkontakte"
             ],
-            "time": "2015-04-27 10:56:53"
+            "time": "2015-11-09 14:57:29"
         },
         {
             "name": "danielstjules/stringy",
@@ -232,44 +231,41 @@
         },
         {
             "name": "guzzlehttp/guzzle",
-            "version": "4.2.3",
+            "version": "6.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/guzzle/guzzle.git",
-                "reference": "66fd916e9f9130bc22c51450476823391cb2f67c"
+                "reference": "66fd14b4d0b8f2389eaf37c5458608c7cb793a81"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guzzle/guzzle/zipball/66fd916e9f9130bc22c51450476823391cb2f67c",
-                "reference": "66fd916e9f9130bc22c51450476823391cb2f67c",
+                "url": "https://api.github.com/repos/guzzle/guzzle/zipball/66fd14b4d0b8f2389eaf37c5458608c7cb793a81",
+                "reference": "66fd14b4d0b8f2389eaf37c5458608c7cb793a81",
                 "shasum": ""
             },
             "require": {
-                "ext-json": "*",
-                "guzzlehttp/streams": "~2.1",
-                "php": ">=5.4.0"
+                "guzzlehttp/promises": "~1.0",
+                "guzzlehttp/psr7": "~1.1",
+                "php": ">=5.5.0"
             },
             "require-dev": {
                 "ext-curl": "*",
                 "phpunit/phpunit": "~4.0",
                 "psr/log": "~1.0"
             },
-            "suggest": {
-                "ext-curl": "Guzzle will use specific adapters if cURL is present"
-            },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "4.2-dev"
+                    "dev-master": "6.1-dev"
                 }
             },
             "autoload": {
+                "files": [
+                    "src/functions_include.php"
+                ],
                 "psr-4": {
                     "GuzzleHttp\\": "src/"
-                },
-                "files": [
-                    "src/functions.php"
-                ]
+                }
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
@@ -282,7 +278,7 @@
                     "homepage": "https://github.com/mtdowling"
                 }
             ],
-            "description": "Guzzle is a PHP HTTP client library and framework for building RESTful web service clients",
+            "description": "Guzzle is a PHP HTTP client library",
             "homepage": "http://guzzlephp.org/",
             "keywords": [
                 "client",
@@ -293,24 +289,24 @@
                 "rest",
                 "web service"
             ],
-            "time": "2014-10-05 19:29:14"
+            "time": "2015-09-08 17:36:26"
         },
         {
-            "name": "guzzlehttp/streams",
-            "version": "2.1.0",
+            "name": "guzzlehttp/promises",
+            "version": "1.0.3",
             "source": {
                 "type": "git",
-                "url": "https://github.com/guzzle/streams.git",
-                "reference": "f91b721d73f0e561410903b3b3c90a5d0e40b534"
+                "url": "https://github.com/guzzle/promises.git",
+                "reference": "b1e1c0d55f8083c71eda2c28c12a228d708294ea"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guzzle/streams/zipball/f91b721d73f0e561410903b3b3c90a5d0e40b534",
-                "reference": "f91b721d73f0e561410903b3b3c90a5d0e40b534",
+                "url": "https://api.github.com/repos/guzzle/promises/zipball/b1e1c0d55f8083c71eda2c28c12a228d708294ea",
+                "reference": "b1e1c0d55f8083c71eda2c28c12a228d708294ea",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.4.0"
+                "php": ">=5.5.0"
             },
             "require-dev": {
                 "phpunit/phpunit": "~4.0"
@@ -318,15 +314,15 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.0-dev"
+                    "dev-master": "1.0-dev"
                 }
             },
             "autoload": {
                 "psr-4": {
-                    "GuzzleHttp\\Stream\\": "src/"
+                    "GuzzleHttp\\Promise\\": "src/"
                 },
                 "files": [
-                    "src/functions.php"
+                    "src/functions_include.php"
                 ]
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -340,13 +336,69 @@
                     "homepage": "https://github.com/mtdowling"
                 }
             ],
-            "description": "Provides a simple abstraction over streams of data (Guzzle 4+)",
-            "homepage": "http://guzzlephp.org/",
+            "description": "Guzzle promises library",
             "keywords": [
-                "Guzzle",
-                "stream"
+                "promise"
             ],
-            "time": "2014-08-17 21:15:53"
+            "time": "2015-10-15 22:28:00"
+        },
+        {
+            "name": "guzzlehttp/psr7",
+            "version": "1.2.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/guzzle/psr7.git",
+                "reference": "4d0bdbe1206df7440219ce14c972aa57cc5e4982"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/guzzle/psr7/zipball/4d0bdbe1206df7440219ce14c972aa57cc5e4982",
+                "reference": "4d0bdbe1206df7440219ce14c972aa57cc5e4982",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.4.0",
+                "psr/http-message": "~1.0"
+            },
+            "provide": {
+                "psr/http-message-implementation": "1.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~4.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "GuzzleHttp\\Psr7\\": "src/"
+                },
+                "files": [
+                    "src/functions_include.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Michael Dowling",
+                    "email": "mtdowling@gmail.com",
+                    "homepage": "https://github.com/mtdowling"
+                }
+            ],
+            "description": "PSR-7 message implementation",
+            "keywords": [
+                "http",
+                "message",
+                "stream",
+                "uri"
+            ],
+            "time": "2015-11-03 01:34:55"
         },
         {
             "name": "illuminate/auth",
@@ -1972,6 +2024,55 @@
                 "redis"
             ],
             "time": "2015-07-30 18:34:15"
+        },
+        {
+            "name": "psr/http-message",
+            "version": "1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/php-fig/http-message.git",
+                "reference": "85d63699f0dbedb190bbd4b0d2b9dc707ea4c298"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/php-fig/http-message/zipball/85d63699f0dbedb190bbd4b0d2b9dc707ea4c298",
+                "reference": "85d63699f0dbedb190bbd4b0d2b9dc707ea4c298",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Psr\\Http\\Message\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "PHP-FIG",
+                    "homepage": "http://www.php-fig.org/"
+                }
+            ],
+            "description": "Common interface for HTTP messages",
+            "keywords": [
+                "http",
+                "http-message",
+                "psr",
+                "psr-7",
+                "request",
+                "response"
+            ],
+            "time": "2015-05-04 20:22:00"
         },
         {
             "name": "psr/log",
@@ -4634,9 +4735,7 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": {
-        "2nova/vk-php-sdk": 20
-    },
+    "stability-flags": [],
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {

@@ -24,5 +24,4 @@ class ActivityTypeTest extends TestCase
     {
         new ActivityType('wrong type');
     }
-
 }

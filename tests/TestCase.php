@@ -2,7 +2,8 @@
 
 namespace App;
 
-class TestCase extends \Laravel\Lumen\Testing\TestCase {
+class TestCase extends \Laravel\Lumen\Testing\TestCase
+{
 
     /**
      * Creates the application.
@@ -13,5 +14,4 @@ class TestCase extends \Laravel\Lumen\Testing\TestCase {
     {
         return require __DIR__.'/../bootstrap/app.php';
     }
-
 }

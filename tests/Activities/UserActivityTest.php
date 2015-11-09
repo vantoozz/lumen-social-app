@@ -2,10 +2,10 @@
 
 namespace App\Activities;
 
-
+use App\TestCase;
 use Carbon\Carbon;
 
-class UserActivityTest extends \PHPUnit_Framework_TestCase
+class UserActivityTest extends TestCase
 {
 
     /**

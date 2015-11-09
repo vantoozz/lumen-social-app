@@ -2,13 +2,13 @@
 
 namespace App\Auth;
 
-
 use App\Exceptions\NotFoundInRepositoryException;
 use App\Repositories\Resources\Users\DummyUserRepository;
 use App\Repositories\Resources\Users\UsersRepositoryInterface;
 use App\Resources\User;
+use App\TestCase;
 
-class DbUserProviderTest extends \PHPUnit_Framework_TestCase
+class DbUserProviderTest extends TestCase
 {
     /**
      * @test

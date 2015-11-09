@@ -1,6 +1,8 @@
 #!/usr/bin/env php
 <?php
 
+use Illuminate\Contracts\Console\Kernel;
+use Laravel\Lumen\Application;
 use Symfony\Component\Console\Input\ArgvInput;
 use Symfony\Component\Console\Output\ConsoleOutput;
 
@@ -15,7 +17,8 @@ use Symfony\Component\Console\Output\ConsoleOutput;
 |
 */
 
-$app = require __DIR__.'/bootstrap/app.php';
+/** @var Application $app */
+$app = require __DIR__ . '/bootstrap/app.php';
 
 /*
 |--------------------------------------------------------------------------
@@ -28,8 +31,7 @@ $app = require __DIR__.'/bootstrap/app.php';
 |
 */
 
-$kernel = $app->make(
-    'Illuminate\Contracts\Console\Kernel'
-);
+/** @var Kernel $kernel */
+$kernel = $app->make(Kernel::class);
 
 exit($kernel->handle(new ArgvInput, new ConsoleOutput));

@@ -2,7 +2,6 @@
 
 namespace App\Media;
 
-
 use App\Exceptions\DownloaderException;
 use App\Media\Cdn\CdnInterface;
 use App\Media\Downloader\DownloaderInterface;

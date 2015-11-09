@@ -2,7 +2,6 @@
 
 namespace App\Providers;
 
-
 use App\Media\Cdn\CdnInterface;
 use App\Media\Cdn\FilesystemCdn;
 use App\Media\Downloader\DownloaderInterface;

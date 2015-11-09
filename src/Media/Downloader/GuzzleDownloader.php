@@ -2,7 +2,6 @@
 
 namespace App\Media\Downloader;
 
-
 use App\Exceptions\DownloaderException;
 use GuzzleHttp\Client;
 

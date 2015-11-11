@@ -29,21 +29,21 @@ class SocialAuthMiddleware
     /**
      * @var SocialProviderLocator
      */
-    private $providerFactory;
+    private $providersLocator;
 
     /**
      * SocialAuthMiddleware constructor.
      * @param UsersRepositoryInterface $usersRepository
      * @param Guard $auth
-     * @param SocialProviderLocator $providerFactory
+     * @param SocialProviderLocator $providersLocator
      */
     public function __construct(
         UsersRepositoryInterface $usersRepository,
-        SocialProviderLocator $providerFactory,
+        SocialProviderLocator $providersLocator,
         Guard $auth
     ) {
         $this->usersRepository = $usersRepository;
-        $this->providerFactory = $providerFactory;
+        $this->providersLocator = $providersLocator;
         $this->auth = $auth;
     }
 
@@ -61,7 +61,7 @@ class SocialAuthMiddleware
         $providerName = $this->getProvider($request);
 
         /** @var \App\Social\Provider\SocialProviderInterface $provider */
-        $provider = $this->providerFactory->build($providerName);
+        $provider = $this->providersLocator->build($providerName);
         $user = $provider->getFrameUser($request->query());
 
         try {

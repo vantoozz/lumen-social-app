@@ -19,4 +19,4 @@ script:
 
 after_script:
   - vendor/bin/codacycoverage clover build/logs/clover.xml
-  - vendor/bin/coveralls -v -n
+  - vendor/bin/coveralls -v

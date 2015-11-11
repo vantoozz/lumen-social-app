@@ -2,11 +2,14 @@
 
 namespace App\Providers;
 
-
 use Illuminate\Support\ServiceProvider;
 use Whoops\Handler\PrettyPageHandler;
 use Whoops\Run;
 
+/**
+ * Class WhoopsServiceProvider
+ * @package App\Providers
+ */
 class WhoopsServiceProvider extends ServiceProvider
 {
 

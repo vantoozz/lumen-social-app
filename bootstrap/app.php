@@ -2,7 +2,7 @@
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
-Dotenv::load(__DIR__ . '/../');
+(new Dotenv\Dotenv(__DIR__ . '/../'))->load();
 
 /*
 |--------------------------------------------------------------------------
@@ -34,6 +34,8 @@ $app->configure('auth');
 | your own bindings here if you like or you can make another file.
 |
 */
+
+$app->register(App\Providers\WhoopsServiceProvider::class);
 
 $app->singleton(
     Illuminate\Contracts\Debug\ExceptionHandler::class,

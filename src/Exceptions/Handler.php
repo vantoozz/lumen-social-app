@@ -5,7 +5,6 @@ namespace App\Exceptions;
 use Exception;
 use Illuminate\Http\Response;
 use Laravel\Lumen\Exceptions\Handler as ExceptionHandler;
-use Whoops\Handler\PrettyPageHandler;
 use Whoops\Run;
 
 /**
@@ -14,6 +13,19 @@ use Whoops\Run;
  */
 class Handler extends ExceptionHandler
 {
+    /**
+     * @var Run
+     */
+    private $whoops;
+
+    /**
+     * Handler constructor.
+     * @param Run $whoops
+     */
+    public function __construct(Run $whoops)
+    {
+        $this->whoops = $whoops;
+    }
 
     /**
      * Render an exception into an HTTP response.
@@ -41,11 +53,8 @@ class Handler extends ExceptionHandler
      */
     protected function renderExceptionWithWhoops(Exception $e)
     {
-        $whoops = new Run;
-        $whoops->pushHandler(new PrettyPageHandler());
+        $response = $this->whoops->handleException($e);
 
-        return new Response(
-            $whoops->handleException($e)
-        );
+        return new Response($response);
     }
 }

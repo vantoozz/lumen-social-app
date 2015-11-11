@@ -22,7 +22,7 @@ class RoutesTest extends TestCase
     public function it_handle_root()
     {
         $this->withoutMiddleware();
-        /** @var Guard $auth */
+
         $user = new User;
         $user->setId(12334567);
         $this->be($user);
@@ -35,7 +35,7 @@ class RoutesTest extends TestCase
     public function it_handle_get_app()
     {
         $this->withoutMiddleware();
-        /** @var Guard $auth */
+
         $user = new User;
         $user->setId(12334567);
         $this->be($user);

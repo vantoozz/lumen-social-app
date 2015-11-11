@@ -10,6 +10,12 @@ use Illuminate\Contracts\Auth\Guard;
 class RoutesTest extends TestCase
 {
 
+    public function setUp()
+    {
+        parent::setUp();
+        $this->artisan('migrate:refresh');
+    }
+
     /**
      * @test
      */

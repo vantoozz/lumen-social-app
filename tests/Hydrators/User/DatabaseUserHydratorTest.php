@@ -97,7 +97,8 @@ class DatabaseUserHydratorTest extends TestCase
     /**
      * @test
      */
-    public function it_hydrates_a_user_without_birth_date(){
+    public function it_hydrates_a_user_without_birth_date()
+    {
         $hydrator = new DatabaseUserHydrator;
 
         $user = $hydrator->hydrate([
@@ -112,14 +113,13 @@ class DatabaseUserHydratorTest extends TestCase
      * @expectedException     \App\Exceptions\HydratorException
      * @expectedExceptionMessage A four digit year could not be found
      */
-    public function it_throws_exception_if_bad_date_format(){
+    public function it_throws_exception_if_bad_date_format()
+    {
         $hydrator = new DatabaseUserHydrator;
 
-        $user = $hydrator->hydrate([
+        $hydrator->hydrate([
             'birth_date' => 'bad formatted date',
         ]);
-
-        static::assertNull($user->getBirthDate());
     }
 
 }

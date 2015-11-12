@@ -10,10 +10,10 @@ use App\Resources\User;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
 /**
- * Class UpdateUserCdnPhotoIfNeeded
+ * Class UpdateUserCdnPhoto
  * @package App\Listeners
  */
-class UpdateUserCdnPhotoIfNeeded implements ShouldQueue
+class UpdateUserCdnPhoto implements ShouldQueue
 {
 
     /**
@@ -26,7 +26,7 @@ class UpdateUserCdnPhotoIfNeeded implements ShouldQueue
     private $mediaManager;
 
     /**
-     * UpdateUserCdnPhotoIfNeeded constructor.
+     * UpdateUserCdnPhoto constructor.
      * @param UsersRepositoryInterface $usersRepository
      * @param MediaManager $mediaManager
      */

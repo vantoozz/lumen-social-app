@@ -3,7 +3,7 @@
 namespace App\Providers;
 
 use App\Listeners\LogUserLoginActivity;
-use App\Listeners\UpdateUserCdnPhotoIfNeeded;
+use App\Listeners\UpdateUserCdnPhoto;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 
 /**
@@ -21,7 +21,7 @@ class EventServiceProvider extends ServiceProvider
         'auth.login' => [
             LogUserLoginActivity::class,
 //            SyncUserDataIfNeeded::class,
-            UpdateUserCdnPhotoIfNeeded::class,
+            UpdateUserCdnPhoto::class,
         ],
     ];
 }

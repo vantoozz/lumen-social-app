@@ -3,6 +3,7 @@
 namespace App\Hydrators;
 
 use App\Exceptions\HydratorException;
+use App\Resources\ResourceInterface;
 use Carbon\Carbon;
 
 /**
@@ -11,6 +12,16 @@ use Carbon\Carbon;
  */
 abstract class AbstractHydrator implements HydratorInterface
 {
+
+    /**
+     * @param ResourceInterface $resource
+     * @return array
+     */
+    public function extract(ResourceInterface $resource)
+    {
+        return [];
+    }
+
     /**
      * @param $field
      * @param array $data
@@ -50,10 +61,10 @@ abstract class AbstractHydrator implements HydratorInterface
      * @param array $data
      * @return array
      */
-    protected function hydrateEmptyStringAsNull($field, array $data)
+    protected function hydrateEmptyAsNull($field, array $data)
     {
         if (!array_key_exists($field, $data)) {
-            return $data;
+            $data[$field] = null;
         }
 
         if ('' === $data[$field]) {

@@ -27,26 +27,21 @@ class VkUserHydrator extends AbstractHydrator
     const FIELD_BIRTH_DATE = 'bdate';
 
     /**
-     * @param ResourceInterface $resource
-     * @return array
-     */
-    public function extract(ResourceInterface $resource)
-    {
-        return [];
-    }
-
-    /**
      * @param array $data
      * @return ResourceInterface
      * @throws HydratorException
      */
     public function hydrate(array $data)
     {
+        if (!array_key_exists(SocialProviderInterface::FIELD_PROVIDER_ID, $data)) {
+            throw new HydratorException('No provider_id field');
+        }
+
         $user = new User;
 
-        $data = $this->hydrateEmptyStringAsNull(self::FIELD_FIRST_NAME, $data);
-        $data = $this->hydrateEmptyStringAsNull(self::FIELD_LAST_NAME, $data);
-        $data = $this->hydrateEmptyStringAsNull(self::FIELD_PHOTO, $data);
+        $data = $this->hydrateEmptyAsNull(self::FIELD_FIRST_NAME, $data);
+        $data = $this->hydrateEmptyAsNull(self::FIELD_LAST_NAME, $data);
+        $data = $this->hydrateEmptyAsNull(self::FIELD_PHOTO, $data);
 
 
         $user->populate(
@@ -60,7 +55,7 @@ class VkUserHydrator extends AbstractHydrator
             ]
         );
 
-        $birthDate = $this->makeUserBirthDate($data[self::FIELD_BIRTH_DATE]);
+        $birthDate = $this->makeUserBirthDate($data);
         if ($birthDate instanceof Carbon) {
             $user->setBirthDate($birthDate);
         }
@@ -69,12 +64,18 @@ class VkUserHydrator extends AbstractHydrator
     }
 
     /**
-     * @param $date
+     * @param array $data
      * @return Carbon|null
      * @throws HydratorException
      */
-    private function makeUserBirthDate($date)
+    private function makeUserBirthDate(array $data)
     {
+        if (!array_key_exists(self::FIELD_BIRTH_DATE, $data)) {
+            return null;
+        }
+
+        $date = $data[self::FIELD_BIRTH_DATE];
+
         if (!is_string($date)) {
             return null;
         }

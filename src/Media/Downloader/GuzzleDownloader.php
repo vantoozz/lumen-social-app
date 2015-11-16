@@ -35,7 +35,7 @@ class GuzzleDownloader implements DownloaderInterface
     {
         $response = $this->client->get($url);
         if (200 !== $response->getStatusCode()) {
-            throw new DownloaderException('Cannot download file: ', $url);
+            throw new DownloaderException('Cannot download file: ' . $url);
         }
         try {
             return $response->getBody()->getContents();

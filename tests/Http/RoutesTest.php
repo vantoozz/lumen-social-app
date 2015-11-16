@@ -19,7 +19,7 @@ class RoutesTest extends TestCase
     /**
      * @test
      */
-    public function it_handle_root()
+    public function it_handles_root()
     {
         $this->withoutMiddleware();
 
@@ -32,7 +32,7 @@ class RoutesTest extends TestCase
     /**
      * @test
      */
-    public function it_handle_get_app()
+    public function it_handles_get_app()
     {
         $this->withoutMiddleware();
 

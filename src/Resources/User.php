@@ -116,9 +116,7 @@ class User extends AbstractResource implements Authenticatable
      */
     public function setCdnPhoto($cdnPhoto)
     {
-        $this->cdnPhoto = (string)$cdnPhoto;
-
-        return $this;
+        $this->cdnPhoto = $cdnPhoto;
     }
 
     /**

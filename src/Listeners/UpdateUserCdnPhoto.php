@@ -45,6 +45,8 @@ class UpdateUserCdnPhoto implements ShouldQueue
     {
         $photo = $user->getPhoto();
         if ('' === (string)$photo) {
+
+            $user->setPhoto(null);
             $this->updateUser($user, null);
 
             return;

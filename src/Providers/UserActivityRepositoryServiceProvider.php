@@ -31,14 +31,11 @@ class UserActivityRepositoryServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->singleton(
-            UserActivityRepositoryInterface::class,
-            function () {
-                /** @var Connection $db */
-                $db = $this->app->make(DbConnectionServiceProvider::SERVICE_NAME);
+        $this->app->singleton(UserActivityRepositoryInterface::class, function () {
+            /** @var Connection $db */
+            $db = $this->app->make(DbConnectionServiceProvider::SERVICE_NAME);
 
-                return new DatabaseUserActivityRepository($db);
-            }
-        );
+            return new DatabaseUserActivityRepository($db);
+        });
     }
 }

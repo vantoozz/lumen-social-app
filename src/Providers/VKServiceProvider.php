@@ -35,15 +35,12 @@ class VKServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->singleton(
-            self::SERVICE_NAME,
-            function () {
-                $hydrator = new VkUserHydrator;
-                return new VK(
-                    new \Novanova\VK\VK(getenv('VK_APP_ID'), getenv('VK_SECRET')),
-                    $hydrator
-                );
-            }
-        );
+        $this->app->singleton(self::SERVICE_NAME, function () {
+            $hydrator = new VkUserHydrator;
+            return new VK(
+                new \Novanova\VK\VK(getenv('VK_APP_ID'), getenv('VK_SECRET')),
+                $hydrator
+            );
+        });
     }
 }

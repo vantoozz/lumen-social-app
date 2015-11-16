@@ -98,17 +98,15 @@ abstract class DatabaseResourceRepository extends AbstractResourceRepository
     {
         list($data, $keys) = $this->prepareResource($resource);
 
-        $id = $this->connection->transaction(
-            function () use ($data, $keys) {
-                $this->connection->insert(
-                    'INSERT INTO `' . static::$table . '` (' . implode(', ', array_keys($data)) . ')
+        $id = $this->connection->transaction(function () use ($data, $keys) {
+            $this->connection->insert(
+                'INSERT INTO `' . static::$table . '` (' . implode(', ', array_keys($data)) . ')
                     VALUES (' . implode(', ', $keys) . ')',
-                    $data
-                );
+                $data
+            );
 
-                return $this->connection->getPdo()->lastInsertId();
-            }
-        );
+            return $this->connection->getPdo()->lastInsertId();
+        });
 
         $resource->setId($id);
 

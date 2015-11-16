@@ -51,9 +51,7 @@ class MediaManagerServiceProvider extends ServiceProvider
         });
 
         $this->app->singleton(DownloaderInterface::class, function () {
-            $client = new Client;
-
-            return new GuzzleDownloader($client);
+            return new GuzzleDownloader(new Client);
         });
 
         $this->app->singleton(MediaManager::class, function () {

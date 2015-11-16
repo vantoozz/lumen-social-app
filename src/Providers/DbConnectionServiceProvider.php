@@ -33,11 +33,8 @@ class DbConnectionServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->singleton(
-            self::SERVICE_NAME,
-            function () {
-                return app('db')->connection();
-            }
-        );
+        $this->app->singleton(self::SERVICE_NAME, function () {
+            return $this->app->make('db')->connection();
+        });
     }
 }

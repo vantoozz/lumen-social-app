@@ -23,15 +23,12 @@ class DbAuthServiceProvider extends ServiceProvider
     {
         /** @var AuthManager $auth */
         $auth = $this->app->make('auth');
-        $auth->extend(
-            'db',
-            function () {
-                /** @var UsersRepositoryInterface $usersRepository */
-                $usersRepository = app(UsersRepositoryInterface::class);
+        $auth->extend('db', function () {
+            /** @var UsersRepositoryInterface $usersRepository */
+            $usersRepository = app(UsersRepositoryInterface::class);
 
-                return new DbUserProvider($usersRepository);
-            }
-        );
+            return new DbUserProvider($usersRepository);
+        });
     }
 
     /**

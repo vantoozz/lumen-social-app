@@ -32,11 +32,8 @@ class SocialProviderLocatorServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->singleton(
-            SocialProviderLocator::class,
-            function () {
-                return new SocialProviderLocator($this->app);
-            }
-        );
+        $this->app->singleton(SocialProviderLocator::class, function () {
+            return new SocialProviderLocator($this->app);
+        });
     }
 }

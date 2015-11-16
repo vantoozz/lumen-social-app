@@ -32,15 +32,12 @@ class UsersRepositoryServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->singleton(
-            UsersRepositoryInterface::class,
-            function () {
-                /** @var Connection $db */
-                $db = $this->app->make(DbConnectionServiceProvider::SERVICE_NAME);
-                $hydrator = new DatabaseUserHydrator;
+        $this->app->singleton(UsersRepositoryInterface::class, function () {
+            /** @var Connection $db */
+            $db = $this->app->make(DbConnectionServiceProvider::SERVICE_NAME);
+            $hydrator = new DatabaseUserHydrator;
 
-                return new DatabaseUsersRepository($db, $hydrator);
-            }
-        );
+            return new DatabaseUsersRepository($db, $hydrator);
+        });
     }
 }

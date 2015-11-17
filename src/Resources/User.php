@@ -3,7 +3,6 @@
 namespace App\Resources;
 
 use Carbon\Carbon;
-use DateTime;
 use Illuminate\Contracts\Auth\Authenticatable;
 
 /**
@@ -98,7 +97,7 @@ class User extends AbstractResource implements Authenticatable
      */
     public function setProviderId($providerId)
     {
-        $this->providerId = $providerId;
+        $this->providerId = (int)$providerId;
     }
 
     /**
@@ -196,30 +195,7 @@ class User extends AbstractResource implements Authenticatable
      */
     public function isSyncNeeded()
     {
-        if ('' === (string)$this->firstName) {
-            return true;
-        }
-
-        return $this->isOutdated();
-    }
-
-    /**
-     * @return bool
-     */
-    public function isOutdated()
-    {
-//        $last_sync_at = $this->last_sync_at ?: $this->created_at;
-//
-//        if (!$last_sync_at instanceof DateTime) {
-//            $last_sync_at = DateTime::createFromFormat(self::FORMAT_DATETIME, $last_sync_at);
-//        }
-//
-//        if (!$last_sync_at) {
-//            return true;
-//        }
-//
-//        return $last_sync_at->diff(new DateTime())->days >= self::SYNC_FREQUENCY;
-        return false;
+        return '' === (string)$this->firstName;
     }
 
     /**

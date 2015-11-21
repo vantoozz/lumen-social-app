@@ -3,7 +3,6 @@
 namespace App\Social\Provider;
 
 use App\Exceptions\FactoryException;
-use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Contracts\Container\Container;
 
 /**
@@ -35,11 +34,11 @@ class SocialProviderLocator
     {
         try {
             $provider = $this->container->make('social.' . $providerName);
-        } catch (BindingResolutionException $e) {
+        } catch (\ReflectionException $e) {
             throw new FactoryException('No such social provider: ' . $providerName, $e->getCode(), $e);
         }
         if (!$provider instanceof SocialProviderInterface) {
-            throw new FactoryException('Not a social provider: ' . $providerName);
+            throw new FactoryException('Not a social provider: ' . get_class($provider));
         }
 
         return $provider;

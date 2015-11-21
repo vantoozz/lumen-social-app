@@ -24,22 +24,20 @@ class DatabaseUsersRepository extends DatabaseResourceRepository implements User
      *
      * @return User
      * @throws NotFoundInRepositoryException
+     * @throws \InvalidArgumentException
      */
     public function getByProviderId($provider, $providerId)
     {
+        $data = $this->connection
+            ->table(static::$table)
+            ->where('provider', $provider)
+            ->where('provider_id', $providerId)
+            ->first();
 
-        $results = $this->connection->select(
-            'SELECT *
-            FROM `' . self::$table . '`
-            WHERE `provider` = :provider AND `provider_id` = :provider_id
-            LIMIT 1
-            ;',
-            ['provider' => $provider, 'provider_id' => $providerId]
-        );
-        if (0 === count($results)) {
+        if (null === $data) {
             throw new NotFoundInRepositoryException('User not found');
         }
 
-        return $this->hydrator->hydrate((array)$results[0]);
+        return $this->hydrator->hydrate((array)$data);
     }
 }

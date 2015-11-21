@@ -7,9 +7,7 @@ use App\Exceptions\RepositoryException;
 use App\Hydrators\HydratorInterface;
 use App\Resources\ResourceInterface;
 use Carbon\Carbon;
-use Exception;
 use Illuminate\Database\Connection;
-use Throwable;
 
 /**
  * Class DatabaseResourceRepository
@@ -56,15 +54,13 @@ abstract class DatabaseResourceRepository extends AbstractResourceRepository
      */
     public function getById($id)
     {
-        $results = $this->connection->select(
-            'SELECT * FROM `' . static::$table . '` WHERE `id` = :id LIMIT 1',
-            ['id' => $id]
-        );
-        if (0 === count($results)) {
+        $data = $this->connection->table(static::$table)->find($id);
+
+        if (null === $data) {
             throw new NotFoundInRepositoryException('Not found');
         }
 
-        return $this->hydrator->hydrate((array)$results[0]);
+        return $this->hydrator->hydrate((array)$data);
     }
 
     /**
@@ -76,99 +72,61 @@ abstract class DatabaseResourceRepository extends AbstractResourceRepository
      */
     public function store(ResourceInterface $resource)
     {
-        $action = $resource->getId() ? 'update' : 'create';
-        try {
-            return $this->$action($resource);
-        } catch (Throwable $throwable) {
-            throw new RepositoryException($throwable->getMessage(), $throwable->getCode(), $throwable);
-        } catch (Exception $e) {
-            throw new RepositoryException($e->getMessage(), $e->getCode(), $e);
+        if ($resource->getId()) {
+            return $this->update($resource);
         }
+
+        return $this->create($resource);
     }
 
     /**
      * @param  ResourceInterface $resource
      *
      * @return ResourceInterface
-     *
-     * @throws \Exception
-     * @throws \Throwable
      */
     protected function create(ResourceInterface $resource)
     {
-        list($data, $keys) = $this->prepareResource($resource);
+        $data = $this->extractResource($resource);
+        $data[self::FIELD_CREATED_AT] = $data[self::FIELD_UPDATED_AT];
 
-        $id = $this->connection->transaction(function () use ($data, $keys) {
-            $this->connection->insert(
-                'INSERT INTO `' . static::$table . '` (' . implode(', ', array_keys($data)) . ')
-                    VALUES (' . implode(', ', $keys) . ')',
-                $data
-            );
-
-            return $this->connection->getPdo()->lastInsertId();
-        });
+        $id = $this->connection->table(static::$table)->insertGetId($data);
 
         $resource->setId($id);
 
         return $resource;
     }
 
-    /**
-     * @param  ResourceInterface $resource
-     *
-     * @return array
-     */
-    private function prepareResource(ResourceInterface $resource)
-    {
-        $data = $this->hydrator->extract($resource);
-
-        $now = (new Carbon)->format(self::FORMAT_DATETIME);
-        $data[self::FIELD_CREATED_AT] = $now;
-        $data[self::FIELD_UPDATED_AT] = $now;
-
-        $keys = $this->prepareKeys($data);
-
-        return array($data, $keys);
-    }
-
-    /**
-     * @param $data
-     *
-     * @return array
-     */
-    private function prepareKeys($data)
-    {
-        $keys = array_map(
-            function ($key) {
-                return ':' . $key;
-            },
-            array_keys($data)
-        );
-
-        return $keys;
-    }
 
     /**
      * @param  ResourceInterface $resource
      *
      * @return ResourceInterface
+     *
+     * @throws RepositoryException
      */
     protected function update(ResourceInterface $resource)
     {
-        list($data) = $this->prepareResource($resource);
-        unset($data[self::FIELD_CREATED_AT]);
+        $data = $this->extractResource($resource);
 
-        $statements = [];
-        $keys = array_keys($data);
-        foreach ($keys as $key) {
-            $statements[] = $key . ' = ?';
+        try {
+            $this->connection->table(static::$table)->where('id', $resource->getId())->update($data);
+        } catch (\InvalidArgumentException $e) {
+            throw new RepositoryException($e->getMessage(), $e->getCode(), $e);
         }
 
-        $this->connection->update(
-            'UPDATE `' . static::$table . '` SET ' . implode(', ', $statements) . ' WHERE `id`=?',
-            array_merge(array_values($data), [$data[ResourceInterface::FIELD_ID]])
-        );
-
         return $resource;
+    }
+
+    /**
+     * @param ResourceInterface $resource
+     * @return array
+     */
+    protected function extractResource(ResourceInterface $resource)
+    {
+        $data = $this->hydrator->extract($resource);
+
+        $data[self::FIELD_UPDATED_AT] = (new Carbon)->format(self::FORMAT_DATETIME);
+
+        return $data;
     }
 }

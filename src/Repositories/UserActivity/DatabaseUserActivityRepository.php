@@ -5,6 +5,7 @@ namespace App\Repositories\UserActivity;
 use App\Activities\ActivityType;
 use App\Activities\UserActivity;
 use App\Exceptions\InvalidArgumentException;
+use App\Exceptions\RepositoryException;
 use App\Repositories\Resources\DatabaseResourceRepository;
 use Illuminate\Database\Connection;
 
@@ -17,6 +18,11 @@ class DatabaseUserActivityRepository implements UserActivityRepositoryInterface
 
     const FIELD_LAST_LOGIN_AT = 'last_login_at';
     const FIELD_LAST_SYNC_AT = 'last_sync_at';
+
+    /**
+     * @var string
+     */
+    protected static $table = 'users';
 
     /**
      * @var Connection
@@ -33,15 +39,21 @@ class DatabaseUserActivityRepository implements UserActivityRepositoryInterface
 
     /**
      * @param UserActivity $activity
+     * @throws InvalidArgumentException
+     * @throws RepositoryException
      */
     public function store(UserActivity $activity)
     {
         $field = $this->makeFieldName($activity->getType());
 
-        $this->connection->update(
-            'UPDATE `users` SET `' . $field . '` = ? WHERE `id`=?',
-            [$activity->getDatetime()->format(DatabaseResourceRepository::FORMAT_DATETIME), $activity->getUserId()]
-        );
+        try {
+            $this->connection
+                ->table(static::$table)
+                ->where('id', $activity->getUserId())
+                ->update([$field, $activity->getDatetime()->format(DatabaseResourceRepository::FORMAT_DATETIME)]);
+        } catch (\InvalidArgumentException $e) {
+            throw new RepositoryException($e->getMessage(), $e->getCode(), $e);
+        }
     }
 
     /**

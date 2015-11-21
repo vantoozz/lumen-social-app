@@ -2,8 +2,9 @@
 
 namespace App\Social\Provider;
 
+use App\Exceptions\HydratorException;
 use App\Exceptions\SocialException;
-use App\Hydrators\HydratorInterface;
+use App\Hydrators\User\VkUserHydrator;
 use App\Resources\User;
 
 /**
@@ -18,16 +19,17 @@ class VK implements SocialProviderInterface
 
     /** @var \Novanova\VK\VK $driver */
     private $driver;
+
     /**
-     * @var HydratorInterface
+     * @var VkUserHydrator
      */
     private $hydrator;
 
     /**
      * @param \Novanova\VK\VK $driver
-     * @param HydratorInterface $hydrator
+     * @param VkUserHydrator $hydrator
      */
-    public function __construct(\Novanova\VK\VK $driver, HydratorInterface $hydrator)
+    public function __construct(\Novanova\VK\VK $driver, VkUserHydrator $hydrator)
     {
         $this->driver = $driver;
         $this->hydrator = $hydrator;
@@ -37,6 +39,7 @@ class VK implements SocialProviderInterface
      * @param  array $input
      * @return User
      * @throws SocialException
+     * @throws HydratorException
      */
     public function getFrameUser(array $input)
     {
@@ -87,6 +90,7 @@ class VK implements SocialProviderInterface
     /**
      * @param  int $providerId
      * @return \App\Resources\User
+     * @throws HydratorException
      */
     public function getUserByProviderId($providerId)
     {

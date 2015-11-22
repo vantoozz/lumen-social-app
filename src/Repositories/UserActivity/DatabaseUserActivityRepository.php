@@ -50,7 +50,7 @@ class DatabaseUserActivityRepository implements UserActivityRepositoryInterface
             $this->connection
                 ->table(static::$table)
                 ->where('id', $activity->getUserId())
-                ->update([$field, $activity->getDatetime()->format(DatabaseResourceRepository::FORMAT_DATETIME)]);
+                ->update([$field => $activity->getDatetime()->format(DatabaseResourceRepository::FORMAT_DATETIME)]);
         } catch (\InvalidArgumentException $e) {
             throw new RepositoryException($e->getMessage(), $e->getCode(), $e);
         }

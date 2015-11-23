@@ -123,4 +123,96 @@ class DatabaseResourceRepositoryTest extends TestCase
         static::assertInstanceOf(User::class, $storedUser);
         static::assertSame(1234567, $storedUser->getId());
     }
+
+
+    /**
+     * @test
+     */
+    public function it_updates_resource()
+    {
+        $connection = static::getMockBuilder(Connection::class)->disableOriginalConstructor()->getMock();
+        $hydrator = static::getMock(HydratorInterface::class);
+        $builder = static::getMockBuilder(Builder::class)->disableOriginalConstructor()->getMock();
+
+        $user = new User();
+        $user->populate(['id' => 12345, 'provider' => 'some provider', 'first_name' => 'some name']);
+
+        $connection
+            ->expects(static::once())
+            ->method('table')
+            ->with('users')
+            ->willReturn($builder);
+
+
+        $builder
+            ->expects(static::once())
+            ->method('where')
+            ->with('id', 12345)
+            ->willReturnSelf();
+
+        $builder
+            ->expects(static::once())
+            ->method('update')
+            ->with(static::logicalAnd(static::arrayHasKey('updated_at'),
+                static::logicalNot(static::arrayHasKey('created_at'))))
+            ->willReturn(1);
+
+        $hydrator
+            ->expects(static::once())
+            ->method('extract')
+            ->with($user)
+            ->willReturn(['id' => 12345, 'provider' => 'some provider', 'first_name' => 'some name']);
+
+
+        /** @var Connection $connection */
+        /** @var HydratorInterface $hydrator */
+        $repository = new DatabaseUsersRepository($connection, $hydrator);
+
+        $storedUser = $repository->store($user);
+        static::assertInstanceOf(User::class, $storedUser);
+        static::assertSame(12345, $storedUser->getId());
+    }
+
+    /**
+     * @test
+     * @expectedException     \App\Exceptions\RepositoryException
+     * @expectedExceptionMessage some error
+     * @expectedExceptionCode 123
+     */
+    public function it_throws_exception_while_updating_resource()
+    {
+        $connection = static::getMockBuilder(Connection::class)->disableOriginalConstructor()->getMock();
+        $hydrator = static::getMock(HydratorInterface::class);
+        $builder = static::getMockBuilder(Builder::class)->disableOriginalConstructor()->getMock();
+
+        $user = new User();
+        $user->populate(['id' => 12345, 'provider' => 'some provider', 'first_name' => 'some name']);
+
+        $connection
+            ->expects(static::once())
+            ->method('table')
+            ->with('users')
+            ->willReturn($builder);
+
+
+        $builder
+            ->expects(static::once())
+            ->method('where')
+            ->with('id', 12345)
+            ->willThrowException(new \InvalidArgumentException('some error', 123));
+
+
+        $hydrator
+            ->expects(static::once())
+            ->method('extract')
+            ->with($user)
+            ->willReturn(['id' => 12345, 'provider' => 'some provider', 'first_name' => 'some name']);
+
+
+        /** @var Connection $connection */
+        /** @var HydratorInterface $hydrator */
+        $repository = new DatabaseUsersRepository($connection, $hydrator);
+
+        $repository->store($user);
+    }
 }

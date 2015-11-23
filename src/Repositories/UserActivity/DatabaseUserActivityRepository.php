@@ -44,6 +44,10 @@ class DatabaseUserActivityRepository implements UserActivityRepositoryInterface
      */
     public function store(UserActivity $activity)
     {
+        if (!$activity->getType() instanceof ActivityType) {
+            throw new InvalidArgumentException('Activity type not set');
+        }
+
         $field = $this->makeFieldName($activity->getType());
 
         try {

@@ -173,16 +173,16 @@
         },
         {
             "name": "filp/whoops",
-            "version": "1.1.9",
+            "version": "1.1.10",
             "source": {
                 "type": "git",
                 "url": "https://github.com/filp/whoops.git",
-                "reference": "c9abab430c5a019724425b57093fc4c853cf716a"
+                "reference": "72538eeb70bbfb11964412a3d098d109efd012f7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/filp/whoops/zipball/c9abab430c5a019724425b57093fc4c853cf716a",
-                "reference": "c9abab430c5a019724425b57093fc4c853cf716a",
+                "url": "https://api.github.com/repos/filp/whoops/zipball/72538eeb70bbfb11964412a3d098d109efd012f7",
+                "reference": "72538eeb70bbfb11964412a3d098d109efd012f7",
                 "shasum": ""
             },
             "require": {
@@ -227,7 +227,7 @@
                 "whoops",
                 "zf2"
             ],
-            "time": "2015-11-22 19:20:15"
+            "time": "2015-06-29 05:42:04"
         },
         {
             "name": "guzzlehttp/guzzle",
@@ -4416,16 +4416,16 @@
         },
         {
             "name": "squizlabs/php_codesniffer",
-            "version": "2.3.4",
+            "version": "2.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/squizlabs/PHP_CodeSniffer.git",
-                "reference": "11a2545c44a5915f883e2e5ec12e14ed345e3ab2"
+                "reference": "32a879f4f35019d78d568db2885d7779ca084a33"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/squizlabs/PHP_CodeSniffer/zipball/11a2545c44a5915f883e2e5ec12e14ed345e3ab2",
-                "reference": "11a2545c44a5915f883e2e5ec12e14ed345e3ab2",
+                "url": "https://api.github.com/repos/squizlabs/PHP_CodeSniffer/zipball/32a879f4f35019d78d568db2885d7779ca084a33",
+                "reference": "32a879f4f35019d78d568db2885d7779ca084a33",
                 "shasum": ""
             },
             "require": {
@@ -4486,7 +4486,7 @@
                 "phpcs",
                 "standards"
             ],
-            "time": "2015-09-09 00:18:50"
+            "time": "2015-11-23 21:30:59"
         },
         {
             "name": "symfony/config",

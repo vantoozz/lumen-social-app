@@ -43,7 +43,7 @@ class UserStatusMiner
             return true;
         }
 
-        $lastSync = $this->activityRepository->getActivity(new ActivityType(ActivityType::SYNC), $user->getId());
+        $this->activityRepository->getActivity(new ActivityType(ActivityType::SYNC), $user->getId());
 
         return true;
     }

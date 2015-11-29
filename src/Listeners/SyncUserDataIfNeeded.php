@@ -2,10 +2,17 @@
 
 namespace App\Listeners;
 
+use App\Activities\ActivityType;
+use App\Activities\UserActivity;
 use App\Exceptions\FactoryException;
+use App\Exceptions\InvalidArgumentException;
+use App\Exceptions\NotFoundInRepositoryException;
+use App\Exceptions\RepositoryException;
 use App\Repositories\Resources\Users\UsersRepositoryInterface;
+use App\Repositories\UserActivity\UserActivityRepositoryInterface;
 use App\Resources\User;
 use App\Social\Provider\SocialProviderLocator;
+use Carbon\Carbon;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
 /**
@@ -14,71 +21,122 @@ use Illuminate\Contracts\Queue\ShouldQueue;
  */
 class SyncUserDataIfNeeded implements ShouldQueue
 {
+    const SYNC_FREQUENCY = -1;
+
     /**
-     * @var UsersRepositoryInterface
+     * @var UserActivityRepositoryInterface
      */
-    private $usersRepository;
+    private $activitiesRepository;
     /**
      * @var SocialProviderLocator
      */
     private $providerFactory;
 
     /**
+     * @var UsersRepositoryInterface
+     */
+    private $usersRepository;
+
+    /**
+     * @param UserActivityRepositoryInterface $activitiesRepository
      * @param UsersRepositoryInterface $usersRepository
      * @param SocialProviderLocator $providerFactory
      */
-    public function __construct(UsersRepositoryInterface $usersRepository, SocialProviderLocator $providerFactory)
-    {
-        $this->usersRepository = $usersRepository;
+    public function __construct(
+        UserActivityRepositoryInterface $activitiesRepository,
+        UsersRepositoryInterface $usersRepository,
+        SocialProviderLocator $providerFactory
+    ) {
+        $this->activitiesRepository = $activitiesRepository;
         $this->providerFactory = $providerFactory;
+        $this->usersRepository = $usersRepository;
     }
 
     /**
      * @param User $user
      * @throws FactoryException
+     * @throws InvalidArgumentException
+     * @throws RepositoryException
      */
     public function handle(User $user)
     {
-        if (!$user->isSyncNeeded()) {
+        if (!$this->isUserInfoOutdated($user)) {
             return;
         }
 
+        $providerUser = $this->fetchProviderUser($user);
+        $this->updateUser($user, $providerUser);
+        $this->createActivity($user);
+    }
+
+    /**
+     * @param User $user
+     * @return User
+     * @throws FactoryException
+     */
+    protected function fetchProviderUser(User $user)
+    {
         $providerName = $user->getProvider();
         $provider = $this->providerFactory->build($providerName);
-
         $providerUser = $provider->getUserByProviderId($user->getProviderId());
+        return $providerUser;
+    }
 
-        $updatedInfo = $this->getFilteredUserInfo($providerUser);
-        $user->populate($updatedInfo);
+    /**
+     * @param User $user
+     * @param User $providerUser
+     * @throws RepositoryException
+     */
+    protected function updateUser(User $user, User $providerUser)
+    {
+        $user->setFirstName($providerUser->getFirstName());
+        $user->setLastName($providerUser->getLastName());
+        $user->setSex($providerUser->getSex());
+        $user->setPhoto($providerUser->getPhoto());
 
-        $user->setLastSyncNow();
+        $birthDate = $providerUser->getBirthDate();
+        if ($birthDate instanceof Carbon) {
+            $user->setBirthDate($birthDate);
+        }
 
         $this->usersRepository->store($user);
     }
 
     /**
      * @param User $user
-     *
-     * @return array
+     * @throws InvalidArgumentException
      */
-    private function getFilteredUserInfo(User $user)
+    protected function createActivity(User $user)
     {
-        return array_filter(
-            $user->toArray(),
-            function ($key) {
-                return in_array(
-                    $key,
-                    [
-                        User::FIELD_FIRST_NAME,
-                        User::FIELD_LAST_NAME,
-                        User::FIELD_SEX,
-                        User::FIELD_BIRTH_DATE,
-                        User::FIELD_PHOTO,
-                    ],
-                    true
-                );
-            },
-            ARRAY_FILTER_USE_KEY
-        );
+        $activity = new UserActivity;
+        $activity->setType(new ActivityType(ActivityType::SYNC));
+        $activity->setUserId($user->getId());
+        $activity->setDatetime(new Carbon);
+
+        $this->activitiesRepository->store($activity);
+    }
+
+    /**
+     * @param User $user
+     * @return bool
+     * @throws InvalidArgumentException
+     */
+    protected function isUserInfoOutdated(User $user)
+    {
+        if ('' === (string)$user->getLastName()) {
+            return true;
+        }
+
+        if ('' === (string)$user->getPhoto()) {
+            return true;
+        }
+
+        try {
+            $activity = $this->activitiesRepository->getActivity(new ActivityType(ActivityType::SYNC), $user->getId());
+        } catch (NotFoundInRepositoryException $e) {
+            return true;
+        }
+
+        return $activity->getDatetime()->diff(new Carbon)->days >= self::SYNC_FREQUENCY;
     }
 }

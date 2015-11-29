@@ -5,8 +5,10 @@ namespace App\Repositories\UserActivity;
 use App\Activities\ActivityType;
 use App\Activities\UserActivity;
 use App\Exceptions\InvalidArgumentException;
+use App\Exceptions\NotFoundInRepositoryException;
 use App\Exceptions\RepositoryException;
 use App\Repositories\Resources\DatabaseResourceRepository;
+use Carbon\Carbon;
 use Illuminate\Database\Connection;
 
 /**
@@ -41,16 +43,29 @@ class DatabaseUserActivityRepository implements UserActivityRepositoryInterface
      * @param ActivityType $activityType
      * @param $userId
      * @throws InvalidArgumentException
+     * @throws NotFoundInRepositoryException
      * @throws \InvalidArgumentException
      * @return UserActivity
      */
     public function getActivity(ActivityType $activityType, $userId)
     {
         $field = $this->makeFieldName($activityType);
-        $this->connection
+
+        $date = $this->connection
             ->table(static::$table)
-            ->where('user_id', $userId)
-            ->first($field);
+            ->where('id', $userId)
+            ->value($field);
+
+        if (null === $date) {
+            throw new NotFoundInRepositoryException('No activity found');
+        }
+
+        $activity = new UserActivity;
+        $activity->setType($activityType);
+        $activity->setUserId($userId);
+        $activity->setDatetime(new Carbon($date));
+
+        return $activity;
     }
 
 

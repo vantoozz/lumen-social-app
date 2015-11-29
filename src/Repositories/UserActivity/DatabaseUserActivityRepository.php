@@ -37,6 +37,18 @@ class DatabaseUserActivityRepository implements UserActivityRepositoryInterface
         $this->connection = $connection;
     }
 
+    public function getActivity(ActivityType $activityType, $userId)
+    {
+        $field = $this->makeFieldName($activityType);
+        $this->connection
+            ->table(static::$table)
+            ->where('user_id', $userId)
+            ->first($field);
+
+
+    }
+
+
     /**
      * @param UserActivity $activity
      * @throws InvalidArgumentException

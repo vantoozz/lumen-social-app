@@ -2,6 +2,7 @@
 
 namespace App\Repositories\UserActivity;
 
+use App\Activities\ActivityType;
 use App\Activities\UserActivity;
 
 /**
@@ -14,4 +15,11 @@ interface UserActivityRepositoryInterface
      * @param UserActivity $activity
      */
     public function store(UserActivity $activity);
+
+    /**
+     * @param ActivityType $activityType
+     * @param $userId
+     * @return UserActivity
+     */
+    public function getActivity(ActivityType $activityType, $userId);
 }

@@ -37,6 +37,13 @@ class DatabaseUserActivityRepository implements UserActivityRepositoryInterface
         $this->connection = $connection;
     }
 
+    /**
+     * @param ActivityType $activityType
+     * @param $userId
+     * @throws InvalidArgumentException
+     * @throws \InvalidArgumentException
+     * @return UserActivity
+     */
     public function getActivity(ActivityType $activityType, $userId)
     {
         $field = $this->makeFieldName($activityType);
@@ -44,8 +51,6 @@ class DatabaseUserActivityRepository implements UserActivityRepositoryInterface
             ->table(static::$table)
             ->where('user_id', $userId)
             ->first($field);
-
-
     }
 
 

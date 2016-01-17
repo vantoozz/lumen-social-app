@@ -23,6 +23,7 @@ $app = new Laravel\Lumen\Application(
 // $app->withEloquent();
 
 $app->configure('auth');
+$app->configure('session');
 
 /*
 |--------------------------------------------------------------------------
@@ -60,9 +61,9 @@ $app->singleton(
 
 $app->middleware(
     [
-        Illuminate\Cookie\Middleware\EncryptCookies::class,
+        // Illuminate\Cookie\Middleware\EncryptCookies::class,
         // 'Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse',
-        Illuminate\Session\Middleware\StartSession::class,
+//        Illuminate\Session\Middleware\StartSession::class,
         // 'Illuminate\View\Middleware\ShareErrorsFromSession',
         // 'Laravel\Lumen\Http\Middleware\VerifyCsrfToken',
     ]
@@ -85,6 +86,9 @@ $app->routeMiddleware(
 |
 */
 
+$app->register(Illuminate\Filesystem\FilesystemServiceProvider::class);
+$app->register(Illuminate\Session\SessionServiceProvider::class);
+$app->register(Illuminate\Redis\RedisServiceProvider::class);
 $app->register(App\Providers\DbConnectionServiceProvider::class);
 $app->register(App\Providers\DbAuthServiceProvider::class);
 $app->register(App\Providers\VKServiceProvider::class);

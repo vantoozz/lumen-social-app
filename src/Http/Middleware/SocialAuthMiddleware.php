@@ -9,7 +9,7 @@ use App\Exceptions\RoutingException;
 use App\Repositories\Resources\Users\UsersRepositoryInterface;
 use App\Social\Provider\SocialProviderLocator;
 use Closure;
-use Illuminate\Contracts\Auth\Guard;
+use Illuminate\Contracts\Auth\StatefulGuard;
 use Illuminate\Http\Request;
 
 /**
@@ -23,7 +23,7 @@ class SocialAuthMiddleware
      */
     private $usersRepository;
     /**
-     * @var Guard
+     * @var StatefulGuard
      */
     private $auth;
     /**
@@ -34,13 +34,13 @@ class SocialAuthMiddleware
     /**
      * SocialAuthMiddleware constructor.
      * @param UsersRepositoryInterface $usersRepository
-     * @param Guard $auth
+     * @param StatefulGuard $auth
      * @param SocialProviderLocator $providersLocator
      */
     public function __construct(
         UsersRepositoryInterface $usersRepository,
         SocialProviderLocator $providersLocator,
-        Guard $auth
+        StatefulGuard $auth
     ) {
         $this->usersRepository = $usersRepository;
         $this->providersLocator = $providersLocator;

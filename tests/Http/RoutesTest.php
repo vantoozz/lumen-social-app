@@ -26,7 +26,7 @@ class RoutesTest extends TestCase
         $user = new User;
         $user->setId(12334567);
         $this->be($user);
-        $this->visit('/')->see('\'id\' => 12334567');
+        static::assertContains('\'id\' => 12334567', $this->get('/')->response->content());
     }
 
     /**
@@ -39,7 +39,7 @@ class RoutesTest extends TestCase
         $user = new User;
         $user->setId(12334567);
         $this->be($user);
-        $this->visit('/app/some_provider')->see('\'id\' => 12334567');
+        static::assertContains('\'id\' => 12334567', $this->get('/app/some_provider')->response->content());
     }
 
 }

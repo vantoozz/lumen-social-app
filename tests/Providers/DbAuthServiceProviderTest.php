@@ -5,6 +5,7 @@ namespace App\Providers;
 use App\TestCase;
 use Illuminate\Auth\AuthManager;
 use Illuminate\Auth\Guard;
+use Illuminate\Auth\SessionGuard;
 
 class DbAuthServiceProviderTest extends TestCase
 {
@@ -20,6 +21,6 @@ class DbAuthServiceProviderTest extends TestCase
         /** @var AuthManager $auth */
         $auth = $this->app->make('auth');
         static::assertSame('db', $auth->getDefaultDriver());
-        static::assertInstanceOf(Guard::class, $auth->driver());
+        static::assertInstanceOf(SessionGuard::class, $auth->guard());
     }
 }

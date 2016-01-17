@@ -9,6 +9,7 @@ use App\Social\Provider\SocialProviderInterface;
 use App\Social\Provider\SocialProviderLocator;
 use App\TestCase;
 use Illuminate\Contracts\Auth\Guard;
+use Illuminate\Contracts\Auth\StatefulGuard;
 use Illuminate\Http\Request;
 
 class SocialAuthMiddlewareTest extends TestCase
@@ -19,7 +20,7 @@ class SocialAuthMiddlewareTest extends TestCase
      */
     public function it_authenticates_a_user()
     {
-        $auth = static::getMock(Guard::class);
+        $auth = static::getMock(StatefulGuard::class);
         $request = static::getMock(Request::class);
         $provider = static::getMock(SocialProviderInterface::class);
         $usersRepository = static::getMock(UsersRepositoryInterface::class);
@@ -83,7 +84,7 @@ class SocialAuthMiddlewareTest extends TestCase
 
         /** @var UsersRepositoryInterface $usersRepository */
         /** @var SocialProviderLocator $providersLocator */
-        /** @var Guard $auth */
+        /** @var StatefulGuard $auth */
         /** @var Request $request */
         $middleware = new SocialAuthMiddleware($usersRepository, $providersLocator, $auth);
         $middleware->handle($request, $next);

@@ -1,6 +1,13 @@
 <?php
 
 return [
-    'driver' => 'db',
-    'table' => 'users',
+    'defaults' => [
+        'guard' => 'db'
+    ],
+    'guards' => [
+        'db' => [
+            'driver' => 'db',
+            'table' => 'users',
+        ],
+    ],
 ];

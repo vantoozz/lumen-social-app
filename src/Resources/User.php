@@ -255,4 +255,14 @@ class User extends AbstractResource implements Authenticatable
     {
         throw new \LogicException('Invalid method');
     }
+
+    /**
+     * Get the name of the unique identifier for the user.
+     *
+     * @return string
+     */
+    public function getAuthIdentifierName()
+    {
+        return 'id';
+    }
 }

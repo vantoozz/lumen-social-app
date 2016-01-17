@@ -5,7 +5,7 @@ namespace App\Providers;
 use App\Listeners\LogUserLoginActivity;
 use App\Listeners\SyncUserDataIfNeeded;
 use App\Listeners\UpdateUserCdnPhoto;
-use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
+use Laravel\Lumen\Providers\EventServiceProvider as ServiceProvider;
 
 /**
  * Class EventServiceProvider

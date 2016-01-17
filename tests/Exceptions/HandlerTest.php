@@ -5,15 +5,26 @@ namespace App\Exceptions;
 use App\TestCase;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use ReflectionClass;
 use Whoops\Run;
 
 class HandlerTest extends TestCase
 {
+
+    private function checkIfWhoopsRunIsFinal()
+    {
+        $run = new ReflectionClass(Run::class);
+        if ($run->isFinal()) {
+            static::markTestSkipped('Whoops\\Run is still final. See https://github.com/filp/whoops/pull/364');
+        }
+    }
+
     /**
      * @test
      */
     public function it_renders_errors_with_whoops()
     {
+        $this->checkIfWhoopsRunIsFinal();
         $debug = getenv('APP_DEBUG');
         $this->setDebugVariable('true');
         $whoops = static::getMock(Run::class);
@@ -38,6 +49,7 @@ class HandlerTest extends TestCase
      */
     public function it_renders_errors_with_no_whoops()
     {
+        $this->checkIfWhoopsRunIsFinal();
         $debug = getenv('APP_DEBUG');
         $this->setDebugVariable('false');
 

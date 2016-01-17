@@ -157,4 +157,72 @@ class DatabaseUserActivityRepositoryTest extends TestCase
         $repository->store($activity);
     }
 
+    /**
+     * @test
+     * @expectedException     \App\Exceptions\NotFoundInRepositoryException
+     * @expectedExceptionMessage No activity found
+     */
+    public function it_thrown_an_exception_if_no_activity_found()
+    {
+        $connection = static::getMockBuilder(Connection::class)->disableOriginalConstructor()->getMock();
+        $builder = static::getMockBuilder(Builder::class)->disableOriginalConstructor()->getMock();
+
+        $connection
+            ->expects(static::once())
+            ->method('table')
+            ->with('users')
+            ->willReturn($builder);
+
+        $builder
+            ->expects(static::once())
+            ->method('where')
+            ->with('id', 123)
+            ->willReturnSelf();
+
+        $builder
+            ->expects(static::once())
+            ->method('value')
+            ->with('last_login_at')
+            ->willReturn(null);
+
+        /** @var Connection $connection */
+        $repository = new DatabaseUserActivityRepository($connection);
+        $repository->getActivity(new ActivityType(ActivityType::LOGIN), 123);
+    }
+    /**
+     * @test
+     */
+    public function it_gets_activity()
+    {
+        $connection = static::getMockBuilder(Connection::class)->disableOriginalConstructor()->getMock();
+        $builder = static::getMockBuilder(Builder::class)->disableOriginalConstructor()->getMock();
+
+        $connection
+            ->expects(static::once())
+            ->method('table')
+            ->with('users')
+            ->willReturn($builder);
+
+        $builder
+            ->expects(static::once())
+            ->method('where')
+            ->with('id', 123)
+            ->willReturnSelf();
+
+        $builder
+            ->expects(static::once())
+            ->method('value')
+            ->with('last_login_at')
+            ->willReturn('2015-01-01 11:11:11');
+
+        /** @var Connection $connection */
+        $repository = new DatabaseUserActivityRepository($connection);
+        $activity = $repository->getActivity(new ActivityType(ActivityType::LOGIN), 123);
+
+        static::assertInstanceOf(UserActivity::class, $activity);
+        static::assertSame(ActivityType::LOGIN, $activity->getType()->getType());
+        static::assertSame(123, $activity->getUserId());
+        static::assertSame('20150101', $activity->getDatetime()->format('Ymd'));
+    }
+
 }

@@ -11,14 +11,18 @@
     "guzzlehttp/guzzle": "~6",
     "filp/whoops": "~2"
   },
+  "conflict": {
+    "guzzle/guzzle": "*"
+  },
   "require-dev": {
+    "humbug/humbug": "~1.0@dev",
     "phploc/phploc": "~2",
     "phpunit/phpunit": "~5",
     "squizlabs/php_codesniffer": "~2",
     "sebastian/phpcpd": "~2",
     "phpmd/phpmd": "~2",
     "codacy/coverage": "~1",
-    "satooshi/php-coveralls": "~1",
+    "satooshi/php-coveralls": "dev-master",
     "block8/php-docblock-checker": "~1"
   },
   "autoload": {

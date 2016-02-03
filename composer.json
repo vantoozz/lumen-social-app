@@ -16,7 +16,7 @@
   },
   "require-dev": {
     "humbug/humbug": "~1.0@dev",
-    "phploc/phploc": "~2",
+    "phploc/phploc": "~3",
     "phpunit/phpunit": "~5",
     "squizlabs/php_codesniffer": "~2",
     "sebastian/phpcpd": "~2",

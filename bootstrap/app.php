@@ -19,11 +19,9 @@ $app = new Laravel\Lumen\Application(
     realpath(__DIR__ . '/../')
 );
 
-// $app->withFacades();
-// $app->withEloquent();
-
 $app->configure('auth');
 $app->configure('session');
+$app->configure('filesystems');
 
 /*
 |--------------------------------------------------------------------------

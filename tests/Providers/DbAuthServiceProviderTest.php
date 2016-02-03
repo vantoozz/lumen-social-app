@@ -7,6 +7,7 @@ use Illuminate\Auth\AuthManager;
 use Illuminate\Auth\Guard;
 use Illuminate\Auth\SessionGuard;
 use Illuminate\Contracts\Auth\StatefulGuard;
+use Illuminate\Contracts\Events\Dispatcher;
 
 class DbAuthServiceProviderTest extends TestCase
 {
@@ -22,7 +23,10 @@ class DbAuthServiceProviderTest extends TestCase
         /** @var AuthManager $auth */
         $auth = $this->app->make('auth');
         static::assertSame('db', $auth->getDefaultDriver());
-        static::assertInstanceOf(SessionGuard::class, $auth->guard());
+        $guard = $auth->guard();
+        static::assertInstanceOf(SessionGuard::class, $guard);
+        /** @var SessionGuard $guard */
+        static::assertInstanceOf(Dispatcher::class, $guard->getDispatcher());
     }
 
 

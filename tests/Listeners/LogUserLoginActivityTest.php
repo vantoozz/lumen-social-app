@@ -6,6 +6,7 @@ use App\Activities\UserActivity;
 use App\Repositories\UserActivity\UserActivityRepositoryInterface;
 use App\Resources\User;
 use App\TestCase;
+use Illuminate\Auth\Events\Login;
 
 class LogUserLoginActivityTest extends TestCase
 {
@@ -31,6 +32,8 @@ class LogUserLoginActivityTest extends TestCase
 
         /** @var UserActivityRepositoryInterface $repository */
         $listener = new LogUserLoginActivity($repository);
-        $listener->handle($user);
+
+        $event  = new Login($user, false);
+        $listener->handle($event);
     }
 }

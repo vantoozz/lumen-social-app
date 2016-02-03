@@ -6,13 +6,14 @@ use App\Activities\ActivityType;
 use App\Activities\UserActivity;
 use App\Exceptions\FactoryException;
 use App\Exceptions\InvalidArgumentException;
-use App\Exceptions\NotFoundInRepositoryException;
 use App\Exceptions\RepositoryException;
+use App\Miners\UserStatus\UserStatusMinerInterface;
 use App\Repositories\Resources\Users\UsersRepositoryInterface;
 use App\Repositories\UserActivity\UserActivityRepositoryInterface;
 use App\Resources\User;
 use App\Social\Provider\SocialProviderLocator;
 use Carbon\Carbon;
+use Illuminate\Auth\Events\Login;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
 /**
@@ -21,8 +22,6 @@ use Illuminate\Contracts\Queue\ShouldQueue;
  */
 class SyncUserDataIfNeeded implements ShouldQueue
 {
-    const SYNC_FREQUENCY = -1;
-
     /**
      * @var UserActivityRepositoryInterface
      */
@@ -36,31 +35,41 @@ class SyncUserDataIfNeeded implements ShouldQueue
      * @var UsersRepositoryInterface
      */
     private $usersRepository;
+    /**
+     * @var UserStatusMinerInterface
+     */
+    private $userStatusMiner;
 
     /**
      * @param UserActivityRepositoryInterface $activitiesRepository
      * @param UsersRepositoryInterface $usersRepository
      * @param SocialProviderLocator $providerFactory
+     * @param UserStatusMinerInterface $userStatusMiner
      */
     public function __construct(
         UserActivityRepositoryInterface $activitiesRepository,
         UsersRepositoryInterface $usersRepository,
-        SocialProviderLocator $providerFactory
+        SocialProviderLocator $providerFactory,
+        UserStatusMinerInterface $userStatusMiner
     ) {
         $this->activitiesRepository = $activitiesRepository;
         $this->providerFactory = $providerFactory;
         $this->usersRepository = $usersRepository;
+        $this->userStatusMiner = $userStatusMiner;
     }
 
     /**
-     * @param User $user
+     * @param Login $event
      * @throws FactoryException
      * @throws InvalidArgumentException
      * @throws RepositoryException
      */
-    public function handle(User $user)
+    public function handle(Login $event)
     {
-        if (!$this->isUserInfoOutdated($user)) {
+        /** @var User $user */
+        $user = $event->user;
+
+        if (!$this->userStatusMiner->isUserInfoOutdated($user)) {
             return;
         }
 
@@ -114,29 +123,5 @@ class SyncUserDataIfNeeded implements ShouldQueue
         $activity->setDatetime(new Carbon);
 
         $this->activitiesRepository->store($activity);
-    }
-
-    /**
-     * @param User $user
-     * @return bool
-     * @throws InvalidArgumentException
-     */
-    protected function isUserInfoOutdated(User $user)
-    {
-        if ('' === (string)$user->getLastName()) {
-            return true;
-        }
-
-        if ('' === (string)$user->getPhoto()) {
-            return true;
-        }
-
-        try {
-            $activity = $this->activitiesRepository->getActivity(new ActivityType(ActivityType::SYNC), $user->getId());
-        } catch (NotFoundInRepositoryException $e) {
-            return true;
-        }
-
-        return $activity->getDatetime()->diff(new Carbon)->days >= self::SYNC_FREQUENCY;
     }
 }

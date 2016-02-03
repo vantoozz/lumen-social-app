@@ -7,6 +7,7 @@ use App\Exceptions\RepositoryException;
 use App\Media\MediaManager;
 use App\Repositories\Resources\Users\UsersRepositoryInterface;
 use App\Resources\User;
+use Illuminate\Auth\Events\Login;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
 /**
@@ -37,12 +38,15 @@ class UpdateUserCdnPhoto implements ShouldQueue
     }
 
     /**
-     * @param User $user
+     * @param Login $event
      * @throws RepositoryException
      * @throws DownloaderException
      */
-    public function handle(User $user)
+    public function handle(Login $event)
     {
+        /** @var User $user */
+        $user = $event->user;
+
         $photo = $user->getPhoto();
         if ('' === (string)$photo) {
             $user->setPhoto(null);

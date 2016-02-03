@@ -5,6 +5,7 @@ namespace App\Providers;
 use App\Listeners\LogUserLoginActivity;
 use App\Listeners\SyncUserDataIfNeeded;
 use App\Listeners\UpdateUserCdnPhoto;
+use Illuminate\Auth\Events\Login;
 use Laravel\Lumen\Providers\EventServiceProvider as ServiceProvider;
 
 /**
@@ -19,9 +20,9 @@ class EventServiceProvider extends ServiceProvider
      * @var array
      */
     protected $listen = [
-        'auth.login' => [
+        Login::class => [
             LogUserLoginActivity::class,
-//            SyncUserDataIfNeeded::class,
+            SyncUserDataIfNeeded::class,
             UpdateUserCdnPhoto::class,
         ],
     ];

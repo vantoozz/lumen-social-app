@@ -6,6 +6,7 @@ use App\Media\MediaManager;
 use App\Repositories\Resources\Users\UsersRepositoryInterface;
 use App\Resources\User;
 use App\TestCase;
+use Illuminate\Auth\Events\Login;
 
 class UpdateUserCdnPhotoTest extends TestCase
 {
@@ -46,7 +47,9 @@ class UpdateUserCdnPhotoTest extends TestCase
         /** @var UsersRepositoryInterface $usersRepository */
         /** @var MediaManager $mediaManager */
         $listener = new UpdateUserCdnPhoto($usersRepository, $mediaManager);
-        $listener->handle($user);
+
+        $event  = new Login($user, false);
+        $listener->handle($event);
     }
 
     /**
@@ -74,7 +77,9 @@ class UpdateUserCdnPhotoTest extends TestCase
         /** @var UsersRepositoryInterface $usersRepository */
         /** @var MediaManager $mediaManager */
         $listener = new UpdateUserCdnPhoto($usersRepository, $mediaManager);
-        $listener->handle($user);
+
+        $event  = new Login($user, false);
+        $listener->handle($event);
     }
 
     /**
@@ -105,7 +110,9 @@ class UpdateUserCdnPhotoTest extends TestCase
         /** @var UsersRepositoryInterface $usersRepository */
         /** @var MediaManager $mediaManager */
         $listener = new UpdateUserCdnPhoto($usersRepository, $mediaManager);
-        $listener->handle($user);
+
+        $event  = new Login($user, false);
+        $listener->handle($event);
     }
 
     /**
@@ -127,6 +134,8 @@ class UpdateUserCdnPhotoTest extends TestCase
         /** @var UsersRepositoryInterface $usersRepository */
         /** @var MediaManager $mediaManager */
         $listener = new UpdateUserCdnPhoto($usersRepository, $mediaManager);
-        $listener->handle($user);
+
+        $event  = new Login($user, false);
+        $listener->handle($event);
     }
 }

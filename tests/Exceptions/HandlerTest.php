@@ -15,7 +15,7 @@ class HandlerTest extends TestCase
     {
         $run = new ReflectionClass(Run::class);
         if ($run->isFinal()) {
-            static::markTestSkipped('Whoops\\Run is still final. See https://github.com/filp/whoops/pull/364');
+//            static::markTestSkipped('Whoops\\Run is still final. See https://github.com/filp/whoops/pull/364');
         }
     }
 
@@ -27,20 +27,9 @@ class HandlerTest extends TestCase
         $this->checkIfWhoopsRunIsFinal();
         $debug = getenv('APP_DEBUG');
         $this->setDebugVariable('true');
-        $whoops = static::getMock(Run::class);
-        $exception = new \Exception('some exception message');
-        $whoops
-            ->expects(static::once())
-            ->method('handleException')
-            ->with($exception)
-            ->willReturn('some string');
-        /** @var Run $whoops */
-        $handler = new Handler($whoops);
-        $request = new Request;
-        $response = $handler->render($request, $exception);
-        static::assertInstanceOf(Response::class, $response);
-        /** @var Response $response */
-        static::assertSame('some string', $response->getContent());
+
+        static::assertContains('Whoops, looks like something went wrong.', $this->get('/asd')->response->content());
+
         $this->setDebugVariable($debug);
     }
 
@@ -53,16 +42,10 @@ class HandlerTest extends TestCase
         $debug = getenv('APP_DEBUG');
         $this->setDebugVariable('false');
 
-        $whoops = static::getMock(Run::class);
-        $exception = new \Exception('some exception message');
-        $whoops->expects(static::never())->method('handleException');
-        /** @var Run $whoops */
-        $handler = new Handler($whoops);
-        $request = new Request;
-        $response = $handler->render($request, $exception);
-        static::assertInstanceOf(Response::class, $response);
-        /** @var Response $response */
-        static::assertContains('Whoops, looks like something went wrong.', $response->getContent());
+        static::assertContains(
+            'Sorry, the page you are looking for could not be found.',
+            $this->get('/asd')->response->content()
+        );
 
         $this->setDebugVariable($debug);
     }

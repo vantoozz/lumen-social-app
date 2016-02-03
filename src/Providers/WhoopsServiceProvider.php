@@ -37,7 +37,11 @@ class WhoopsServiceProvider extends ServiceProvider
     {
         $this->app->bind(Run::class, function () {
             $whoops = new Run;
-            $whoops->pushHandler(new PrettyPageHandler);
+            $handler = new PrettyPageHandler;
+            $handler->handleUnconditionally(true);
+            $whoops->pushHandler($handler);
+            $whoops->writeToOutput(false);
+            $whoops->allowQuit(false);
 
             return $whoops;
         });

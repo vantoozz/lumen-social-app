@@ -202,4 +202,14 @@ class UserTest extends TestCase
         $user->setFirstName('value');
         static::assertFalse($user->isSyncNeeded());
     }
+
+    /**
+     * @test
+     */
+    public function it_returns_auth_identifier_name()
+    {
+        $user = new User;
+        static::assertSame('id', $user->getAuthIdentifierName());
+    }
+
 }

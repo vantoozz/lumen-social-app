@@ -30,7 +30,6 @@ class SyncUserDataIfNeeded implements ShouldQueue
      * @var SocialProviderLocator
      */
     private $providerFactory;
-
     /**
      * @var UsersRepositoryInterface
      */
@@ -87,8 +86,8 @@ class SyncUserDataIfNeeded implements ShouldQueue
     {
         $providerName = $user->getProvider();
         $provider = $this->providerFactory->build($providerName);
-        $providerUser = $provider->getUserByProviderId($user->getProviderId());
-        return $providerUser;
+
+        return $provider->getUserByProviderId($user->getProviderId());
     }
 
     /**

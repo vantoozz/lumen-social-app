@@ -94,6 +94,7 @@ $app->register(App\Providers\UsersRepositoryServiceProvider::class);
 $app->register(App\Providers\EventServiceProvider::class);
 $app->register(App\Providers\MediaManagerServiceProvider::class);
 $app->register(App\Providers\UserActivityRepositoryServiceProvider::class);
+$app->register(App\Providers\UserStatusMinerServiceProvider::class);
 
 /*
 |--------------------------------------------------------------------------

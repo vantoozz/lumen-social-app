@@ -56,9 +56,9 @@ class DatabaseUsersRepositoryTest extends TestCase
         $connection = static::getMockBuilder(Connection::class)->disableOriginalConstructor()->getMock();
         $hydrator = static::getMock(HydratorInterface::class);
         $builder = static::getMockBuilder(Builder::class)->disableOriginalConstructor()->getMock();
-        $hydratedUser = new User();
+        $hydratedUser = new User('some provider', 123);
 
-        $hydratedUser->populate(['provider' => 'some provider', 'first_name' => 'some name']);
+        $hydratedUser->populate(['first_name' => 'some name']);
 
         $connection
             ->expects(static::once())

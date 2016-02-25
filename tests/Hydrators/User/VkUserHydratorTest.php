@@ -13,7 +13,7 @@ class VkUserHydratorTest extends TestCase
     public function it_extracts_a_user_as_empty_array()
     {
         $hydrator = new VkUserHydrator;
-        static::assertSame([], $hydrator->extract(new User));
+        static::assertSame([], $hydrator->extract(new User('some provider', 12345)));
     }
 
     /**
@@ -201,5 +201,4 @@ class VkUserHydratorTest extends TestCase
             'bdate' => 'some string',
         ]);
     }
-
 }

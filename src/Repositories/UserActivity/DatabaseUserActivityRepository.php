@@ -82,11 +82,15 @@ class DatabaseUserActivityRepository implements UserActivityRepositoryInterface
 
         $field = $this->makeFieldName($activity->getType());
 
+        $datetime = clone $activity->getDatetime();
+        $datetime->setTimezone(new \DateTimeZone('UTC'));
+        $datetime = $datetime->format(DatabaseResourceRepository::FORMAT_DATETIME);
+
         try {
             $this->connection
                 ->table(static::$table)
                 ->where('id', $activity->getUserId())
-                ->update([$field => $activity->getDatetime()->format(DatabaseResourceRepository::FORMAT_DATETIME)]);
+                ->update([$field => $datetime]);
         } catch (\InvalidArgumentException $e) {
             throw new RepositoryException($e->getMessage(), $e->getCode(), $e);
         }

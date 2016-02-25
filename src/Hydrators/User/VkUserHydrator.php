@@ -37,7 +37,7 @@ class VkUserHydrator extends AbstractHydrator
             throw new HydratorException('No provider_id field');
         }
 
-        $user = new User;
+        $user = new User(SocialProviderInterface::PROVIDER_VK, $data[SocialProviderInterface::FIELD_PROVIDER_ID]);
 
         $data = $this->hydrateEmptyAsNull(self::FIELD_FIRST_NAME, $data);
         $data = $this->hydrateEmptyAsNull(self::FIELD_LAST_NAME, $data);
@@ -46,8 +46,6 @@ class VkUserHydrator extends AbstractHydrator
 
         $user->populate(
             [
-                User::FIELD_PROVIDER => SocialProviderInterface::PROVIDER_VK,
-                User::FIELD_PROVIDER_ID => $data[SocialProviderInterface::FIELD_PROVIDER_ID],
                 User::FIELD_FIRST_NAME => $data[self::FIELD_FIRST_NAME],
                 User::FIELD_LAST_NAME => $data[self::FIELD_LAST_NAME],
                 User::FIELD_PHOTO => $data[self::FIELD_PHOTO],

@@ -125,7 +125,8 @@ abstract class DatabaseResourceRepository extends AbstractResourceRepository
     {
         $data = $this->hydrator->extract($resource);
 
-        $data[self::FIELD_UPDATED_AT] = (new Carbon)->format(self::FORMAT_DATETIME);
+        $datetime = (new Carbon)->setTimezone(new \DateTimeZone('UTC'))->format(self::FORMAT_DATETIME);
+        $data[self::FIELD_UPDATED_AT] = $datetime;
 
         return $data;
     }

@@ -44,5 +44,4 @@ class HandlerTest extends TestCase
         $_ENV['APP_DEBUG'] = $debug;
         $_SERVER['APP_DEBUG'] = $debug;
     }
-
 }

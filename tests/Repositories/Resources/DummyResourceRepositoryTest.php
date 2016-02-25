@@ -23,10 +23,9 @@ class DummyResourceRepositoryTest extends TestCase
     public function it_stores_resource()
     {
         $repository = new DummyResourceRepository;
-        $user = new User;
+        $user = new User('some provider', 123);
         $user->setId(12345);
         $storedUser = $repository->store($user);
         static::assertSame($storedUser, $user);
     }
-
 }

@@ -2,6 +2,7 @@
 
 namespace App\Hydrators\User;
 
+use App\Exceptions\HydratorException;
 use App\Hydrators\AbstractHydrator;
 use App\Resources\ResourceInterface;
 use App\Resources\User;
@@ -48,13 +49,21 @@ class DatabaseUserHydrator extends AbstractHydrator
     /**
      * @param array $data
      * @return User
-     * @throws \App\Exceptions\HydratorException
+     * @throws HydratorException
      */
     public function hydrate(array $data)
     {
+        if (empty($data[self::FIELD_PROVIDER])) {
+            throw new HydratorException('No ' . self::FIELD_PROVIDER . ' field');
+        }
+
+        if (empty($data[self::FIELD_PROVIDER_ID])) {
+            throw new HydratorException('No ' . self::FIELD_PROVIDER_ID . ' field');
+        }
+
         $data = $this->hydrateDate(self::FIELD_BIRTH_DATE, $data);
 
-        $user = new User;
+        $user = new User($data[self::FIELD_PROVIDER], $data[self::FIELD_PROVIDER_ID]);
         $user->populate($data);
 
         return $user;

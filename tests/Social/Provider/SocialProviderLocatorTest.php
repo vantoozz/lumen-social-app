@@ -45,7 +45,7 @@ class SocialProviderLocatorTest extends TestCase
         $container = new Container;
         $locator = new SocialProviderLocator($container);
         $container->singleton('social.provider', function () {
-            return new User;
+            return new User('aaa', 123);
         });
 
         static::assertInstanceOf(SocialProviderInterface::class, $locator->build('provider'));

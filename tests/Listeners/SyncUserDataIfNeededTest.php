@@ -2,35 +2,25 @@
 
 namespace App\Listeners;
 
-use App\Activities\UserActivity;
+use App\Jobs\JobsLocator;
+use App\Jobs\SyncUserData;
 use App\Miners\UserStatus\UserStatusMinerInterface;
-use App\Repositories\Resources\Users\UsersRepositoryInterface;
-use App\Repositories\UserActivity\UserActivityRepositoryInterface;
 use App\Resources\User;
-use App\Social\Provider\SocialProviderInterface;
-use App\Social\Provider\SocialProviderLocator;
 use App\TestCase;
-use Carbon\Carbon;
 use Illuminate\Auth\Events\Login;
-use PHPUnit_Framework_Constraint_IsInstanceOf;
+use Illuminate\Contracts\Bus\Dispatcher;
 use PHPUnit_Framework_MockObject_MockObject;
-
 
 class SyncUserDataIfNeededTest extends TestCase
 {
-
     /**
      * @var PHPUnit_Framework_MockObject_MockObject
      */
-    private $activitiesRepository;
+    private $jobsLocator;
     /**
      * @var PHPUnit_Framework_MockObject_MockObject
      */
-    private $usersRepository;
-    /**
-     * @var PHPUnit_Framework_MockObject_MockObject
-     */
-    private $providerFactory;
+    private $dispatcher;
     /**
      * @var PHPUnit_Framework_MockObject_MockObject
      */
@@ -43,11 +33,9 @@ class SyncUserDataIfNeededTest extends TestCase
     {
         parent::setUp();
 
-        $this->activitiesRepository = static::getMock(UserActivityRepositoryInterface::class);
-        $this->usersRepository = static::getMock(UsersRepositoryInterface::class);
+        $this->dispatcher = static::getMock(Dispatcher::class);
         $this->userStatusMiner = static::getMock(UserStatusMinerInterface::class);
-
-        $this->providerFactory = static::getMockBuilder(SocialProviderLocator::class)
+        $this->jobsLocator = static::getMockBuilder(JobsLocator::class)
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -59,7 +47,7 @@ class SyncUserDataIfNeededTest extends TestCase
     public function it_do_nothing_if_user_is_up_to_date()
     {
 
-        $user = new User;
+        $user = new User('some provider', 123);
 
         $this->userStatusMiner
             ->expects(static::once())
@@ -67,21 +55,18 @@ class SyncUserDataIfNeededTest extends TestCase
             ->with($user)
             ->willReturn(false);
 
-        /** @var UserActivityRepositoryInterface $activitiesRepository */
-        $activitiesRepository = $this->activitiesRepository;
-        /** @var UsersRepositoryInterface $usersRepository */
-        $usersRepository = $this->usersRepository;
-        /** @var SocialProviderLocator $providerFactory */
-        $providerFactory = $this->providerFactory;
+        $this->dispatcher
+            ->expects(static::never())
+            ->method('dispatch');
+
+        /** @var Dispatcher $dispatcher */
+        $dispatcher = $this->dispatcher;
+        /** @var JobsLocator $jobsLocator */
+        $jobsLocator = $this->jobsLocator;
         /** @var UserStatusMinerInterface $userStatusMiner */
         $userStatusMiner = $this->userStatusMiner;
 
-        $listener = new SyncUserDataIfNeeded(
-            $activitiesRepository,
-            $usersRepository,
-            $providerFactory,
-            $userStatusMiner
-        );
+        $listener = new SyncUserDataIfNeeded($userStatusMiner, $dispatcher, $jobsLocator);
 
         $event = new Login($user, false);
         $listener->handle($event);
@@ -92,19 +77,9 @@ class SyncUserDataIfNeededTest extends TestCase
      */
     public function it_updates_outdated_user()
     {
+        $user = new User('some provider', 123);
 
-        $provider = static::getMock(SocialProviderInterface::class);
-
-        $user = new User;
-        $user->setProvider('some provider');
-        $user->setProviderId(12345);
-
-        $providerUser = new User;
-        $providerUser->setFirstName('first name');
-        $providerUser->setLastName('last name');
-        $providerUser->setSex('sex');
-        $providerUser->setPhoto('photo');
-        $providerUser->setBirthDate(new Carbon('2015-01-01 11:11:11'));
+        $job = new SyncUserData($user);
 
         $this->userStatusMiner
             ->expects(static::once())
@@ -112,46 +87,28 @@ class SyncUserDataIfNeededTest extends TestCase
             ->with($user)
             ->willReturn(true);
 
-        $this->providerFactory
+        $this->jobsLocator
             ->expects(static::once())
             ->method('build')
-            ->with('some provider')
-            ->willReturn($provider);
+            ->with(SyncUserData::class, $user)
+            ->willReturn($job);
 
-        $provider
+        $this->dispatcher
             ->expects(static::once())
-            ->method('getUserByProviderId')
-            ->with(12345)
-            ->willReturn($providerUser);
+            ->method('dispatch')
+            ->with($job);
 
-        $this->usersRepository
-            ->expects(static::once())
-            ->method('store')
-            ->with($user);
 
-        $this->activitiesRepository
-            ->expects(static::once())
-            ->method('store')
-            ->with(new PHPUnit_Framework_Constraint_IsInstanceOf(UserActivity::class));
-
-        /** @var UserActivityRepositoryInterface $activitiesRepository */
-        $activitiesRepository = $this->activitiesRepository;
-        /** @var UsersRepositoryInterface $usersRepository */
-        $usersRepository = $this->usersRepository;
-        /** @var SocialProviderLocator $providerFactory */
-        $providerFactory = $this->providerFactory;
+        /** @var Dispatcher $dispatcher */
+        $dispatcher = $this->dispatcher;
+        /** @var JobsLocator $jobsLocator */
+        $jobsLocator = $this->jobsLocator;
         /** @var UserStatusMinerInterface $userStatusMiner */
         $userStatusMiner = $this->userStatusMiner;
 
-        $listener = new SyncUserDataIfNeeded(
-            $activitiesRepository,
-            $usersRepository,
-            $providerFactory,
-            $userStatusMiner
-        );
+        $listener = new SyncUserDataIfNeeded($userStatusMiner, $dispatcher, $jobsLocator);
 
         $event = new Login($user, false);
         $listener->handle($event);
     }
-
 }

@@ -31,7 +31,7 @@ class UpdateUserCdnPhotoTest extends TestCase
             ->with('http://example.com/photo.jpg')
             ->willReturn('new_path.jpg');
 
-        $userToStore = new User;
+        $userToStore = new User('some provider', 123);
         $userToStore->setPhoto('http://example.com/photo.jpg');
         $userToStore->setCdnPhoto('new_path.jpg');
 
@@ -40,7 +40,7 @@ class UpdateUserCdnPhotoTest extends TestCase
             ->method('store')
             ->with($userToStore);
 
-        $user = new User;
+        $user = new User('some provider', 123);
         $user->setPhoto('http://example.com/photo.jpg');
         $user->setCdnPhoto('old_path.jpg');
 
@@ -48,7 +48,7 @@ class UpdateUserCdnPhotoTest extends TestCase
         /** @var MediaManager $mediaManager */
         $listener = new UpdateUserCdnPhoto($usersRepository, $mediaManager);
 
-        $event  = new Login($user, false);
+        $event = new Login($user, false);
         $listener->handle($event);
     }
 
@@ -70,7 +70,7 @@ class UpdateUserCdnPhotoTest extends TestCase
 
         $usersRepository->expects(static::never())->method('store');
 
-        $user = new User;
+        $user = new User('some provider', 123);
         $user->setPhoto('http://example.com/photo.jpg');
         $user->setCdnPhoto('old_path.jpg');
 
@@ -78,7 +78,7 @@ class UpdateUserCdnPhotoTest extends TestCase
         /** @var MediaManager $mediaManager */
         $listener = new UpdateUserCdnPhoto($usersRepository, $mediaManager);
 
-        $event  = new Login($user, false);
+        $event = new Login($user, false);
         $listener->handle($event);
     }
 
@@ -94,7 +94,7 @@ class UpdateUserCdnPhotoTest extends TestCase
 
         $mediaManager->expects(static::never())->method('uploadFromUrl');
 
-        $userToStore = new User;
+        $userToStore = new User('some provider', 123);
         $userToStore->setPhoto('');
         $userToStore->setCdnPhoto(null);
 
@@ -103,7 +103,7 @@ class UpdateUserCdnPhotoTest extends TestCase
             ->method('store')
             ->with($userToStore);
 
-        $user = new User;
+        $user = new User('some provider', 123);
         $user->setPhoto('');
         $user->setCdnPhoto('old_path.jpg');
 
@@ -111,7 +111,7 @@ class UpdateUserCdnPhotoTest extends TestCase
         /** @var MediaManager $mediaManager */
         $listener = new UpdateUserCdnPhoto($usersRepository, $mediaManager);
 
-        $event  = new Login($user, false);
+        $event = new Login($user, false);
         $listener->handle($event);
     }
 
@@ -127,7 +127,7 @@ class UpdateUserCdnPhotoTest extends TestCase
         $mediaManager->expects(static::never())->method('uploadFromUrl');
         $usersRepository->expects(static::never())->method('store');
 
-        $user = new User;
+        $user = new User('some provider', 123);
         $user->setPhoto('');
         $user->setCdnPhoto(null);
 
@@ -135,7 +135,7 @@ class UpdateUserCdnPhotoTest extends TestCase
         /** @var MediaManager $mediaManager */
         $listener = new UpdateUserCdnPhoto($usersRepository, $mediaManager);
 
-        $event  = new Login($user, false);
+        $event = new Login($user, false);
         $listener->handle($event);
     }
 }

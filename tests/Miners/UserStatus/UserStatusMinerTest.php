@@ -20,7 +20,7 @@ class UserStatusMinerTest extends TestCase
         $repository = static::getMock(UserActivityRepositoryInterface::class);
         /** @var  UserActivityRepositoryInterface $repository */
         $miner = new UserStatusMiner($repository);
-        $user = new User;
+        $user = new User('some provider', 123);
         $user->setLastName('');
         static::assertTrue($miner->isUserInfoOutdated($user));
     }
@@ -33,7 +33,7 @@ class UserStatusMinerTest extends TestCase
         $repository = static::getMock(UserActivityRepositoryInterface::class);
         /** @var  UserActivityRepositoryInterface $repository */
         $miner = new UserStatusMiner($repository);
-        $user = new User;
+        $user = new User('some provider', 123);
         $user->setLastName('last name');
         $user->setPhoto('');
         static::assertTrue($miner->isUserInfoOutdated($user));
@@ -46,7 +46,7 @@ class UserStatusMinerTest extends TestCase
     {
         $repository = static::getMock(UserActivityRepositoryInterface::class);
 
-        $user = new User;
+        $user = new User('some provider', 123);
         $user->setLastName('last name');
         $user->setPhoto('photo');
         $user->setId(123);
@@ -70,7 +70,7 @@ class UserStatusMinerTest extends TestCase
     {
         $repository = static::getMock(UserActivityRepositoryInterface::class);
 
-        $user = new User;
+        $user = new User('some provider', 123);
         $user->setLastName('last name');
         $user->setPhoto('photo');
         $user->setId(123);

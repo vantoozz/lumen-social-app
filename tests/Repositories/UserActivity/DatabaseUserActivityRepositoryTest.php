@@ -42,7 +42,7 @@ class DatabaseUserActivityRepositoryTest extends TestCase
         $activity = new UserActivity();
         $activity->setType(new ActivityType(ActivityType::LOGIN));
         $activity->setUserId(123);
-        $activity->setDatetime(new Carbon('2015-01-01 12:23:34'));
+        $activity->setDatetime(new Carbon('2015-01-01 12:23:34', 'UTC'));
 
         /** @var Connection $connection */
         $repository = new DatabaseUserActivityRepository($connection);
@@ -79,7 +79,7 @@ class DatabaseUserActivityRepositoryTest extends TestCase
         $activity = new UserActivity();
         $activity->setType(new ActivityType(ActivityType::SYNC));
         $activity->setUserId(123);
-        $activity->setDatetime(new Carbon('2015-01-01 12:23:34'));
+        $activity->setDatetime(new Carbon('2015-01-01 12:23:34', 'UTC'));
 
         /** @var Connection $connection */
         $repository = new DatabaseUserActivityRepository($connection);
@@ -224,5 +224,4 @@ class DatabaseUserActivityRepositoryTest extends TestCase
         static::assertSame(123, $activity->getUserId());
         static::assertSame('20150101', $activity->getDatetime()->format('Ymd'));
     }
-
 }

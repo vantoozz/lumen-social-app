@@ -27,13 +27,14 @@ class JobsLocator
 
     /**
      * @param $jobName
+     * @param array $parameters
      * @return JobInterface
      * @throws FactoryException
      */
-    public function build($jobName)
+    public function build($jobName, ...$parameters)
     {
         try {
-            $job = $this->container->make($jobName);
+            $job = $this->container->make($jobName, $parameters);
         } catch (\ReflectionException $e) {
             throw new FactoryException('Cannot build job: ' . $jobName, $e->getCode(), $e);
         }

@@ -9,6 +9,7 @@ use Illuminate\Auth\SessionGuard;
 use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Contracts\Auth\StatefulGuard;
 use Illuminate\Contracts\Events\Dispatcher;
+use Illuminate\Http\Request;
 use Illuminate\Session\SessionInterface;
 use Illuminate\Session\SessionManager;
 use Illuminate\Support\ServiceProvider;
@@ -40,6 +41,7 @@ class DbAuthServiceProvider extends ServiceProvider
             $guard = new SessionGuard('db', new DbUserProvider($usersRepository), $session);
 
             $guard->setDispatcher($this->app->make(Dispatcher::class));
+            $guard->setRequest($this->app->make(Request::class));
 
             return $guard;
         });

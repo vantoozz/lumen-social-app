@@ -15,7 +15,7 @@ class DbUserProviderTest extends TestCase
      */
     public function it_gets_user_by_id()
     {
-        $storedUser = new User;
+        $storedUser = new User('provider', 123);
         $repository = static::getMock(UsersRepositoryInterface::class);
         $repository
             ->expects(static::once())
@@ -66,7 +66,7 @@ class DbUserProviderTest extends TestCase
     public function it_throws_exception_on_updateRememberToken()
     {
         $userProvider = new DbUserProvider(new DummyUserRepository);
-        $userProvider->updateRememberToken(new User, 'aaa');
+        $userProvider->updateRememberToken(new User('provider', 123), 'aaa');
     }
 
     /**
@@ -88,6 +88,6 @@ class DbUserProviderTest extends TestCase
     public function it_throws_exception_on_validateCredentials()
     {
         $userProvider = new DbUserProvider(new DummyUserRepository);
-        $userProvider->validateCredentials(new User, []);
+        $userProvider->validateCredentials(new User('provider', 123), []);
     }
 }

@@ -16,11 +16,9 @@ class DatabaseUserHydratorTest extends TestCase
     {
         $hydrator = new DatabaseUserHydrator;
 
-        $user = new User;
+        $user = new User('provider', 12345);
         $user->populate([
             User::FIELD_ID => 123,
-            User::FIELD_PROVIDER => 'provider',
-            User::FIELD_PROVIDER_ID => 12345,
             User::FIELD_FIRST_NAME => 'first_name',
             User::FIELD_LAST_NAME => 'last_name',
             User::FIELD_SEX => 'sex',
@@ -51,7 +49,7 @@ class DatabaseUserHydratorTest extends TestCase
     {
         $hydrator = new DatabaseUserHydrator;
 
-        $user = new User;
+        $user = new User('provider', 12345);
         $user->populate([
             User::FIELD_ID => 123,
         ]);
@@ -102,7 +100,8 @@ class DatabaseUserHydratorTest extends TestCase
         $hydrator = new DatabaseUserHydrator;
 
         $user = $hydrator->hydrate([
-            'id' => 123,
+            'provider_id' => 123,
+            'provider' => 'provider'
         ]);
 
         static::assertNull($user->getBirthDate());
@@ -118,8 +117,37 @@ class DatabaseUserHydratorTest extends TestCase
         $hydrator = new DatabaseUserHydrator;
 
         $hydrator->hydrate([
+            'provider_id' => 123,
+            'provider' => 'provider',
             'birth_date' => 'bad formatted date',
         ]);
     }
 
+    /**
+     * @test
+     * @expectedException     \App\Exceptions\HydratorException
+     * @expectedExceptionMessage No provider field
+     */
+    public function it_throws_exception_if_no_provider_field()
+    {
+        $hydrator = new DatabaseUserHydrator;
+
+        $hydrator->hydrate([
+            'provider_id' => 123,
+        ]);
+    }
+
+    /**
+     * @test
+     * @expectedException     \App\Exceptions\HydratorException
+     * @expectedExceptionMessage No provider_id field
+     */
+    public function it_throws_exception_if_no_provider_id_field()
+    {
+        $hydrator = new DatabaseUserHydrator;
+
+        $hydrator->hydrate([
+            'provider' => 'provider',
+        ]);
+    }
 }

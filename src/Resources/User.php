@@ -61,6 +61,16 @@ class User extends AbstractResource implements Authenticatable
     protected $birthDate;
 
     /**
+     * @param $provider
+     * @param $providerId
+     */
+    public function __construct($provider, $providerId)
+    {
+        $this->provider = (string)$provider;
+        $this->providerId = (int)$providerId;
+    }
+
+    /**
      * @return int
      */
     public function getProviderId()
@@ -82,22 +92,6 @@ class User extends AbstractResource implements Authenticatable
     public function setPhoto($photo)
     {
         $this->photo = $photo;
-    }
-
-    /**
-     * @param string $provider
-     */
-    public function setProvider($provider)
-    {
-        $this->provider = $provider;
-    }
-
-    /**
-     * @param int $providerId
-     */
-    public function setProviderId($providerId)
-    {
-        $this->providerId = (int)$providerId;
     }
 
     /**
@@ -188,14 +182,6 @@ class User extends AbstractResource implements Authenticatable
     public function setSex($sex)
     {
         $this->sex = $sex;
-    }
-
-    /**
-     * @return bool
-     */
-    public function isSyncNeeded()
-    {
-        return '' === (string)$this->firstName;
     }
 
     /**

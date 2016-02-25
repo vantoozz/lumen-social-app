@@ -7,7 +7,7 @@ return [
     'guards' => [
         'db' => [
             'driver' => 'db',
-            'table' => 'users',
+            'provider' => 'users',
         ],
     ],
 ];

@@ -29,13 +29,9 @@ class SocialAuthMiddlewareTest extends TestCase
                 ->disableOriginalConstructor()
                 ->getMock();
 
-        $user = new User;
-        $user->setProvider('provider');
-        $user->setProviderId(123);
+        $user = new User('provider', 123);
 
-        $storedUser = new User;
-        $storedUser->setProvider('provider');
-        $storedUser->setProviderId(123);
+        $storedUser = new User('provider', 123);
         $storedUser->setId(12345);
 
         $request
@@ -89,5 +85,4 @@ class SocialAuthMiddlewareTest extends TestCase
         $middleware = new SocialAuthMiddleware($usersRepository, $providersLocator, $auth);
         $middleware->handle($request, $next);
     }
-
 }

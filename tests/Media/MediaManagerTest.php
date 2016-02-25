@@ -45,5 +45,4 @@ class MediaManagerTest extends TestCase
         $manager = new MediaManager($downloader, $cdn);
         $manager->uploadFromUrl('aaa.jpg');
     }
-
 }

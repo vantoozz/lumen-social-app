@@ -27,13 +27,13 @@ class LogUserLoginActivityTest extends TestCase
                 )
             );
 
-        $user = new User;
+        $user = new User('some provider', 12345);
         $user->setId(123);
 
         /** @var UserActivityRepositoryInterface $repository */
         $listener = new LogUserLoginActivity($repository);
 
-        $event  = new Login($user, false);
+        $event = new Login($user, false);
         $listener->handle($event);
     }
 }

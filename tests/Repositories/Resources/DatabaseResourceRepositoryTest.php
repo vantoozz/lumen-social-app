@@ -2,7 +2,6 @@
 
 namespace App\Repositories\Resources;
 
-
 use App\Hydrators\HydratorInterface;
 use App\Repositories\Resources\Users\DatabaseUsersRepository;
 use App\Resources\User;
@@ -20,9 +19,9 @@ class DatabaseResourceRepositoryTest extends TestCase
         $connection = static::getMockBuilder(Connection::class)->disableOriginalConstructor()->getMock();
         $hydrator = static::getMock(HydratorInterface::class);
         $builder = static::getMockBuilder(Builder::class)->disableOriginalConstructor()->getMock();
-        $hydratedUser = new User();
+        $hydratedUser = new User('some provider', 123);
 
-        $hydratedUser->populate(['provider' => 'some provider', 'first_name' => 'some name']);
+        $hydratedUser->populate(['first_name' => 'some name']);
 
 
         $connection
@@ -60,9 +59,9 @@ class DatabaseResourceRepositoryTest extends TestCase
         $connection = static::getMockBuilder(Connection::class)->disableOriginalConstructor()->getMock();
         $hydrator = static::getMock(HydratorInterface::class);
         $builder = static::getMockBuilder(Builder::class)->disableOriginalConstructor()->getMock();
-        $hydratedUser = new User();
+        $hydratedUser = new User('some provider', 123);
 
-        $hydratedUser->populate(['provider' => 'some provider', 'first_name' => 'some name']);
+        $hydratedUser->populate(['first_name' => 'some name']);
 
 
         $connection
@@ -93,8 +92,9 @@ class DatabaseResourceRepositoryTest extends TestCase
         $hydrator = static::getMock(HydratorInterface::class);
         $builder = static::getMockBuilder(Builder::class)->disableOriginalConstructor()->getMock();
 
-        $user = new User();
-        $user->populate(['provider' => 'some provider', 'first_name' => 'some name']);
+        $user = new User('some provider', 123);
+
+        $user->populate(['first_name' => 'some name']);
 
         $connection
             ->expects(static::once())
@@ -134,8 +134,8 @@ class DatabaseResourceRepositoryTest extends TestCase
         $hydrator = static::getMock(HydratorInterface::class);
         $builder = static::getMockBuilder(Builder::class)->disableOriginalConstructor()->getMock();
 
-        $user = new User();
-        $user->populate(['id' => 12345, 'provider' => 'some provider', 'first_name' => 'some name']);
+        $user = new User('some provider', 123);
+        $user->populate(['id' => 12345, 'first_name' => 'some name']);
 
         $connection
             ->expects(static::once())
@@ -153,8 +153,10 @@ class DatabaseResourceRepositoryTest extends TestCase
         $builder
             ->expects(static::once())
             ->method('update')
-            ->with(static::logicalAnd(static::arrayHasKey('updated_at'),
-                static::logicalNot(static::arrayHasKey('created_at'))))
+            ->with(static::logicalAnd(
+                static::arrayHasKey('updated_at'),
+                static::logicalNot(static::arrayHasKey('created_at'))
+            ))
             ->willReturn(1);
 
         $hydrator
@@ -185,8 +187,8 @@ class DatabaseResourceRepositoryTest extends TestCase
         $hydrator = static::getMock(HydratorInterface::class);
         $builder = static::getMockBuilder(Builder::class)->disableOriginalConstructor()->getMock();
 
-        $user = new User();
-        $user->populate(['id' => 12345, 'provider' => 'some provider', 'first_name' => 'some name']);
+        $user = new User('some provider', 123);
+        $user->populate(['id' => 12345, 'first_name' => 'some name']);
 
         $connection
             ->expects(static::once())

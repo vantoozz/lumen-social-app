@@ -1,12 +1,8 @@
 <?php namespace App\Providers;
 
-use App\Hydrators\User\DatabaseUserHydrator;
 use App\Miners\UserStatus\UserStatusMiner;
 use App\Miners\UserStatus\UserStatusMinerInterface;
-use App\Repositories\Resources\Users\DatabaseUsersRepository;
-use App\Repositories\Resources\Users\UsersRepositoryInterface;
 use App\Repositories\UserActivity\UserActivityRepositoryInterface;
-use Illuminate\Database\Connection;
 use Illuminate\Support\ServiceProvider;
 
 /**

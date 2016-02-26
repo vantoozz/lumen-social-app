@@ -25,8 +25,9 @@ class MediaManager
 
     /**
      * MediaManager constructor.
+     *
      * @param DownloaderInterface $downloader
-     * @param CdnInterface $cdn
+     * @param CdnInterface        $cdn
      */
     public function __construct(DownloaderInterface $downloader, CdnInterface $cdn)
     {
@@ -36,6 +37,7 @@ class MediaManager
 
     /**
      * @param $url
+     *
      * @throws DownloaderException
      */
     public function uploadFromUrl($url)
@@ -47,17 +49,13 @@ class MediaManager
 
     /**
      * @param  string $filename
+     *
      * @return string
      */
     public function makePath($filename)
     {
         $extension = pathinfo($filename)['extension'];
-        $path = sha1($filename);
-
-        $part1 = substr($path, 0, 2);
-        $part2 = substr($path, 2, 2);
-        $part3 = substr($path, 4);
-        $path = $part1 . '/' . $part2 . '/' . $part3 . '.' . $extension;
+        $path = preg_replace('/^(..)(..)(.*)$/u', '$1/$2/$3', sha1($filename)) . '.' . $extension;
 
         return $path;
     }

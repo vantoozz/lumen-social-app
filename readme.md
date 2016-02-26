@@ -5,6 +5,8 @@
 [![Coverage Status](https://coveralls.io/repos/vantoozz/lumen-social-app/badge.svg?branch=master&service=github)](https://coveralls.io/github/vantoozz/lumen-social-app?branch=master)
 [![Dependency Status](https://www.versioneye.com/user/projects/56442f7c22c568001e000062/badge.svg?style=flat)](https://www.versioneye.com/user/projects/56442f7c22c568001e000062)
 
+[![SensioLabsInsight](https://insight.sensiolabs.com/projects/2b9bb454-77ff-4494-82dc-715f67c92802/big.png)](https://insight.sensiolabs.com/projects/2b9bb454-77ff-4494-82dc-715f67c92802)
+
 Social app on Lumen framework
 
 ### nginx config

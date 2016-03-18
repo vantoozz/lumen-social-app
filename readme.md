@@ -14,7 +14,12 @@ Social app on Lumen framework
 ```
 server {
         listen   80;
+        listen 443 ssl;
+
         server_name lumen.local;
+
+        ssl_certificate /etc/nginx/ssl/lumen.crt;
+        ssl_certificate_key /etc/nginx/ssl/lumen.key;
 
         access_log off;
         error_log /path/to/lumen.error.log;

@@ -13,6 +13,8 @@ use App\Resources\User;
  */
 class VK implements SocialProviderInterface
 {
+    const PROVIDER_VK = 'vk';
+
     const FIELD_VIEWER_ID = 'viewer_id';
     const FIELD_AUTH_KEY = 'auth_key';
     const FIELD_API_RESULT = 'api_result';

@@ -7,6 +7,7 @@ use App\Hydrators\AbstractHydrator;
 use App\Resources\ResourceInterface;
 use App\Resources\User;
 use App\Social\Provider\SocialProviderInterface;
+use App\Social\Provider\VK;
 use Carbon\Carbon;
 
 /**
@@ -37,7 +38,7 @@ class VkUserHydrator extends AbstractHydrator
             throw new HydratorException('No provider_id field');
         }
 
-        $user = new User(SocialProviderInterface::PROVIDER_VK, $data[SocialProviderInterface::FIELD_PROVIDER_ID]);
+        $user = new User(VK::PROVIDER_VK, $data[SocialProviderInterface::FIELD_PROVIDER_ID]);
 
         $data = $this->hydrateEmptyAsNull(self::FIELD_FIRST_NAME, $data);
         $data = $this->hydrateEmptyAsNull(self::FIELD_LAST_NAME, $data);

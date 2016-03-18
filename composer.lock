@@ -4,21 +4,21 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "e67fe7e6b383ac7ef0b3e293ee750b50",
+    "hash": "a36b9aa366a8cc7caaae97caa99a0408",
     "content-hash": "bff1544f2e84cccee0e30ee623128bdb",
     "packages": [
         {
             "name": "2nova/vk-php-sdk",
-            "version": "0.10.1",
+            "version": "v0.10.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/2nova/vk-php-sdk.git",
-                "reference": "7065901cc19bc2fc3c95237eb0de1059cd9a7560"
+                "reference": "c1b9d78731a28e2ccf2a0f1aa3d53fe4cdcf3471"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/2nova/vk-php-sdk/zipball/7065901cc19bc2fc3c95237eb0de1059cd9a7560",
-                "reference": "7065901cc19bc2fc3c95237eb0de1059cd9a7560",
+                "url": "https://api.github.com/repos/2nova/vk-php-sdk/zipball/c1b9d78731a28e2ccf2a0f1aa3d53fe4cdcf3471",
+                "reference": "c1b9d78731a28e2ccf2a0f1aa3d53fe4cdcf3471",
                 "shasum": ""
             },
             "require": {
@@ -46,7 +46,7 @@
                 "vk",
                 "vkontakte"
             ],
-            "time": "2015-11-09 14:57:29"
+            "time": "2016-03-18 07:13:22"
         },
         {
             "name": "doctrine/inflector",

@@ -8,9 +8,7 @@ namespace App\Social\Provider;
  */
 interface SocialProviderInterface
 {
-
-    const PROVIDER_VK = 'vk';
-
+    
     const FIELD_PROVIDER_ID = 'provider_id';
 
     /**

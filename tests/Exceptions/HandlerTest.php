@@ -3,6 +3,10 @@
 namespace App\Exceptions;
 
 use App\TestCase;
+use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+use Whoops\Run;
+use Whoops\Util\SystemFacade;
 
 class HandlerTest extends TestCase
 {
@@ -13,9 +17,20 @@ class HandlerTest extends TestCase
     {
         $debug = getenv('APP_DEBUG');
         $this->setDebugVariable('true');
-
-        static::assertContains('Whoops, looks like something went wrong.', $this->get('/asd')->response->content());
-
+        $systemFacade = static::getMock(SystemFacade::class);
+        $exception = new \Exception('some exception message');
+        $systemFacade
+            ->expects(static::once())
+            ->method('cleanOutputBuffer')
+            ->willReturn('some string');
+        $whoops = new Run($systemFacade);
+        /** @var Run $whoops */
+        $handler = new Handler($whoops);
+        $request = new Request;
+        $response = $handler->render($request, $exception);
+        static::assertInstanceOf(Response::class, $response);
+        /** @var Response $response */
+        static::assertSame('some string', $response->getContent());
         $this->setDebugVariable($debug);
     }
 
@@ -27,10 +42,19 @@ class HandlerTest extends TestCase
         $debug = getenv('APP_DEBUG');
         $this->setDebugVariable('false');
 
-        static::assertContains(
-            'Sorry, the page you are looking for could not be found.',
-            $this->get('/asd')->response->content()
-        );
+        $systemFacade = static::getMock(SystemFacade::class);
+        $exception = new \Exception('some exception message');
+        $systemFacade
+            ->expects(static::never())
+            ->method('cleanOutputBuffer');
+        $whoops = new Run($systemFacade);
+        /** @var Run $whoops */
+        $handler = new Handler($whoops);
+        $request = new Request;
+        $response = $handler->render($request, $exception);
+        static::assertInstanceOf(Response::class, $response);
+        /** @var Response $response */
+        static::assertContains('Whoops, looks like something went wrong', $response->getContent());
 
         $this->setDebugVariable($debug);
     }

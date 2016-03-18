@@ -1,8 +1,6 @@
 <?php
 
-
 namespace App\Jobs;
-
 
 use App\TestCase;
 use Illuminate\Container\Container;

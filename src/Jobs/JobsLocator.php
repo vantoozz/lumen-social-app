@@ -39,7 +39,7 @@ class JobsLocator
             throw new FactoryException('Cannot build job: ' . $jobName, $e->getCode(), $e);
         }
         if (!$job instanceof JobInterface) {
-            throw new FactoryException('Not a job: ' . get_class($job));
+            throw new FactoryException('Not a job: ' . $jobName);
         }
 
         return $job;

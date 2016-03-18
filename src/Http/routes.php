@@ -22,14 +22,8 @@ $app->get(
 );
 
 
-$app->get(
-    '/app/{provider}',
-    [
-        'middleware' => [App\Http\Middleware\SocialAuthMiddleware::class],
-        function () {
-            /** @var App\Resources\User $user */
-            $user = app('auth')->user();
-            return var_export($user, true);
-        }
-    ]
-);
+    $app->get(
+        '/app/{provider}', 'App\Http\Controllers\CanvasController@index'
+    );
+
+

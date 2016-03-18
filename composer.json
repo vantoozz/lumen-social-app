@@ -11,7 +11,8 @@
     "illuminate/redis": "~5",
     "league/flysystem": "~1",
     "guzzlehttp/guzzle": "~6",
-    "filp/whoops": "~2"
+    "filp/whoops": "~2",
+    "facebook/php-sdk-v4": "~5"
   },
   "conflict": {
     "guzzle/guzzle": "*"

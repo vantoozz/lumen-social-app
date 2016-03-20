@@ -43,7 +43,7 @@ class SocialAuthMiddleware
         SocialProviderLocator $providersLocator,
         StatefulGuard $auth
     ) {
-    
+
         $this->usersRepository = $usersRepository;
         $this->providersLocator = $providersLocator;
         $this->auth = $auth;

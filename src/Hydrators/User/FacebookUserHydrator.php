@@ -16,8 +16,8 @@ use App\Social\Provider\SocialProviderInterface;
 class FacebookUserHydrator extends AbstractHydrator
 {
 
-    const SEX_MALE = 2;
-    const SEX_FEMALE = 1;
+    const SEX_MALE = 'male';
+    const SEX_FEMALE = 'female';
 
     const FIELD_FIRST_NAME = 'first_name';
     const FIELD_LAST_NAME = 'last_name';

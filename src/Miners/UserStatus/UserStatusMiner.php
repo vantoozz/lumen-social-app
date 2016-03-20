@@ -16,7 +16,7 @@ use Carbon\Carbon;
 class UserStatusMiner implements UserStatusMinerInterface
 {
 
-    const SYNC_FREQUENCY = 7;
+    const SYNC_FREQUENCY = -1;
 
     /**
      * @var UserActivityRepositoryInterface

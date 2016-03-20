@@ -26,6 +26,7 @@ class CreateUsersTable extends Migration {
                 $table->date('birth_date')->nullable()->default(null);
                 $table->timestamp('last_sync_at')->nullable()->default(null);
                 $table->timestamp('last_login_at')->nullable()->default(null);
+                $table->text('access_token')->nullable()->default(null);
                 $table->timestamps();
                 $table->unique(array('provider', 'provider_id'));
             }

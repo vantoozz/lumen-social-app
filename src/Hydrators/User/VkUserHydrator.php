@@ -17,10 +17,9 @@ use Carbon\Carbon;
 class VkUserHydrator extends AbstractHydrator
 {
 
-    const VK_SEX_MALE = 2;
-    const VK_SEX_FEMALE = 1;
-
-    const FIELD_UID = 'uid';
+    const SEX_MALE = 2;
+    const SEX_FEMALE = 1;
+    
     const FIELD_FIRST_NAME = 'first_name';
     const FIELD_LAST_NAME = 'last_name';
     const FIELD_PHOTO = 'photo_max';
@@ -38,7 +37,7 @@ class VkUserHydrator extends AbstractHydrator
             throw new HydratorException('No provider_id field');
         }
 
-        $user = new User(VK::PROVIDER_VK, $data[SocialProviderInterface::FIELD_PROVIDER_ID]);
+        $user = new User(VK::PROVIDER_NAME, $data[SocialProviderInterface::FIELD_PROVIDER_ID]);
 
         $data = $this->hydrateEmptyAsNull(self::FIELD_FIRST_NAME, $data);
         $data = $this->hydrateEmptyAsNull(self::FIELD_LAST_NAME, $data);
@@ -106,11 +105,11 @@ class VkUserHydrator extends AbstractHydrator
             return null;
         }
 
-        if (self::VK_SEX_FEMALE === (int)$data[self::FIELD_SEX]) {
+        if (self::SEX_FEMALE === (int)$data[self::FIELD_SEX]) {
             return User::SEX_FEMALE;
         }
 
-        if (self::VK_SEX_MALE === (int)$data[self::FIELD_SEX]) {
+        if (self::SEX_MALE === (int)$data[self::FIELD_SEX]) {
             return User::SEX_MALE;
         }
 

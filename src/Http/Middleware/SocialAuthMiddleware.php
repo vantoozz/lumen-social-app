@@ -3,6 +3,7 @@
 namespace App\Http\Middleware;
 
 use App\Exceptions\FactoryException;
+use App\Exceptions\NotAuthorizedException;
 use App\Exceptions\NotFoundInRepositoryException;
 use App\Exceptions\RepositoryException;
 use App\Exceptions\RoutingException;
@@ -42,6 +43,7 @@ class SocialAuthMiddleware
         SocialProviderLocator $providersLocator,
         StatefulGuard $auth
     ) {
+    
         $this->usersRepository = $usersRepository;
         $this->providersLocator = $providersLocator;
         $this->auth = $auth;
@@ -60,9 +62,12 @@ class SocialAuthMiddleware
     {
         $providerName = $this->getProvider($request);
 
-        /** @var \App\Social\Provider\SocialProviderInterface $provider */
         $provider = $this->providersLocator->build($providerName);
-        $user = $provider->getFrameUser($request->query());
+        try {
+            $user = $provider->getFrameUser($request->query());
+        } catch (NotAuthorizedException $e) {
+            return view('fb.auth');
+        }
 
         try {
             $user = $this->usersRepository->getByProviderId($user->getProvider(), $user->getProviderId());
@@ -82,6 +87,6 @@ class SocialAuthMiddleware
      */
     private function getProvider(Request $request)
     {
-        return $request->segment(2); // 2 is social provider name in the url (/auth/<socialProvider>)
+        return $request->segment(2); // 2 is social provider name in the url (/app/<socialProvider>)
     }
 }

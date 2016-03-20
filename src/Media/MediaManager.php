@@ -54,7 +54,7 @@ class MediaManager
      */
     public function makePath($filename)
     {
-        $extension = pathinfo($filename)['extension'];
+        $extension = pathinfo(parse_url($filename, PHP_URL_PATH))['extension'];
         $path = preg_replace('/^(..)(..)(.*)$/u', '$1/$2/$3', sha1($filename)) . '.' . $extension;
 
         return $path;

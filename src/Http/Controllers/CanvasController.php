@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Middleware\SocialAuthMiddleware;
 use Laravel\Lumen\Routing\Controller;
 
 /**
@@ -15,7 +16,7 @@ class CanvasController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware(SocialAuthMiddleware::class);
     }
 
     /**

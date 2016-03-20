@@ -38,6 +38,7 @@ class DatabaseUserHydratorTest extends TestCase
             'sex' => 'sex',
             'photo' => 'photo',
             'cdn_photo' => 'cdn_photo',
+            'access_token' => null,
             'birth_date' => '2015-01-02',
         ], $hydrator->extract($user));
     }

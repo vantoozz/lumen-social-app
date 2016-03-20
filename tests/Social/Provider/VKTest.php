@@ -285,7 +285,7 @@ class VKTest extends TestCase
         /** @var \Novanova\VK\VK $driver */
         /** @var VkUserHydrator $hydrator */
         $provider = new VK($driver, $hydrator);
-        $user = $provider->getUserByProviderId(123);
+        $user = $provider->getUserByProviderId(123, '');
         static::assertSame($hydratedUser, $user);
     }
 }

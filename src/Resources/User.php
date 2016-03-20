@@ -42,6 +42,10 @@ class User extends AbstractResource implements Authenticatable
     /**
      * @var string
      */
+    protected $accessToken;
+    /**
+     * @var string
+     */
     protected $lastName;
     /**
      * @var string
@@ -182,6 +186,22 @@ class User extends AbstractResource implements Authenticatable
     public function setSex($sex)
     {
         $this->sex = $sex;
+    }
+
+    /**
+     * @return string
+     */
+    public function getAccessToken()
+    {
+        return $this->accessToken;
+    }
+
+    /**
+     * @param string $accessToken
+     */
+    public function setAccessToken($accessToken)
+    {
+        $this->accessToken = (string)$accessToken;
     }
 
     /**

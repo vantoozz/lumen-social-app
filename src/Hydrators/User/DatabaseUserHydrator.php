@@ -22,6 +22,7 @@ class DatabaseUserHydrator extends AbstractHydrator
     const FIELD_SEX = 'sex';
     const FIELD_PHOTO = 'photo';
     const FIELD_CDN_PHOTO = 'cdn_photo';
+    const FIELD_ACCESS_TOKEN = 'access_token';
     const FIELD_BIRTH_DATE = 'birth_date';
     const FIELD_LAST_LOGIN_AT = 'last_login_at';
     const FIELD_LAST_SYNC_AT = 'last_sync_at';
@@ -42,6 +43,7 @@ class DatabaseUserHydrator extends AbstractHydrator
             self::FIELD_SEX => $user->getSex(),
             self::FIELD_PHOTO => $user->getPhoto(),
             self::FIELD_CDN_PHOTO => $user->getCdnPhoto(),
+            self::FIELD_ACCESS_TOKEN => $user->getAccessToken(),
             self::FIELD_BIRTH_DATE => $this->extractNullableDate($user->getBirthDate())
         ];
     }

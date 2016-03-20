@@ -59,6 +59,7 @@ class SyncUserData implements JobInterface
         SocialProviderLocator $providerFactory
     ) {
     
+
         $this->activitiesRepository = $activitiesRepository;
         $this->providerFactory = $providerFactory;
         $this->usersRepository = $usersRepository;
@@ -80,7 +81,7 @@ class SyncUserData implements JobInterface
         $providerName = $user->getProvider();
         $provider = $this->providerFactory->build($providerName);
 
-        return $provider->getUserByProviderId($user->getProviderId());
+        return $provider->getUserByProviderId($user->getProviderId(), $user->getAccessToken());
     }
 
     /**

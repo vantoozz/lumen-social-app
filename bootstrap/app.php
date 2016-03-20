@@ -90,6 +90,7 @@ $app->register(Illuminate\Redis\RedisServiceProvider::class);
 $app->register(App\Providers\DbConnectionServiceProvider::class);
 $app->register(App\Providers\DbAuthServiceProvider::class);
 $app->register(App\Providers\VKServiceProvider::class);
+$app->register(App\Providers\FacebookServiceProvider::class);
 $app->register(App\Providers\UsersRepositoryServiceProvider::class);
 $app->register(App\Providers\EventServiceProvider::class);
 $app->register(App\Providers\MediaManagerServiceProvider::class);

@@ -30,7 +30,8 @@ abstract class AbstractHydrator implements HydratorInterface
      */
     protected function hydrateDate($field, array $data)
     {
-        if (!array_key_exists($field, $data)) {
+        if (empty($data[$field])) {
+            unset($data[$field]);
             return $data;
         }
 

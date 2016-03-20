@@ -13,7 +13,7 @@ use App\Resources\User;
  */
 class VK implements SocialProviderInterface
 {
-    const PROVIDER_VK = 'vk';
+    const PROVIDER_NAME = 'vk';
 
     const FIELD_VIEWER_ID = 'viewer_id';
     const FIELD_AUTH_KEY = 'auth_key';
@@ -66,9 +66,8 @@ class VK implements SocialProviderInterface
         }
 
         $userData[self::FIELD_PROVIDER_ID] = $viewerId;
-        $user = $this->hydrator->hydrate($userData);
 
-        return $user;
+        return $this->hydrator->hydrate($userData);
     }
 
     /**
@@ -91,10 +90,11 @@ class VK implements SocialProviderInterface
 
     /**
      * @param  int $providerId
-     * @return \App\Resources\User
+     * @param string $accessToken
+     * @return User
      * @throws HydratorException
      */
-    public function getUserByProviderId($providerId)
+    public function getUserByProviderId($providerId, $accessToken)
     {
         $userData = [];
         $data = $this->driver->no_auth_api(

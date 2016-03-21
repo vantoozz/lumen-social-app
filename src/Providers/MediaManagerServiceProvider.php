@@ -36,10 +36,7 @@ class MediaManagerServiceProvider extends ServiceProvider
 
     /**
      * Register any application services.
-     *
      * @return void
-     *
-     * @throws RuntimeException
      */
     public function register()
     {

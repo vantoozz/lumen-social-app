@@ -60,8 +60,7 @@ class UpdateUserCdnPhoto implements ShouldQueue
         if ($cdnPhoto === $user->getCdnPhoto()) {
             return;
         }
-
-
+        
         $this->mediaManager->uploadFromUrl($photo);
         $this->updateUser($user, $cdnPhoto);
     }
@@ -79,6 +78,6 @@ class UpdateUserCdnPhoto implements ShouldQueue
 
         $user->setCdnPhoto($photo);
 
-        $this->usersRepository->store($user);
+        $this->usersRepository->merge($user);
     }
 }

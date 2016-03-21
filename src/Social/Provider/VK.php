@@ -6,6 +6,7 @@ use App\Exceptions\HydratorException;
 use App\Exceptions\SocialException;
 use App\Hydrators\User\VkUserHydrator;
 use App\Resources\User;
+use Carbon\Carbon;
 
 /**
  * Class VK
@@ -89,18 +90,16 @@ class VK implements SocialProviderInterface
     }
 
     /**
-     * @param  int $providerId
-     * @param string $accessToken
-     * @return User
+     * @param User $user
      * @throws HydratorException
      */
-    public function getUserByProviderId($providerId, $accessToken)
+    public function fillUserData(User $user)
     {
         $userData = [];
         $data = $this->driver->no_auth_api(
             'users.get',
             [
-                'user_id' => $providerId,
+                'user_id' => $user->getProviderId(),
                 'fields' => 'uid,first_name,last_name,sex,photo_max,bdate'
             ]
         );
@@ -108,9 +107,50 @@ class VK implements SocialProviderInterface
             $userData = (array)$data[0];
         }
 
-        $userData[self::FIELD_PROVIDER_ID] = $providerId;
-        $user = $this->hydrator->hydrate($userData);
+        $userData[self::FIELD_PROVIDER_ID] = $user->getProviderId();
+        /** @var User $vkUser */
+        $vkUser = $this->hydrator->hydrate($userData);
 
-        return $user;
+        $user->setFirstName($vkUser->getFirstName());
+        $user->setLastName($vkUser->getLastName());
+        $user->setSex($vkUser->getSex());
+        $user->setPhoto($vkUser->getPhoto());
+
+        $birthDate = $vkUser->getBirthDate();
+        if ($birthDate instanceof Carbon) {
+            $this->updateBirthDate($user, $birthDate);
+        }
+    }
+
+    /**
+     * @param User $user
+     * @param Carbon $birthDate
+     */
+    public function updateBirthDate(User $user, Carbon $birthDate)
+    {
+        $storedBirthDate = $user->getBirthDate();
+        if (!$storedBirthDate instanceof Carbon) {
+            $user->setBirthDate($birthDate);
+            return;
+        }
+
+        if (0 !== $storedBirthDate->year and 0 === $birthDate->year
+            and $storedBirthDate->month === $birthDate->month
+            and $storedBirthDate->day === $birthDate->day
+        ) {
+            return;
+        }
+
+        $user->setBirthDate($birthDate);
+
+    }
+
+    /**
+     * @param User $user
+     * @return string
+     */
+    public function getLongLivedAccessToken(User $user)
+    {
+        return '';
     }
 }

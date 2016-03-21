@@ -48,7 +48,6 @@ abstract class DatabaseResourceRepository extends AbstractResourceRepository
 
     /**
      * @param  int $id
-     *
      * @return ResourceInterface
      * @throws NotFoundInRepositoryException
      */
@@ -65,9 +64,7 @@ abstract class DatabaseResourceRepository extends AbstractResourceRepository
 
     /**
      * @param  ResourceInterface $resource
-     *
      * @return ResourceInterface
-     *
      * @throws RepositoryException
      */
     public function store(ResourceInterface $resource)
@@ -81,7 +78,6 @@ abstract class DatabaseResourceRepository extends AbstractResourceRepository
 
     /**
      * @param  ResourceInterface $resource
-     *
      * @return ResourceInterface
      */
     protected function create(ResourceInterface $resource)
@@ -99,9 +95,7 @@ abstract class DatabaseResourceRepository extends AbstractResourceRepository
 
     /**
      * @param  ResourceInterface $resource
-     *
      * @return ResourceInterface
-     *
      * @throws RepositoryException
      */
     protected function update(ResourceInterface $resource)

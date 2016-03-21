@@ -18,6 +18,7 @@ class User extends AbstractResource implements Authenticatable
     const FIELD_SEX = 'sex';
     const FIELD_PHOTO = 'photo';
     const FIELD_CDN_PHOTO = 'cdn_photo';
+    const FIELD_ACCESS_TOKEN = 'access_token';
     const FIELD_BIRTH_DATE = 'birth_date';
     const FIELD_LAST_LOGIN_AT = 'last_login_at';
     const FIELD_LAST_SYNC_AT = 'last_sync_at';
@@ -75,6 +76,22 @@ class User extends AbstractResource implements Authenticatable
     }
 
     /**
+     * @return array
+     */
+    public function getFillableFields()
+    {
+        return [
+            self::FIELD_FIRST_NAME,
+            self::FIELD_LAST_NAME,
+            self::FIELD_ACCESS_TOKEN,
+            self::FIELD_CDN_PHOTO,
+            self::FIELD_PHOTO,
+            self::FIELD_SEX,
+            self::FIELD_BIRTH_DATE,
+        ];
+    }
+
+    /**
      * @return int
      */
     public function getProviderId()
@@ -108,7 +125,6 @@ class User extends AbstractResource implements Authenticatable
 
     /**
      * @param  string $cdnPhoto
-     *
      * @return User
      */
     public function setCdnPhoto($cdnPhoto)
@@ -206,7 +222,6 @@ class User extends AbstractResource implements Authenticatable
 
     /**
      * Get the unique identifier for the user.
-     *
      * @return mixed
      */
     public function getAuthIdentifier()
@@ -216,7 +231,6 @@ class User extends AbstractResource implements Authenticatable
 
     /**
      * Get the password for the user.
-     *
      * @return string
      * @throws \LogicException
      */
@@ -227,7 +241,6 @@ class User extends AbstractResource implements Authenticatable
 
     /**
      * Get the token value for the "remember me" session.
-     *
      * @return string
      * @throws \LogicException
      */
@@ -240,7 +253,6 @@ class User extends AbstractResource implements Authenticatable
      * Set the token value for the "remember me" session.
      *
      * @param  string $value
-     *
      * @return void
      * @throws \LogicException
      *
@@ -253,7 +265,6 @@ class User extends AbstractResource implements Authenticatable
 
     /**
      * Get the column name for the "remember me" token.
-     *
      * @return string
      * @throws \LogicException
      */
@@ -264,7 +275,6 @@ class User extends AbstractResource implements Authenticatable
 
     /**
      * Get the name of the unique identifier for the user.
-     *
      * @return string
      */
     public function getAuthIdentifierName()

@@ -31,9 +31,6 @@ class SocialAuthMiddlewareTest extends TestCase
 
         $user = new User('provider', 123);
 
-        $storedUser = new User('provider', 123);
-        $storedUser->setId(12345);
-
         $request
             ->expects(static::once())
             ->method('segment')
@@ -58,20 +55,13 @@ class SocialAuthMiddlewareTest extends TestCase
 
         $usersRepository
             ->expects(static::once())
-            ->method('getByProviderId')
-            ->with('provider', 123)
-            ->willThrowException(new NotFoundInRepositoryException);
-
-        $usersRepository
-            ->expects(static::once())
-            ->method('store')
-            ->with($user)
-            ->willReturn($storedUser);
+            ->method('merge')
+            ->with($user);
 
         $auth
             ->expects(static::once())
             ->method('login')
-            ->with($storedUser);
+            ->with($user);
 
 
         $next = function ($nextRequest) use ($request) {

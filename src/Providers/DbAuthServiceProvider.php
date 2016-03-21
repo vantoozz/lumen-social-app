@@ -23,7 +23,6 @@ class DbAuthServiceProvider extends ServiceProvider
 
     /**
      * Bootstrap the application services.
-     *
      * @return void
      */
     public function boot()
@@ -53,7 +52,6 @@ class DbAuthServiceProvider extends ServiceProvider
 
     /**
      * Register any application services.
-     *
      * @return void
      */
     public function register()

@@ -37,7 +37,6 @@ class MediaManager
 
     /**
      * @param $url
-     *
      * @throws DownloaderException
      */
     public function uploadFromUrl($url)
@@ -49,7 +48,6 @@ class MediaManager
 
     /**
      * @param  string $filename
-     *
      * @return string
      */
     public function makePath($filename)

@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Listeners\GetLongLivedAccessToken;
 use App\Listeners\LogUserLoginActivity;
 use App\Listeners\SyncUserDataIfNeeded;
 use App\Listeners\UpdateUserCdnPhoto;
@@ -24,6 +25,7 @@ class EventServiceProvider extends ServiceProvider
             LogUserLoginActivity::class,
             SyncUserDataIfNeeded::class,
             UpdateUserCdnPhoto::class,
+            GetLongLivedAccessToken::class,
         ],
     ];
 }

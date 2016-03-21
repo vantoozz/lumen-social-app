@@ -20,4 +20,10 @@ interface UsersRepositoryInterface extends ResourceRepositoryInterface
      * @return User
      */
     public function getByProviderId($provider, $providerId);
+
+    /**
+     * @param User $user
+     * @return User
+     */
+    public function merge(User $user);
 }

@@ -31,9 +31,7 @@ class FacebookServiceProvider extends ServiceProvider
 
     /**
      * Register any application services.
-     *
      * @return void
-     *
      * @throws FacebookSDKException
      */
     public function register()

@@ -22,7 +22,6 @@ interface ResourceRepositoryInterface extends RepositoryInterface
 
     /**
      * @param  ResourceInterface $resource
-     *
      * @return ResourceInterface
      *
      * @throws RepositoryException

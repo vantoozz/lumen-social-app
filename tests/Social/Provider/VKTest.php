@@ -247,13 +247,13 @@ class VKTest extends TestCase
     /**
      * @test
      */
-    public function it_gets_user_by_provider_id()
+    public function it_fills_user_data()
     {
         $driver = static::getMockBuilder(VkDriver::class)->disableOriginalConstructor()->getMock();
         $hydrator = static::getMock(VkUserHydrator::class);
         $hydratedUser = new User('some provider', 123);
 
-        $hydratedUser->populate(['first_name' => 'some name']);
+        $hydratedUser->populate(['last_name' => 'hydrated name']);
 
         $driver
             ->expects(static::once())
@@ -285,7 +285,8 @@ class VKTest extends TestCase
         /** @var \Novanova\VK\VK $driver */
         /** @var VkUserHydrator $hydrator */
         $provider = new VK($driver, $hydrator);
-        $user = $provider->getUserByProviderId(123, '');
-        static::assertSame($hydratedUser, $user);
+        $user = new User(VK::PROVIDER_NAME, 123);
+        $provider->fillUserData($user);
+        static::assertSame('hydrated name', $user->getLastName());
     }
 }

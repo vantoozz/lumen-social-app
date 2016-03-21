@@ -46,8 +46,8 @@ class SyncUserDataTest extends TestCase
 
         $provider
             ->expects(static::once())
-            ->method('getUserByProviderId')
-            ->with(12345)
+            ->method('fillUserData')
+            ->with($user)
             ->willReturn($providerUser);
 
         $usersRepository

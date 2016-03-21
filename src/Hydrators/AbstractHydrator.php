@@ -37,6 +37,7 @@ abstract class AbstractHydrator implements HydratorInterface
 
         try {
             $data[$field] = (new Carbon)->createFromFormat(self::FORMAT_DATE, $data[$field]);
+            $data[$field]->setTime(0, 0);
         } catch (\InvalidArgumentException $e) {
             throw new HydratorException($e->getMessage(), $e->getCode(), $e);
         }

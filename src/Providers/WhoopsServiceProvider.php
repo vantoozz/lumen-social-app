@@ -28,9 +28,7 @@ class WhoopsServiceProvider extends ServiceProvider
 
     /**
      * Register the service provider.
-     *
      * @return void
-     *
      * @throws \InvalidArgumentException
      */
     public function register()

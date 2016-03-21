@@ -19,7 +19,7 @@ class VkUserHydrator extends AbstractHydrator
 
     const SEX_MALE = 2;
     const SEX_FEMALE = 1;
-    
+
     const FIELD_FIRST_NAME = 'first_name';
     const FIELD_LAST_NAME = 'last_name';
     const FIELD_PHOTO = 'photo_max';
@@ -91,6 +91,8 @@ class VkUserHydrator extends AbstractHydrator
         } catch (\InvalidArgumentException $e) {
             throw new HydratorException($e->getMessage(), $e->getCode(), $e);
         }
+
+        $birthday->setTime(0, 0);
 
         return $birthday;
     }

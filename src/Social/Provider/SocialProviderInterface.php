@@ -3,6 +3,7 @@
 namespace App\Social\Provider;
 
 use App\Exceptions\NotAuthorizedException;
+use App\Resources\User;
 
 /**
  * Interface SocialProviderInterface
@@ -15,15 +16,19 @@ interface SocialProviderInterface
 
     /**
      * @param  array $input
-     * @return \App\Resources\User
+     * @return User
      * @throws NotAuthorizedException
      */
     public function getFrameUser(array $input);
 
     /**
-     * @param  int $providerId
-     * @param string $accessToken
-     * @return \App\Resources\User
+     * @param User $user
      */
-    public function getUserByProviderId($providerId, $accessToken);
+    public function fillUserData(User $user);
+
+    /**
+     * @param User $user
+     * @return string
+     */
+    public function getLongLivedAccessToken(User $user);
 }

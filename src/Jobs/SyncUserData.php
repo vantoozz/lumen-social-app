@@ -26,7 +26,7 @@ class SyncUserData implements JobInterface
     /**
      * @var SocialProviderLocator
      */
-    private $providerFactory;
+    private $providerLocator;
     /**
      * @var UsersRepositoryInterface
      */
@@ -47,8 +47,7 @@ class SyncUserData implements JobInterface
     /**
      * @param UserActivityRepositoryInterface $activitiesRepository
      * @param UsersRepositoryInterface $usersRepository
-     * @param SocialProviderLocator $providerFactory
-     *
+     * @param SocialProviderLocator $providerLocator
      * @throws InvalidArgumentException
      * @throws RepositoryException
      * @throws FactoryException
@@ -56,63 +55,37 @@ class SyncUserData implements JobInterface
     public function handle(
         UserActivityRepositoryInterface $activitiesRepository,
         UsersRepositoryInterface $usersRepository,
-        SocialProviderLocator $providerFactory
+        SocialProviderLocator $providerLocator
     ) {
     
-
         $this->activitiesRepository = $activitiesRepository;
-        $this->providerFactory = $providerFactory;
+        $this->providerLocator = $providerLocator;
         $this->usersRepository = $usersRepository;
-
-        $user = $this->user;
-
-        $providerUser = $this->fetchProviderUser($user);
-        $this->updateUser($user, $providerUser);
-        $this->createActivity($user);
+        
+        $this->updateUser();
+        $this->usersRepository->store($this->user);
+        $this->createActivity();
     }
 
     /**
-     * @param User $user
-     * @return User
      * @throws FactoryException
      */
-    protected function fetchProviderUser(User $user)
+    protected function updateUser()
     {
-        $providerName = $user->getProvider();
-        $provider = $this->providerFactory->build($providerName);
+        $providerName = $this->user->getProvider();
+        $provider = $this->providerLocator->build($providerName);
 
-        return $provider->getUserByProviderId($user->getProviderId(), $user->getAccessToken());
+        $provider->fillUserData($this->user);
     }
 
     /**
-     * @param User $user
-     * @param User $providerUser
-     * @throws RepositoryException
-     */
-    protected function updateUser(User $user, User $providerUser)
-    {
-        $user->setFirstName($providerUser->getFirstName());
-        $user->setLastName($providerUser->getLastName());
-        $user->setSex($providerUser->getSex());
-        $user->setPhoto($providerUser->getPhoto());
-
-        $birthDate = $providerUser->getBirthDate();
-        if ($birthDate instanceof Carbon) {
-            $user->setBirthDate($birthDate);
-        }
-
-        $this->usersRepository->store($user);
-    }
-
-    /**
-     * @param User $user
      * @throws InvalidArgumentException
      */
-    protected function createActivity(User $user)
+    protected function createActivity()
     {
         $activity = new UserActivity;
         $activity->setType(new ActivityType(ActivityType::SYNC));
-        $activity->setUserId($user->getId());
+        $activity->setUserId($this->user->getId());
         $activity->setDatetime(new Carbon);
 
         $this->activitiesRepository->store($activity);

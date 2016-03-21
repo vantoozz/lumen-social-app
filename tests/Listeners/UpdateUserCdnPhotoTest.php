@@ -37,7 +37,7 @@ class UpdateUserCdnPhotoTest extends TestCase
 
         $usersRepository
             ->expects(static::once())
-            ->method('store')
+            ->method('merge')
             ->with($userToStore);
 
         $user = new User('some provider', 123);
@@ -100,7 +100,7 @@ class UpdateUserCdnPhotoTest extends TestCase
 
         $usersRepository
             ->expects(static::once())
-            ->method('store')
+            ->method('merge')
             ->with($userToStore);
 
         $user = new User('some provider', 123);

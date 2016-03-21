@@ -70,24 +70,32 @@ class Facebook implements SocialProviderInterface
     }
 
     /**
-     * @param  int $providerId
-     * @param string $accessToken
+     * @param User $user
      * @return \App\Resources\User
      * @throws SocialException
      * @throws HydratorException
      */
-    public function getUserByProviderId($providerId, $accessToken)
+    public function fillUserData(User $user)
     {
+        $providerId = $user->getProviderId();
+        $accessToken = $user->getAccessToken();
+
         try {
-            $data = $this->getFacebookUser($providerId, $accessToken)->asArray();
-            $data[User::FIELD_PHOTO] = $this->getFacebookUserPicture($providerId, $accessToken);
+            $userData = $this->getFacebookUser($providerId, $accessToken)->asArray();
+            $userData[User::FIELD_PHOTO] = $this->getFacebookUserPicture($providerId, $accessToken);
         } catch (FacebookSDKException $e) {
             throw new SocialException($e->getMessage(), $e->getCode(), $e);
         }
 
-        $data[SocialProviderInterface::FIELD_PROVIDER_ID] = $providerId;
+        $userData[SocialProviderInterface::FIELD_PROVIDER_ID] = $providerId;
 
-        return $this->hydrator->hydrate($data);
+        /** @var User $this ->facebookUser */
+        $this->facebookUser = $this->hydrator->hydrate($userData);
+
+        $user->setFirstName($this->facebookUser->getFirstName());
+        $user->setLastName($this->facebookUser->getLastName());
+        $user->setSex($this->facebookUser->getSex());
+        $user->setPhoto($this->facebookUser->getPhoto());
     }
 
     /**
@@ -115,5 +123,23 @@ class Facebook implements SocialProviderInterface
             ->get('/' . $providerId . '/picture?type=large&redirect=false', $accessToken)
             ->getGraphNode()
             ->getField('url', null);
+    }
+
+    /**
+     * @param User $user
+     * @return string
+     * @throws SocialException
+     */
+    public function getLongLivedAccessToken(User $user)
+    {
+        $oAuth2Client = $this->facebook->getOAuth2Client();
+
+        try {
+            $accessToken = $oAuth2Client->getLongLivedAccessToken($user->getAccessToken());
+        } catch (FacebookSDKException $e) {
+            throw new SocialException($e->getMessage(), $e->getCode(), $e);
+        }
+
+        return $accessToken->getValue();
     }
 }

@@ -22,4 +22,13 @@ class DummyUserRepository extends DummyResourceRepository implements UsersReposi
     {
         throw new NotFoundInRepositoryException;
     }
+
+    /**
+     * @param User $user
+     * @return User
+     */
+    public function merge(User $user)
+    {
+        return $user;
+    }
 }

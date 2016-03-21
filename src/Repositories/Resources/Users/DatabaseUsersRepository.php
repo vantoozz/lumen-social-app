@@ -73,6 +73,12 @@ class DatabaseUsersRepository extends DatabaseResourceRepository implements User
     }
 
 
+    /**
+     * @param User $user
+     * @param User $storedUser
+     * @param $field
+     * @return bool
+     */
     private function mergeField(User $user, User $storedUser, $field)
     {
         $value = $user->{camel_case('get_' . $field)}();

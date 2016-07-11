@@ -12,7 +12,7 @@ class FilesystemCdnTest extends TestCase
      */
     public function it_uploads_to_cdn()
     {
-        $storage = static::getMockBuilder(FilesystemManager::class)
+        $storage = $this->getMockBuilder(FilesystemManager::class)
             ->disableOriginalConstructor()
             ->setMethods(['put'])
             ->getMock();

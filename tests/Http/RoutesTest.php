@@ -4,7 +4,6 @@ namespace App\Http;
 
 use App\Resources\User;
 use App\TestCase;
-use Illuminate\Contracts\Auth\Guard;
 
 class RoutesTest extends TestCase
 {
@@ -22,7 +21,7 @@ class RoutesTest extends TestCase
     {
         $this->withoutMiddleware();
 
-        $user =new User('provider', 123);
+        $user = new User('provider', 123);
         $user->setId(12334567);
         $this->be($user);
         static::assertContains('\'id\' => 12334567', $this->get('/')->response->content());

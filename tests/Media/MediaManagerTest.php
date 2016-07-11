@@ -14,9 +14,9 @@ class MediaManagerTest extends TestCase
     public function it_makes_path()
     {
         /** @var DownloaderInterface $downloader */
-        $downloader = static::getMock(DownloaderInterface::class);
+        $downloader = $this->createMock(DownloaderInterface::class);
         /** @var CdnInterface $cdn */
-        $cdn = static::getMock(CdnInterface::class);
+        $cdn = $this->createMock(CdnInterface::class);
         $manager = new MediaManager($downloader, $cdn);
         static::assertSame('e9/0b/199893d9a50e522697bb4ea4b5ffbce5629b.jpg', $manager->makePath('aaa.jpg'));
     }
@@ -26,14 +26,14 @@ class MediaManagerTest extends TestCase
      */
     public function it_uploads_from_url()
     {
-        $downloader = static::getMock(DownloaderInterface::class);
+        $downloader = $this->createMock(DownloaderInterface::class);
         $downloader
             ->expects(static::once())
             ->method('download')
             ->with('aaa.jpg')
             ->willReturn('some date');
 
-        $cdn = static::getMock(CdnInterface::class);
+        $cdn = $this->createMock(CdnInterface::class);
         $cdn
             ->expects(static::once())
             ->method('upload')

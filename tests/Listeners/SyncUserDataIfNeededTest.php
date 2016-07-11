@@ -33,9 +33,9 @@ class SyncUserDataIfNeededTest extends TestCase
     {
         parent::setUp();
 
-        $this->dispatcher = static::getMock(Dispatcher::class);
-        $this->userStatusMiner = static::getMock(UserStatusMinerInterface::class);
-        $this->jobsLocator = static::getMockBuilder(JobsLocator::class)
+        $this->dispatcher = $this->createMock(Dispatcher::class);
+        $this->userStatusMiner = $this->createMock(UserStatusMinerInterface::class);
+        $this->jobsLocator = $this->getMockBuilder(JobsLocator::class)
             ->disableOriginalConstructor()
             ->getMock();
 

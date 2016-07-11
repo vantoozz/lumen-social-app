@@ -14,7 +14,7 @@ class JobsLocatorTest extends TestCase
     {
         $container = new Container;
         $container->singleton('someJob', function () {
-            return static::getMock(JobInterface::class);
+            return $this->createMock(JobInterface::class);
         });
         $locator = new JobsLocator($container);
 

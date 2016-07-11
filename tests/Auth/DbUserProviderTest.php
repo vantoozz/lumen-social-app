@@ -16,7 +16,7 @@ class DbUserProviderTest extends TestCase
     public function it_gets_user_by_id()
     {
         $storedUser = new User('provider', 123);
-        $repository = static::getMock(UsersRepositoryInterface::class);
+        $repository = $this->createMock(UsersRepositoryInterface::class);
         $repository
             ->expects(static::once())
             ->method('getById')
@@ -35,7 +35,7 @@ class DbUserProviderTest extends TestCase
      */
     public function it_returns_null_if_user_not_found()
     {
-        $repository = static::getMock(UsersRepositoryInterface::class);
+        $repository = $this->createMock(UsersRepositoryInterface::class);
         $repository
             ->expects(static::once())
             ->method('getById')

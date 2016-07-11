@@ -15,7 +15,7 @@ class GuzzleDownloaderTest extends TestCase
      */
     public function it_downloads_a_file()
     {
-        $client = static::getMockBuilder(Client::class)
+        $client = $this->getMockBuilder(Client::class)
             ->setMethods(['get'])
             ->getMock();
 
@@ -40,7 +40,7 @@ class GuzzleDownloaderTest extends TestCase
      */
     public function it_throws_exception_unless_response_status_is_code_200()
     {
-        $client = static::getMockBuilder(Client::class)
+        $client = $this->getMockBuilder(Client::class)
             ->setMethods(['get'])
             ->getMock();
 
@@ -65,11 +65,11 @@ class GuzzleDownloaderTest extends TestCase
      */
     public function it_catches_guzzle_exceptions()
     {
-        $client = static::getMockBuilder(Client::class)
+        $client = $this->getMockBuilder(Client::class)
             ->setMethods(['get'])
             ->getMock();
-        $response = $this->getMock(Response::class);
-        $body = $this->getMock(StreamInterface::class);
+        $response = $this->createMock(Response::class);
+        $body = $this->createMock(StreamInterface::class);
 
         $response
             ->expects(static::once())

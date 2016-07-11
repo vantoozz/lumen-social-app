@@ -15,7 +15,7 @@ class SocialProviderLocatorTest extends TestCase
     {
         $container = new Container;
         $container->singleton('social.provider', function () {
-            return static::getMock(SocialProviderInterface::class);
+            return $this->createMock(SocialProviderInterface::class);
         });
         $locator = new SocialProviderLocator($container);
 

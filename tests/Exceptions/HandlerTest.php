@@ -17,7 +17,7 @@ class HandlerTest extends TestCase
     {
         $debug = getenv('APP_DEBUG');
         $this->setDebugVariable('true');
-        $systemFacade = static::getMock(SystemFacade::class);
+        $systemFacade = $this->createMock(SystemFacade::class);
         $exception = new \Exception('some exception message');
         $systemFacade
             ->expects(static::once())
@@ -42,7 +42,7 @@ class HandlerTest extends TestCase
         $debug = getenv('APP_DEBUG');
         $this->setDebugVariable('false');
 
-        $systemFacade = static::getMock(SystemFacade::class);
+        $systemFacade = $this->createMock(SystemFacade::class);
         $exception = new \Exception('some exception message');
         $systemFacade
             ->expects(static::never())

@@ -17,9 +17,9 @@ class DatabaseUsersRepositoryTest extends TestCase
      */
     public function it_throws_exception_if_user_not_found_by_provider_id()
     {
-        $connection = static::getMockBuilder(Connection::class)->disableOriginalConstructor()->getMock();
-        $hydrator = static::getMock(HydratorInterface::class);
-        $builder = static::getMockBuilder(Builder::class)->disableOriginalConstructor()->getMock();
+        $connection = $this->getMockBuilder(Connection::class)->disableOriginalConstructor()->getMock();
+        $hydrator = $this->createMock(HydratorInterface::class);
+        $builder = $this->getMockBuilder(Builder::class)->disableOriginalConstructor()->getMock();
 
         $connection
             ->expects(static::once())
@@ -53,9 +53,9 @@ class DatabaseUsersRepositoryTest extends TestCase
      */
     public function it_finds_by_provider_id()
     {
-        $connection = static::getMockBuilder(Connection::class)->disableOriginalConstructor()->getMock();
-        $hydrator = static::getMock(HydratorInterface::class);
-        $builder = static::getMockBuilder(Builder::class)->disableOriginalConstructor()->getMock();
+        $connection = $this->getMockBuilder(Connection::class)->disableOriginalConstructor()->getMock();
+        $hydrator = $this->createMock(HydratorInterface::class);
+        $builder = $this->getMockBuilder(Builder::class)->disableOriginalConstructor()->getMock();
         $hydratedUser = new User('some provider', 123);
 
         $hydratedUser->populate(['first_name' => 'some name']);

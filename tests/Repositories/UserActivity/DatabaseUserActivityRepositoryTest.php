@@ -17,8 +17,8 @@ class DatabaseUserActivityRepositoryTest extends TestCase
      */
     public function it_stores_login_activity()
     {
-        $connection = static::getMockBuilder(Connection::class)->disableOriginalConstructor()->getMock();
-        $builder = static::getMockBuilder(Builder::class)->disableOriginalConstructor()->getMock();
+        $connection = $this->getMockBuilder(Connection::class)->disableOriginalConstructor()->getMock();
+        $builder = $this->getMockBuilder(Builder::class)->disableOriginalConstructor()->getMock();
 
         $connection
             ->expects(static::once())
@@ -54,8 +54,8 @@ class DatabaseUserActivityRepositoryTest extends TestCase
      */
     public function it_stores_sync_activity()
     {
-        $connection = static::getMockBuilder(Connection::class)->disableOriginalConstructor()->getMock();
-        $builder = static::getMockBuilder(Builder::class)->disableOriginalConstructor()->getMock();
+        $connection = $this->getMockBuilder(Connection::class)->disableOriginalConstructor()->getMock();
+        $builder = $this->getMockBuilder(Builder::class)->disableOriginalConstructor()->getMock();
 
         $connection
             ->expects(static::once())
@@ -94,8 +94,8 @@ class DatabaseUserActivityRepositoryTest extends TestCase
      */
     public function it_throws_exception_while_storing_activity()
     {
-        $connection = static::getMockBuilder(Connection::class)->disableOriginalConstructor()->getMock();
-        $builder = static::getMockBuilder(Builder::class)->disableOriginalConstructor()->getMock();
+        $connection = $this->getMockBuilder(Connection::class)->disableOriginalConstructor()->getMock();
+        $builder = $this->getMockBuilder(Builder::class)->disableOriginalConstructor()->getMock();
 
         $connection
             ->expects(static::once())
@@ -126,7 +126,7 @@ class DatabaseUserActivityRepositoryTest extends TestCase
      */
     public function it_throws_exception_if_activity_type_not_set()
     {
-        $connection = static::getMockBuilder(Connection::class)->disableOriginalConstructor()->getMock();
+        $connection = $this->getMockBuilder(Connection::class)->disableOriginalConstructor()->getMock();
 
         $activity = new UserActivity();
         $activity->setUserId(123);
@@ -143,10 +143,10 @@ class DatabaseUserActivityRepositoryTest extends TestCase
      */
     public function it_throws_exception_if_bad_activity_type()
     {
-        $connection = static::getMockBuilder(Connection::class)->disableOriginalConstructor()->getMock();
+        $connection = $this->getMockBuilder(Connection::class)->disableOriginalConstructor()->getMock();
 
         /** @var ActivityType $activityType */
-        $activityType = static::getMockBuilder(ActivityType::class)->disableOriginalConstructor()->getMock();
+        $activityType = $this->getMockBuilder(ActivityType::class)->disableOriginalConstructor()->getMock();
 
         $activity = new UserActivity();
         $activity->setUserId(123);
@@ -164,8 +164,8 @@ class DatabaseUserActivityRepositoryTest extends TestCase
      */
     public function it_thrown_an_exception_if_no_activity_found()
     {
-        $connection = static::getMockBuilder(Connection::class)->disableOriginalConstructor()->getMock();
-        $builder = static::getMockBuilder(Builder::class)->disableOriginalConstructor()->getMock();
+        $connection = $this->getMockBuilder(Connection::class)->disableOriginalConstructor()->getMock();
+        $builder = $this->getMockBuilder(Builder::class)->disableOriginalConstructor()->getMock();
 
         $connection
             ->expects(static::once())
@@ -194,8 +194,8 @@ class DatabaseUserActivityRepositoryTest extends TestCase
      */
     public function it_gets_activity()
     {
-        $connection = static::getMockBuilder(Connection::class)->disableOriginalConstructor()->getMock();
-        $builder = static::getMockBuilder(Builder::class)->disableOriginalConstructor()->getMock();
+        $connection = $this->getMockBuilder(Connection::class)->disableOriginalConstructor()->getMock();
+        $builder = $this->getMockBuilder(Builder::class)->disableOriginalConstructor()->getMock();
 
         $connection
             ->expects(static::once())

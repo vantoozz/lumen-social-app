@@ -15,7 +15,7 @@ class LogUserLoginActivityTest extends TestCase
      */
     public function it_creates_login_activity()
     {
-        $repository = static::getMock(UserActivityRepositoryInterface::class);
+        $repository = $this->createMock(UserActivityRepositoryInterface::class);
 
         $repository
             ->expects(static::once())

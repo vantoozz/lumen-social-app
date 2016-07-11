@@ -4,7 +4,6 @@ namespace App\Providers;
 
 use App\TestCase;
 use Illuminate\Auth\AuthManager;
-use Illuminate\Auth\Guard;
 use Illuminate\Auth\SessionGuard;
 use Illuminate\Contracts\Auth\StatefulGuard;
 use Illuminate\Contracts\Events\Dispatcher;

@@ -8,7 +8,6 @@ use App\Resources\User;
 use App\Social\Provider\SocialProviderInterface;
 use App\Social\Provider\SocialProviderLocator;
 use App\TestCase;
-use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Contracts\Auth\StatefulGuard;
 use Illuminate\Http\Request;
 
@@ -20,12 +19,12 @@ class SocialAuthMiddlewareTest extends TestCase
      */
     public function it_authenticates_a_user()
     {
-        $auth = static::getMock(StatefulGuard::class);
-        $request = static::getMock(Request::class);
-        $provider = static::getMock(SocialProviderInterface::class);
-        $usersRepository = static::getMock(UsersRepositoryInterface::class);
+        $auth = $this->createMock(StatefulGuard::class);
+        $request = $this->createMock(Request::class);
+        $provider = $this->createMock(SocialProviderInterface::class);
+        $usersRepository = $this->createMock(UsersRepositoryInterface::class);
         $providersLocator =
-            static::getMockBuilder(SocialProviderLocator::class)
+            $this->getMockBuilder(SocialProviderLocator::class)
                 ->disableOriginalConstructor()
                 ->getMock();
 

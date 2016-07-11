@@ -16,8 +16,8 @@ class UpdateUserCdnPhotoTest extends TestCase
      */
     public function it_updates_user_cdn_photo()
     {
-        $usersRepository = static::getMock(UsersRepositoryInterface::class);
-        $mediaManager = static::getMockBuilder(MediaManager::class)->disableOriginalConstructor()->getMock();
+        $usersRepository = $this->createMock(UsersRepositoryInterface::class);
+        $mediaManager = $this->getMockBuilder(MediaManager::class)->disableOriginalConstructor()->getMock();
 
         $mediaManager
             ->expects(static::once())
@@ -57,8 +57,8 @@ class UpdateUserCdnPhotoTest extends TestCase
      */
     public function it_updates_user_cdn_photo_once()
     {
-        $usersRepository = static::getMock(UsersRepositoryInterface::class);
-        $mediaManager = static::getMockBuilder(MediaManager::class)->disableOriginalConstructor()->getMock();
+        $usersRepository = $this->createMock(UsersRepositoryInterface::class);
+        $mediaManager = $this->getMockBuilder(MediaManager::class)->disableOriginalConstructor()->getMock();
 
         $mediaManager
             ->expects(static::once())
@@ -87,8 +87,8 @@ class UpdateUserCdnPhotoTest extends TestCase
      */
     public function it_removes_user_cdn_photo()
     {
-        $usersRepository = static::getMock(UsersRepositoryInterface::class);
-        $mediaManager = static::getMockBuilder(MediaManager::class)->disableOriginalConstructor()->getMock();
+        $usersRepository = $this->createMock(UsersRepositoryInterface::class);
+        $mediaManager = $this->getMockBuilder(MediaManager::class)->disableOriginalConstructor()->getMock();
 
         $mediaManager->expects(static::never())->method('makePath');
 
@@ -120,8 +120,8 @@ class UpdateUserCdnPhotoTest extends TestCase
      */
     public function it_removes_user_cdn_photo_once()
     {
-        $usersRepository = static::getMock(UsersRepositoryInterface::class);
-        $mediaManager = static::getMockBuilder(MediaManager::class)->disableOriginalConstructor()->getMock();
+        $usersRepository = $this->createMock(UsersRepositoryInterface::class);
+        $mediaManager = $this->getMockBuilder(MediaManager::class)->disableOriginalConstructor()->getMock();
 
         $mediaManager->expects(static::never())->method('makePath');
         $mediaManager->expects(static::never())->method('uploadFromUrl');

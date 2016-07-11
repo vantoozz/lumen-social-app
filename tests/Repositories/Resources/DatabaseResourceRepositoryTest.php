@@ -16,9 +16,9 @@ class DatabaseResourceRepositoryTest extends TestCase
      */
     public function it_finds_resource_by_id()
     {
-        $connection = static::getMockBuilder(Connection::class)->disableOriginalConstructor()->getMock();
-        $hydrator = static::getMock(HydratorInterface::class);
-        $builder = static::getMockBuilder(Builder::class)->disableOriginalConstructor()->getMock();
+        $connection = $this->getMockBuilder(Connection::class)->disableOriginalConstructor()->getMock();
+        $hydrator = $this->createMock(HydratorInterface::class);
+        $builder = $this->getMockBuilder(Builder::class)->disableOriginalConstructor()->getMock();
         $hydratedUser = new User('some provider', 123);
 
         $hydratedUser->populate(['first_name' => 'some name']);
@@ -56,9 +56,9 @@ class DatabaseResourceRepositoryTest extends TestCase
      */
     public function it_throws_exception_if_user_not_found_by_id()
     {
-        $connection = static::getMockBuilder(Connection::class)->disableOriginalConstructor()->getMock();
-        $hydrator = static::getMock(HydratorInterface::class);
-        $builder = static::getMockBuilder(Builder::class)->disableOriginalConstructor()->getMock();
+        $connection = $this->getMockBuilder(Connection::class)->disableOriginalConstructor()->getMock();
+        $hydrator = $this->createMock(HydratorInterface::class);
+        $builder = $this->getMockBuilder(Builder::class)->disableOriginalConstructor()->getMock();
         $hydratedUser = new User('some provider', 123);
 
         $hydratedUser->populate(['first_name' => 'some name']);
@@ -88,9 +88,9 @@ class DatabaseResourceRepositoryTest extends TestCase
      */
     public function it_creates_resource()
     {
-        $connection = static::getMockBuilder(Connection::class)->disableOriginalConstructor()->getMock();
-        $hydrator = static::getMock(HydratorInterface::class);
-        $builder = static::getMockBuilder(Builder::class)->disableOriginalConstructor()->getMock();
+        $connection = $this->getMockBuilder(Connection::class)->disableOriginalConstructor()->getMock();
+        $hydrator = $this->createMock(HydratorInterface::class);
+        $builder = $this->getMockBuilder(Builder::class)->disableOriginalConstructor()->getMock();
 
         $user = new User('some provider', 123);
 
@@ -130,9 +130,9 @@ class DatabaseResourceRepositoryTest extends TestCase
      */
     public function it_updates_resource()
     {
-        $connection = static::getMockBuilder(Connection::class)->disableOriginalConstructor()->getMock();
-        $hydrator = static::getMock(HydratorInterface::class);
-        $builder = static::getMockBuilder(Builder::class)->disableOriginalConstructor()->getMock();
+        $connection = $this->getMockBuilder(Connection::class)->disableOriginalConstructor()->getMock();
+        $hydrator = $this->createMock(HydratorInterface::class);
+        $builder = $this->getMockBuilder(Builder::class)->disableOriginalConstructor()->getMock();
 
         $user = new User('some provider', 123);
         $user->populate(['id' => 12345, 'first_name' => 'some name']);
@@ -183,9 +183,9 @@ class DatabaseResourceRepositoryTest extends TestCase
      */
     public function it_throws_exception_while_updating_resource()
     {
-        $connection = static::getMockBuilder(Connection::class)->disableOriginalConstructor()->getMock();
-        $hydrator = static::getMock(HydratorInterface::class);
-        $builder = static::getMockBuilder(Builder::class)->disableOriginalConstructor()->getMock();
+        $connection = $this->getMockBuilder(Connection::class)->disableOriginalConstructor()->getMock();
+        $hydrator = $this->createMock(HydratorInterface::class);
+        $builder = $this->getMockBuilder(Builder::class)->disableOriginalConstructor()->getMock();
 
         $user = new User('some provider', 123);
         $user->populate(['id' => 12345, 'first_name' => 'some name']);

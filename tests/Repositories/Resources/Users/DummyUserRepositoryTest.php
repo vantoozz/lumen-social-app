@@ -2,7 +2,6 @@
 
 namespace App\Repositories\Resources\Users;
 
-use App\Resources\User;
 use App\TestCase;
 
 class DummyUserRepositoryTest extends TestCase

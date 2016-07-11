@@ -21,13 +21,13 @@ class SyncUserDataTest extends TestCase
     public function it_updates_a_user()
     {
 
-        $activitiesRepository = static::getMock(UserActivityRepositoryInterface::class);
-        $usersRepository = static::getMock(UsersRepositoryInterface::class);
-        $providerFactory = static::getMockBuilder(SocialProviderLocator::class)
+        $activitiesRepository = $this->createMock(UserActivityRepositoryInterface::class);
+        $usersRepository = $this->createMock(UsersRepositoryInterface::class);
+        $providerFactory = $this->getMockBuilder(SocialProviderLocator::class)
             ->disableOriginalConstructor()
             ->getMock();
 
-        $provider = static::getMock(SocialProviderInterface::class);
+        $provider = $this->createMock(SocialProviderInterface::class);
 
         $user = new User('some provider', 12345);
 

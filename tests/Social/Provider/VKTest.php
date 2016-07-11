@@ -14,8 +14,8 @@ class VKTest extends TestCase
      */
     public function it_returns_frame_user()
     {
-        $driver = static::getMockBuilder(VkDriver::class)->disableOriginalConstructor()->getMock();
-        $hydrator = static::getMock(VkUserHydrator::class);
+        $driver = $this->getMockBuilder(VkDriver::class)->disableOriginalConstructor()->getMock();
+        $hydrator = $this->createMock(VkUserHydrator::class);
         $hydratedUser = new User('some provider', 123);
 
         $hydratedUser->populate(['first_name' => 'some name']);
@@ -50,8 +50,8 @@ class VKTest extends TestCase
      */
     public function it_handles_first_api_call_result()
     {
-        $driver = static::getMockBuilder(VkDriver::class)->disableOriginalConstructor()->getMock();
-        $hydrator = static::getMock(VkUserHydrator::class);
+        $driver = $this->getMockBuilder(VkDriver::class)->disableOriginalConstructor()->getMock();
+        $hydrator = $this->createMock(VkUserHydrator::class);
         $hydratedUser = new User('some provider', 123);
 
         $hydratedUser->populate(['first_name' => 'some name']);
@@ -89,8 +89,8 @@ class VKTest extends TestCase
      */
     public function it_handles_malformed_first_api_call_result()
     {
-        $driver = static::getMockBuilder(VkDriver::class)->disableOriginalConstructor()->getMock();
-        $hydrator = static::getMock(VkUserHydrator::class);
+        $driver = $this->getMockBuilder(VkDriver::class)->disableOriginalConstructor()->getMock();
+        $hydrator = $this->createMock(VkUserHydrator::class);
         $hydratedUser = new User('some provider', 123);
 
         $hydratedUser->populate(['first_name' => 'some name']);
@@ -126,8 +126,8 @@ class VKTest extends TestCase
      */
     public function it_handles_empty_first_api_call_result()
     {
-        $driver = static::getMockBuilder(VkDriver::class)->disableOriginalConstructor()->getMock();
-        $hydrator = static::getMock(VkUserHydrator::class);
+        $driver = $this->getMockBuilder(VkDriver::class)->disableOriginalConstructor()->getMock();
+        $hydrator = $this->createMock(VkUserHydrator::class);
         $hydratedUser = new User('some provider', 123);
 
         $hydratedUser->populate(['first_name' => 'some name']);
@@ -165,8 +165,8 @@ class VKTest extends TestCase
      */
     public function it_throws_exception_if_no_viewer_id()
     {
-        $driver = static::getMockBuilder(VkDriver::class)->disableOriginalConstructor()->getMock();
-        $hydrator = static::getMock(VkUserHydrator::class);
+        $driver = $this->getMockBuilder(VkDriver::class)->disableOriginalConstructor()->getMock();
+        $hydrator = $this->createMock(VkUserHydrator::class);
 
         $driver
             ->expects(static::never())
@@ -193,8 +193,8 @@ class VKTest extends TestCase
      */
     public function it_throws_exception_if_no_auth_key()
     {
-        $driver = static::getMockBuilder(VkDriver::class)->disableOriginalConstructor()->getMock();
-        $hydrator = static::getMock(VkUserHydrator::class);
+        $driver = $this->getMockBuilder(VkDriver::class)->disableOriginalConstructor()->getMock();
+        $hydrator = $this->createMock(VkUserHydrator::class);
 
         $driver
             ->expects(static::never())
@@ -221,8 +221,8 @@ class VKTest extends TestCase
      */
     public function it_throws_exception_if_bad_auth_key()
     {
-        $driver = static::getMockBuilder(VkDriver::class)->disableOriginalConstructor()->getMock();
-        $hydrator = static::getMock(VkUserHydrator::class);
+        $driver = $this->getMockBuilder(VkDriver::class)->disableOriginalConstructor()->getMock();
+        $hydrator = $this->createMock(VkUserHydrator::class);
 
         $driver
             ->expects(static::once())
@@ -249,8 +249,8 @@ class VKTest extends TestCase
      */
     public function it_gets_user_by_provider_id()
     {
-        $driver = static::getMockBuilder(VkDriver::class)->disableOriginalConstructor()->getMock();
-        $hydrator = static::getMock(VkUserHydrator::class);
+        $driver = $this->getMockBuilder(VkDriver::class)->disableOriginalConstructor()->getMock();
+        $hydrator = $this->createMock(VkUserHydrator::class);
         $hydratedUser = new User('some provider', 123);
 
         $hydratedUser->populate(['first_name' => 'some name']);

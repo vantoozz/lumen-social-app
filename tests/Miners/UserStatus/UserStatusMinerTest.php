@@ -17,7 +17,7 @@ class UserStatusMinerTest extends TestCase
      */
     public function it_mark_user_outdated_if_user_has_no_last_name()
     {
-        $repository = static::getMock(UserActivityRepositoryInterface::class);
+        $repository = $this->createMock(UserActivityRepositoryInterface::class);
         /** @var  UserActivityRepositoryInterface $repository */
         $miner = new UserStatusMiner($repository);
         $user = new User('some provider', 123);
@@ -30,7 +30,7 @@ class UserStatusMinerTest extends TestCase
      */
     public function it_mark_user_outdated_if_user_has_no_photo()
     {
-        $repository = static::getMock(UserActivityRepositoryInterface::class);
+        $repository = $this->createMock(UserActivityRepositoryInterface::class);
         /** @var  UserActivityRepositoryInterface $repository */
         $miner = new UserStatusMiner($repository);
         $user = new User('some provider', 123);
@@ -44,7 +44,7 @@ class UserStatusMinerTest extends TestCase
      */
     public function it_mark_user_outdated_if_user_last_activity_is_too_old()
     {
-        $repository = static::getMock(UserActivityRepositoryInterface::class);
+        $repository = $this->createMock(UserActivityRepositoryInterface::class);
 
         $user = new User('some provider', 123);
         $user->setLastName('last name');
@@ -68,7 +68,7 @@ class UserStatusMinerTest extends TestCase
      */
     public function it_mark_user_outdated_if_no_user_activity()
     {
-        $repository = static::getMock(UserActivityRepositoryInterface::class);
+        $repository = $this->createMock(UserActivityRepositoryInterface::class);
 
         $user = new User('some provider', 123);
         $user->setLastName('last name');

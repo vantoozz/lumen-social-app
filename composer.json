@@ -25,7 +25,8 @@
     "phpmd/phpmd": "~2",
     "codacy/coverage": "~1",
     "satooshi/php-coveralls": "dev-master",
-    "block8/php-docblock-checker": "~1"
+    "block8/php-docblock-checker": "~1",
+    "jakub-onderka/php-parallel-lint": "~0"
   },
   "autoload": {
     "psr-4": {
@@ -42,5 +43,13 @@
   },
   "config": {
     "preferred-install": "dist"
+  },
+  "scripts": {
+    "post-install-cmd": [
+      "bash bin/setup.sh"
+    ],
+    "post-update-cmd": [
+      "bash bin/setup.sh"
+    ]
   }
 }

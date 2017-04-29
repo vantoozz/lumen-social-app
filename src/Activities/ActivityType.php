@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace App\Activities;
 
@@ -14,14 +14,6 @@ class ActivityType
     const LOGIN = 'login';
 
     /**
-     * @var array
-     */
-    private $availableTypes = [
-        self::SYNC,
-        self::LOGIN
-    ];
-
-    /**
      * @var string
      */
     private $type;
@@ -33,7 +25,12 @@ class ActivityType
      */
     public function __construct($type)
     {
-        if (!in_array($type, $this->availableTypes, true)) {
+        $availableTypes = [
+            self::SYNC,
+            self::LOGIN
+        ];
+
+        if (!in_array($type, $availableTypes, true)) {
             throw new InvalidArgumentException('No such activity type');
         }
         $this->type = $type;
@@ -42,7 +39,7 @@ class ActivityType
     /**
      * @return string
      */
-    public function getType()
+    public function getType(): string
     {
         return $this->type;
     }

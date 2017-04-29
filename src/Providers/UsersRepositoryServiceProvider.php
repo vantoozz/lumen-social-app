@@ -1,4 +1,6 @@
-<?php namespace App\Providers;
+<?php declare(strict_types = 1);
+
+namespace App\Providers;
 
 use App\Hydrators\User\DatabaseUserHydrator;
 use App\Repositories\Resources\Users\DatabaseUsersRepository;

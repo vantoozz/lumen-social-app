@@ -1,6 +1,13 @@
 #!/usr/bin/env bash
 
-./vendor/bin/parallel-lint --no-colors --exclude vendor .
+./vendor/bin/parallel-lint --no-colors --exclude vendor --exclude .idea .
+	if [ $? != 0 ]
+	then
+		echo "Fix errors before commit."
+		exit 1
+	fi
+
+./vendor/bin/phpstan analyze src
 	if [ $? != 0 ]
 	then
 		echo "Fix errors before commit."

@@ -4,7 +4,7 @@
   "license": "MIT",
   "require": {
     "roave/security-advisories": "dev-master",
-    "php": ">=5.6.0",
+    "php": ">=7.0",
     "laravel/lumen-framework": "~5",
     "2nova/vk-php-sdk": "~0",
     "vlucas/phpdotenv": "~2",
@@ -18,12 +18,12 @@
     "guzzle/guzzle": "*"
   },
   "require-dev": {
-    "humbug/humbug": "~1.0@dev",
     "phploc/phploc": "~3",
-    "phpunit/phpunit": "~5",
+    "phpunit/phpunit": "~6",
     "squizlabs/php_codesniffer": "~2",
-    "sebastian/phpcpd": "~2",
+    "sebastian/phpcpd": "~3",
     "phpmd/phpmd": "~2",
+    "phpstan/phpstan": "~0",
     "codacy/coverage": "~1",
     "satooshi/php-coveralls": "dev-master",
     "block8/php-docblock-checker": "~1",

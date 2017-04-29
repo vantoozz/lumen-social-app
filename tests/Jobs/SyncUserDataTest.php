@@ -1,6 +1,5 @@
 <?php
 
-
 namespace App\Jobs;
 
 use App\Activities\UserActivity;
@@ -11,6 +10,7 @@ use App\Social\Provider\SocialProviderInterface;
 use App\Social\Provider\SocialProviderLocator;
 use App\TestCase;
 use Carbon\Carbon;
+use PHPUnit\Framework\Constraint\IsInstanceOf;
 use PHPUnit_Framework_Constraint_IsInstanceOf;
 
 class SyncUserDataTest extends TestCase
@@ -58,7 +58,7 @@ class SyncUserDataTest extends TestCase
         $activitiesRepository
             ->expects(static::once())
             ->method('store')
-            ->with(new PHPUnit_Framework_Constraint_IsInstanceOf(UserActivity::class));
+            ->with(new IsInstanceOf(UserActivity::class));
 
         /** @var UserActivityRepositoryInterface $activitiesRepository */
         /** @var UsersRepositoryInterface $usersRepository */
